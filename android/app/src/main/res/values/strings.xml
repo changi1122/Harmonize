@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Harmonize</string>
+    <string name="title_home">홈</string>
+    <string name="title_search">검색</string>
+    <string name="title_pitch">음정</string>
+    <string name="title_wishlist">찜목록</string>
+    <string name="title_more">더보기</string>
+</resources>
