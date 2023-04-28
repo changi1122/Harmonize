@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Harmonize"
         tools:targetApi="31">
         <activity
+            android:name=".ui.user.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.survey.GenderAgeSurveyActivity"
             android:exported="false" />
         <activity

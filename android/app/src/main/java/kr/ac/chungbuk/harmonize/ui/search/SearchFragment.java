@@ -41,17 +41,6 @@ public class SearchFragment extends Fragment {
         adapter.addItem("Marry Me");
         adapter.addItem("Monologue");
         adapter.addItem("그대라는사치");
-        adapter.addItem("어디에도");
-        adapter.addItem("내가아니라도");
-        adapter.addItem("Marry Me");
-        adapter.addItem("어디에도");
-        adapter.addItem("내가아니라도");
-        adapter.addItem("Marry Me");
-        adapter.addItem("Monologue");
-        adapter.addItem("그대라는사치");
-        adapter.addItem("어디에도");
-        adapter.addItem("내가아니라도");
-        adapter.addItem("Marry Me");
 
         historyListView = (ListView) root.findViewById(R.id.historyListView);
         historyListView.setAdapter(adapter);
