@@ -177,7 +177,7 @@
             android:layout_marginBottom="8dp"
             app:toggle_selectedBackgroundColor="?colorPrimary"
             app:toggle_selectedTextColor="@android:color/white"
-            app:toggle_text="60대+"
+            app:toggle_text="60대 이상"
             app:toggle_textGravity="bottom|center"
             app:toggle_paddingTop="30dp"
             app:toggle_paddingBottom="30dp"
