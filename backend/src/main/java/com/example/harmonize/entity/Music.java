@@ -15,7 +15,7 @@ public class Music {
     private String music_name;
     private String artist;
     private Integer gender;
-    private Integer tiem;
+    private Integer time;
     private String image_link;
     private Integer music_numberTJ;
     private String youtube_link;
