@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form action="/music/save" method="post" enctype="multipart/form-data">
+
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" th:value="${music.music_id}">
+        <br>
+
+        <label for="composer">가수</label>
+        <input type="text" id="composer" name="composer" th:value="${music.artist}">
+        <br>
+
+
+        <label for="time"> 시간</label>
+        <input type="number" id="time" name="time" th:value="${music.time}">
+        <br>
+
+        <label for="music_img"> 이미지</label>
+        <input type="file" id="music_img" name="file" th:value="${music.image_link}">
+        <br>
+
+        <label for="TjNum">TJ 노래방 번호</label>
+        <input type="number" id="TjNum" name="TjNum" th:value="${music.music_numberTJ}">
+        <br>
+
+        <label for="link">유트브 링크</label>
+        <input type="text" id="link" name="link" th:value="${music.youtube_link}">
+        <br>
+
+        <label for="category">카테고리</label>
+        <select name="category" id="category" th:value="${music.category}">
+            <option value="test1">test1</option>
+            <option value="test2">test2</option>
+            <option value="test3">test3</option>
+            <option value="test4">test4</option>
+            <option value="test5">test5</option>
+        </select>
+        <br>
+
+
+        <input type="submit" value="Submit" name="action">
+    </form>
+</body>
+</html>

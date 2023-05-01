@@ -21,7 +21,7 @@ public class MusicService {
         Music music = new Music();
         music.setMusic_name(title);
         music.setArtist(composer);
-        music.setGender(gender=="man"?0:1);
+        music.setGender(gender.equals("man")?0:1);
         music.setTime(time);
         music.setMusic_numberTJ(TjNum);
         music.setYoutube_link(link);
@@ -33,6 +33,14 @@ public class MusicService {
 
     public List<Music> getAllMusic(){
         return musicRepository.findAll();
+    }
+
+    public Music FindByID(String id){
+        return musicRepository.findById(Long.parseLong(id)).get();
+    }
+
+    public void DeleteByID(String id){
+        musicRepository.deleteById(Long.parseLong(id));
     }
 
 }

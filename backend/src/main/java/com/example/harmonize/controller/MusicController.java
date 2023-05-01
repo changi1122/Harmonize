@@ -48,5 +48,10 @@ public class MusicController {
         string = connector.SocketCall("1024test5-2.m4a", 29L, 0L);
         System.out.println(string);
     }
+    
+    @GetMapping("/music/help")
+    public String test(){
+        return "hello";
+    }
 
 }
