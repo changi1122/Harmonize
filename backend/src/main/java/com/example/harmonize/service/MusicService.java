@@ -16,9 +16,20 @@ public class MusicService {
     private MusicRepository musicRepository;
 
     public Long MusicSave(String title,String composer, String gender, Integer time,
-                          Integer TjNum, String link, String category, String img_filename){
+                          Integer TjNum, String link, String category, Long Convrt){
 
-        Music music = new Music();
+        Music music;
+        if(Convrt == 0L){
+            music = new Music();
+        }else{
+            music = musicRepository.findById(Convrt).get();
+        }
+
+        if(gender.equals("man")){
+            music.setGender(0);
+        }else{
+            music.setGender(1);
+        }
         music.setMusic_name(title);
         music.setArtist(composer);
         music.setGender(gender.equals("man")?0:1);
@@ -26,7 +37,6 @@ public class MusicService {
         music.setMusic_numberTJ(TjNum);
         music.setYoutube_link(link);
         music.setCategory(category);
-        music.setImage_link(img_filename);
 
         return musicRepository.save(music).getMusic_id();
     }
@@ -41,6 +51,12 @@ public class MusicService {
 
     public void DeleteByID(String id){
         musicRepository.deleteById(Long.parseLong(id));
+    }
+
+    public void SaveMusicImg(String fileName, Long id){
+        Music music = musicRepository.findById(id).get();
+        music.setImage_link(fileName);
+        musicRepository.save(music);
     }
 
 }
