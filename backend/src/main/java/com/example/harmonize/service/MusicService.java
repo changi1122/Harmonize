@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 public class MusicService {
 
@@ -27,6 +29,10 @@ public class MusicService {
         music.setImage_link(img_filename);
 
         return musicRepository.save(music).getMusic_id();
+    }
+
+    public List<Music> getAllMusic(){
+        return musicRepository.findAll();
     }
 
 }

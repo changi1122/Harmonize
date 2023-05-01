@@ -9,7 +9,6 @@
 
   <form action="/music/save" method="post" enctype="multipart/form-data">
 
-
     <label for="title">제목</label>
     <input type="text" id="title" name="title">
     <br>
@@ -52,7 +51,10 @@
     <br>
 
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" name="action">
   </form>
+
+  <a href="/music/show"> Show all music</a>
+
 </body>
 </html>
