@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 
 
 @RestController
-@RequestMapping(value = "/api")
 public class MusicController {
 
 
@@ -20,13 +22,24 @@ public class MusicController {
     @Autowired
     private MusicService musicService;
 
-    @GetMapping("/music/save")
-    public void SaveMusic(){
+    @PostMapping("/music/save")
+    public String SaveMusic(@RequestParam("title") String title, @RequestParam("composer") String composer,
+                          @RequestParam("gender") String gender, @RequestParam("time") Integer time,
+                          @RequestParam("TjNum") Integer TjNum, @RequestParam("link") String link,
+                          @RequestParam("category") String category, @RequestParam("file") MultipartFile file) throws IOException {
+
+        String originalfileName = file.getOriginalFilename();
+        String fullPath = "D:/AppP/Harmonize/backend/src/main/resources/img/" + originalfileName;
+        file.transferTo(new File(fullPath));
+        System.out.println(title + " " + composer +  " " + gender + " " + time + " " + originalfileName + " " + TjNum + " " + link + " " + category);
+
+
+
+        Long id =  musicService.MusicSave(title, composer, gender, time, TjNum, link, category, originalfileName);
+        System.out.println(id);
+        return "/";
         // Need to make Music Table
-        System.out.println("hello");
-
     }
-
 
     @GetMapping("/music/test")
     public void testMusic(){
