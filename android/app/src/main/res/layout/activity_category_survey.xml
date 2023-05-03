@@ -170,7 +170,7 @@
             android:layout_marginBottom="30px"
             app:toggle_textPaddingHorizontal="30dp"
             app:toggle_selectedBackgroundColor="?colorPrimaryVariant"
-            app:toggle_text="성인곡"
+            app:toggle_text="트로트"
             />
 
         <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
