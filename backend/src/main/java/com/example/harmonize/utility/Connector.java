@@ -1,7 +1,11 @@
 package com.example.harmonize.utility;
 
+import lombok.experimental.UtilityClass;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.*;
 import java.net.Socket;
+
 
 public class Connector {
     //Socket
@@ -19,6 +23,7 @@ public class Connector {
             out = new PrintWriter(socket.getOutputStream());
 
             String sendMessage = filename +"/"+Long.toString(id)+"/"+Long.toString(order);
+            System.out.println("result : " + sendMessage);
             out.println(sendMessage);
             out.flush();
 
