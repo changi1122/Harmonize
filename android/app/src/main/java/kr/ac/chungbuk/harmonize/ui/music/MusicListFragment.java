@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.item.MoreItemView;
 import kr.ac.chungbuk.harmonize.item.MusicListItemView;
+import kr.ac.chungbuk.harmonize.model.Music;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,32 +80,44 @@ public class MusicListFragment extends Fragment {
         musicListView = view.findViewById(R.id.musicListView);
 
         MusicListAdapter adapter = new MusicListAdapter();
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
-        adapter.addItem("Music 1");
+        adapter.addItem(new Music(
+                "사건의 지평선", "윤하(YOUNHA)", 1, 45, false));
+        adapter.addItem(new Music(
+                "좋니", "윤종신", 2, 88, false));
+        adapter.addItem(new Music(
+                "Tears", "소찬휘", 2, 45, true));
+        adapter.addItem(new Music(
+                "어디에도", "엠씨더맥스(M.C the MAX)", 3, 66, false));
+        adapter.addItem(new Music(
+                "사건의 지평선", "윤하(YOUNHA)", 1, 34, false));
+        adapter.addItem(new Music(
+                "좋니", "윤종신", 3, 86, true));
+        adapter.addItem(new Music(
+                "Tears", "소찬휘", 1, 76, false));
+        adapter.addItem(new Music(
+                "어디에도", "엠씨더맥스(M.C the MAX)", 2, 32, false));
+        adapter.addItem(new Music(
+                "사건의 지평선", "윤하(YOUNHA)", 3, 56, false));
+        adapter.addItem(new Music(
+                "좋니", "윤종신", 2, 23, true));
+        adapter.addItem(
+                new Music("Tears", "소찬휘", 1, 99, false));
+        adapter.addItem(
+                new Music("어디에도", "엠씨더맥스(M.C the MAX)", 3, 45, false));
 
         musicListView.setAdapter(adapter);
     }
 
     class MusicListAdapter extends BaseAdapter {
-        ArrayList<String> musics = new ArrayList<>();
+        ArrayList<Music> musics = new ArrayList<>();
 
         @Override
         public int getCount() {
             return musics.size();
         }
 
-        public void addItem(String text) {
-            musics.add(text);
+        public void addItem(Music music) {
+            musics.add(music);
         }
 
         @Override
@@ -120,6 +133,8 @@ public class MusicListFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
+            view.setNameAndArtist(musics.get(position).name, musics.get(position).artist,
+                    musics.get(position).level, musics.get(position).matchRate);
             return view;
         }
     }
