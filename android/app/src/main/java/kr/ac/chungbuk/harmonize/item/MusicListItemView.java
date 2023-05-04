@@ -45,7 +45,6 @@ public class MusicListItemView extends LinearLayout {
             ivLevel.setImageResource(R.drawable.circle_yellow);
         }
         tvMatchRate.setText(matchRate.toString() + "%");
-
     }
 
 }

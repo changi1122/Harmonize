@@ -26,4 +26,10 @@ public class Music {
         this.matchRate = matchRate;
         this.isFavorite = isFavorite;
     }
+
+    public Music(String name, String artist, int level,
+                 int matchRate, boolean isFavorite, String thumbnail) {
+        this(name, artist, level, matchRate, isFavorite);
+        this.thumbnail = thumbnail;
+    }
 }
