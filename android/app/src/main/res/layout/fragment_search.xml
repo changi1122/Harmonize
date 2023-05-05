@@ -9,11 +9,12 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearch"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
@@ -21,34 +22,97 @@
         app:boxCornerRadiusTopStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_outline_search_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchBox"
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:imeOptions="actionSearch"
-            android:hint="검색어를 입력하세요" />
+            android:hint="곡명 또는 가수를 입력하세요" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="최근 검색어"
-        android:textSize="16dp"
-        android:textColor="?colorPrimary"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="20dp"/>
-    <ListView
-        android:id="@+id/historyListView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="60dp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="최근 검색어"
+            android:textSize="16dp"
+            android:textColor="?colorPrimary"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="20dp"/>
+
+        <ListView
+            android:id="@+id/historyListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="58dp"
+            android:divider="#EEEEEE"
+            android:dividerHeight="1dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="제목/가수"
+                android:textSize="10dp"
+                android:textColor="#B2B2B2"/>
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_horizontal"
+                android:text="난이도"
+                android:textSize="10dp"
+                android:textColor="#B2B2B2"/>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="50dp"
+                android:gravity="bottom|center_horizontal"
+                android:text="일치율"
+                android:textColor="#B2B2B2"
+                android:textSize="10dp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/musicListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="#EEEEEE"
+            android:dividerHeight="1dp"
+            android:layout_marginBottom="58dp"/>
+    </LinearLayout>
 
 </LinearLayout>
