@@ -28,15 +28,22 @@ public class MusicController {
     public String SaveMusic(@RequestParam("title") String title, @RequestParam("composer") String composer,
                           @RequestParam("gender") String gender, @RequestParam("time") Integer time,
                           @RequestParam("TjNum") Integer TjNum, @RequestParam("link") String link,
-                          @RequestParam("category") String category, @RequestParam("file") MultipartFile file,
-                            @RequestParam("music_file")MultipartFile MF) throws IOException {
+                          @RequestParam("category") String category, @RequestParam("split") String split,
+                            @RequestParam("file") MultipartFile file, @RequestParam("music_file")MultipartFile MF) throws IOException {
 
         Long id =  musicService.MusicSave(title, composer, gender, time, TjNum, link, category, 0L);
         System.out.println(id);
 
-        String fileName = files.SaveFile(file, id);
-        System.out.println(fileName);
-        musicService.SaveMusicImg(fileName, id);
+        String ImgfileName = files.SaveFile(file, id, 0);
+        System.out.println(ImgfileName);
+        musicService.SaveFile(ImgfileName, id, 0);
+        // img 파일 저장
+
+        String MusicfileName = files.SaveFile(MF, id, 1);
+        System.out.println(MusicfileName);
+        // music 파일 저장
+
+        connector.SocketCall(id+".m4a",  id, Long.parseLong(split));
 
         return "/";
         // Need to make Music Table

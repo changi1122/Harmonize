@@ -58,8 +58,8 @@ public class PageController {
         musicService.MusicSave(title, composer, gender, time, TjNum, link, category, id);
         System.out.println(id);
 
-        String fileName = files.SaveFile(file, id);
-        musicService.SaveMusicImg(fileName, id);
+        String fileName = files.SaveFile(file, id, 0);
+        musicService.SaveFile(fileName, id, 0);
 
         return "/";
 

@@ -53,9 +53,13 @@ public class MusicService {
         musicRepository.deleteById(Long.parseLong(id));
     }
 
-    public void SaveMusicImg(String fileName, Long id){
+    public void SaveFile(String fileName, Long id, Integer type){
         Music music = musicRepository.findById(id).get();
-        music.setImage_link(fileName);
+        if(type==0){
+            music.setImage_link(fileName);
+        }else{
+            music.setFilename(fileName);
+        }
         musicRepository.save(music);
     }
 
