@@ -35,10 +35,6 @@ public class User implements UserDetails {
     private boolean isBanned;
     private boolean isLocked;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attempt_id")
-    private Attempt attempt; //23번 attempt_id
-
     protected User() { }
 
     public User(String username, String password, String user_name) {

@@ -50,6 +50,7 @@ public class UserController {
 
             HashMap<String, Object> result = new HashMap<>();
             result.put("result", "로그인에 성공하였습니다.");
+            result.put("cookie", token);
             return new ResponseEntity(result, HttpStatus.OK);
         }
         catch(Exception e) {
@@ -113,12 +114,13 @@ public class UserController {
                 );
 
                 HashMap<String, Object> result = new HashMap<>();
+
                 result.put("result", "회원가입에 성공하였습니다.");
                 return new ResponseEntity(result, HttpStatus.CREATED);
             }
             catch (Exception e) {
                 HashMap<String, Object> result = new HashMap<>();
-                result.put("result", e.getMessage());
+                result.put("result", "회원가입에 실패하였습니다.");
                 return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
             }
         }
