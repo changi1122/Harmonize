@@ -41,10 +41,11 @@ public class UserController {
     @PostMapping(path = "/api/login")
     public ResponseEntity login(final HttpServletRequest req,
                                 final HttpServletResponse res,
-                                @RequestBody Map<String, String> request) throws Exception {
+                                @RequestParam("username") String username,
+                                @RequestParam("password") String password) throws Exception {
 
         try {
-            String token = userService.tryLogin(request.get("username"), request.get("password"));
+            String token = userService.tryLogin(username, password);
             Cookie tokenCookie = createTokenCookie(token, 168 * 60 * 60);
             res.addCookie(tokenCookie);
 
