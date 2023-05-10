@@ -1,7 +1,11 @@
 # 소켓을 사용하기 위해서는 socket을 import해야 한다.
 import socket, threading
-import tensorflow
+import test
 import spleeter
+
+
+import os
+from pathlib import Path
 
 # binder함수는 서버에서 accept가 되면 생성되는 socket 인스턴스를 통해 client로 부터 데이터를 받으면 echo형태로 재송신하는 메소드이다.
 def binder(client_socket, addr):
@@ -28,14 +32,18 @@ def binder(client_socket, addr):
             spleet = list[2].split('\r\n')
             print(spleet)
             SwitchPaht=0
-            
+
+            path = Path(os.path.dirname(os.path.abspath(__file__)))
+            real = os.path.abspath(os.path.join(path, '..'))
+            print(real)
+
             if(spleet[0]=="1"):
-                spleeter.SpletVoice(dir_path="D:/AppP/Harmonize/backend/src/main/resources/music/"+list[0])
+                spleeter.SpletVoice(dir_path= real+ "/backend/src/main/resources/music/"+list[0])
                 SwitchPaht = 1
                 filename = list[0].split('.')
-                tensorflow.MakeVoiceXlsxFile(filename=filename[0], fileID=fileID, SP=SwitchPaht)
+                test.MakeVoiceXlsxFile(filename=filename[0], fileID=fileID, SP=SwitchPaht)
             else:
-                tensorflow.MakeVoiceXlsxFile(filename=list[0], fileID=fileID, SP=SwitchPaht)
+                test.MakeVoiceXlsxFile(filename=list[0], fileID=fileID, SP=SwitchPaht)
                         
             # 수신된 메시지 앞에 「echo:」 라는 메시지를 붙힌다.
             msg = "echo : " + msg

@@ -21,6 +21,8 @@ from pydub import AudioSegment
 
 import pandas as pd
 
+import os
+from pathlib import Path
 
 def MakeVoiceXlsxFile(filename, fileID, SP):
     logger = logging.getLogger()
@@ -28,6 +30,9 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
 
     print("tensorflow: %s" % tf.__version__)
     #print("librosa: %s" % librosa.__version__)
+
+    path = Path(os.path.dirname(os.path.abspath(__file__)))
+    real = os.path.abspath(os.path.join(path, '..'))
 
     EXPECTED_SAMPLE_RATE = 16000
 
@@ -37,8 +42,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
         audio.export(output_file, format="wav")
         return output_file
 
-    Url = "D:/AppP/Harmonize/backend/src/main/resources/music/"
-    #자신의 절대 경로로 수정 필요 
+    Url = real+"/backend/src/main/resources/music/"
 
     if(SP==1):
         Url = Url+filename+"/vocals.wav"
@@ -61,6 +65,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     #plt.plot(audio_samples)
 
 
+
     MAX_ABS_INT16 = 32768.0
 
     audio_samples = audio_samples / float(MAX_ABS_INT16)
@@ -78,6 +83,13 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     # 'Uncertainty' basically means the inverse of confidence.
     confidence_outputs = 1.0 - uncertainty_outputs
 
+    #fig, ax = plt.subplots()
+    #fig.set_size_inches(20, 10)
+    #plt.plot(pitch_outputs, label='pitch')
+    #plt.plot(confidence_outputs, label='confidence')
+    #plt.legend(loc="lower right")
+    #plt.show()
+
     confidence_outputs = list(confidence_outputs)
     pitch_outputs = [ float(x) for x in pitch_outputs]
 
@@ -90,7 +102,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
 
     print(df) 
 
-    df.to_excel('D:/AppP/Harmonize/backend/src/main/resources/execl/'+str(fileID)+'.xlsx', sheet_name=filename)
+    df.to_excel(real+'/backend/src/main/resources/execl/'+str(fileID)+'.xlsx', sheet_name=filename)
 
     #결과가 잘 나오는지 시각화 하려면 주석 해재
     #fig, ax = plt.subplots()
