@@ -15,7 +15,7 @@ public class MusicService {
     @Autowired
     private MusicRepository musicRepository;
 
-    public Long MusicSave(String title,String composer, String gender, Integer time,
+    public Long MusicSave(String title,String composer, String gender,
                           Integer TjNum, String link, String category, Long Convrt){
 
         Music music;
@@ -32,11 +32,9 @@ public class MusicService {
         }
         music.setMusic_name(title);
         music.setArtist(composer);
-        music.setGender(gender.equals("man")?0:1);
-        music.setTime(time);
-        music.setMusic_numberTJ(TjNum);
+        music.setTJ_Num(TjNum);
         music.setYoutube_link(link);
-        music.setCategory(category);
+        music.setCategory_id(Long.parseLong(category));
 
         return musicRepository.save(music).getMusic_id();
     }
@@ -56,7 +54,7 @@ public class MusicService {
     public void SaveFile(String fileName, Long id, Integer type){
         Music music = musicRepository.findById(id).get();
         if(type==0){
-            music.setImage_link(fileName);
+            music.setImg_link(fileName);
         }else{
             music.setFilename(fileName);
         }

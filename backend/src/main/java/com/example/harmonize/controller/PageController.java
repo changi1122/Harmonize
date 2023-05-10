@@ -51,11 +51,11 @@ public class PageController {
 
     @PostMapping("/music/update")
     public String UpdateMusic(@RequestParam("id") Long id, @RequestParam("title") String title, @RequestParam("composer") String composer,
-                              @RequestParam("gender") String gender, @RequestParam("time") Integer time,
-                              @RequestParam("TjNum") Integer TjNum, @RequestParam("link") String link,
-                              @RequestParam("category") String category, @RequestParam("file") MultipartFile file) throws IOException {
+                              @RequestParam("gender") String gender, @RequestParam("TjNum") Integer TjNum,
+                              @RequestParam("link") String link, @RequestParam("category") String category,
+                              @RequestParam("file") MultipartFile file) throws IOException {
 
-        musicService.MusicSave(title, composer, gender, time, TjNum, link, category, id);
+        musicService.MusicSave(title, composer, gender, TjNum, link, category, id);
         System.out.println(id);
 
         String fileName = files.SaveFile(file, id, 0);

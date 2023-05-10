@@ -26,12 +26,11 @@ public class MusicController {
 
     @PostMapping("/music/save")
     public String SaveMusic(@RequestParam("title") String title, @RequestParam("composer") String composer,
-                          @RequestParam("gender") String gender, @RequestParam("time") Integer time,
-                          @RequestParam("TjNum") Integer TjNum, @RequestParam("link") String link,
-                          @RequestParam("category") String category, @RequestParam("split") String split,
-                            @RequestParam("file") MultipartFile file, @RequestParam("music_file")MultipartFile MF) throws IOException {
+                          @RequestParam("gender") String gender, @RequestParam("TjNum") Integer TjNum,
+                            @RequestParam("link") String link, @RequestParam("category") String category,
+                            @RequestParam("split") String split, @RequestParam("file") MultipartFile file, @RequestParam("music_file")MultipartFile MF) throws IOException {
 
-        Long id =  musicService.MusicSave(title, composer, gender, time, TjNum, link, category, 0L);
+        Long id =  musicService.MusicSave(title, composer, gender, TjNum, link, category, 0L);
         System.out.println(id);
 
         String ImgfileName = files.SaveFile(file, id, 0);
