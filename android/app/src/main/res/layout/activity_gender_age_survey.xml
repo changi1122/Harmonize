@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.survey.GenderAgeSurveyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="성별과 연령대"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="?colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="를 선택해주세요"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8px"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="성별과 연령대를 참고하여 노래를 추천해드릴께요."
+        android:textSize="13dp"
+        android:textColor="#B5B3B3"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4px"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="입력한 정보는 안전하게 보관할께요."
+        android:textSize="13dp"
+        android:textColor="#B5B3B3"/>
+
+    <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
+        android:id="@+id/genders"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start"
+        app:toggle_textSize="16dp">
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/genderFemale"
+            android:layout_width="90dp"
+            android:layout_height="115dp"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_icon="@drawable/svg_female"
+            app:toggle_iconGravity="top|center"
+            app:toggle_iconPaddingTop="15dp"
+            app:toggle_iconPaddingHorizontal="15dp"
+            app:toggle_textPaddingBottom="20dp"
+            app:toggle_text="여성"
+            app:toggle_textGravity="bottom|center"
+            />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/genderMale"
+            android:layout_width="90dp"
+            android:layout_height="115dp"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_icon="@drawable/svg_male"
+            app:toggle_iconGravity="top|center"
+            app:toggle_iconPaddingTop="15dp"
+            app:toggle_iconPaddingHorizontal="15dp"
+            app:toggle_textPaddingBottom="20dp"
+            app:toggle_text="남성"
+            app:toggle_textGravity="bottom|center"
+            />
+
+    </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
+
+    <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
+        android:id="@+id/ages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        app:flexWrap="wrap"
+        app:justifyContent="flex_start"
+        app:toggle_textSize="18dp">
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/age10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_text="10대"
+            app:toggle_textGravity="bottom|center"
+            app:toggle_paddingTop="30dp"
+            app:toggle_paddingBottom="30dp"
+            app:toggle_paddingHorizontal="10dp"/>
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/age20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_text="20대"
+            app:toggle_textGravity="bottom|center"
+            app:toggle_paddingTop="30dp"
+            app:toggle_paddingBottom="30dp"
+            app:toggle_paddingHorizontal="10dp"/>
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/age30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_text="30대"
+            app:toggle_textGravity="bottom|center"
+            app:toggle_paddingTop="30dp"
+            app:toggle_paddingBottom="30dp"
+            app:toggle_paddingHorizontal="10dp"/>
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/age40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_text="40대"
+            app:toggle_textGravity="bottom|center"
+            app:toggle_paddingTop="30dp"
+            app:toggle_paddingBottom="30dp"
+            app:toggle_paddingHorizontal="10dp"/>
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/age50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_text="50대"
+            app:toggle_textGravity="bottom|center"
+            app:toggle_paddingTop="30dp"
+            app:toggle_paddingBottom="30dp"
+            app:toggle_paddingHorizontal="10dp"/>
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/age60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:toggle_selectedBackgroundColor="?colorPrimary"
+            app:toggle_selectedTextColor="@android:color/white"
+            app:toggle_text="60대 이상"
+            app:toggle_textGravity="bottom|center"
+            app:toggle_paddingTop="30dp"
+            app:toggle_paddingBottom="30dp"
+            app:toggle_paddingHorizontal="10dp"/>
+
+
+
+    </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:text="취소"
+            android:textColor="#000000"
+            android:backgroundTint="#EBEBEB"
+            app:cornerRadius="16dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="다음"
+            android:textColor="#FFFFFF"
+            android:fontFamily=""
+            android:backgroundTint="?colorPrimary"
+            app:cornerRadius="16dp"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+    function Delete(id){
+        $.ajax({
+            url:"/music/delete",
+            type:"POST",
+            data:{
+                "id":id
+            },
+            success : function (data){
+               console.log("ok");
+               location.replace("/music/show")
+            },
+            error:function (){
+                alert("Eroor")
+            }
+        })
+    }
+
+</script>
+
+  <p>Music list</p>
+  <table border="1">
+      <tr>
+          <th>id</th>
+          <th>Name</th>
+          <th>artist</th>
+          <th>gender</th>
+          <th>time</th>
+          <th>img</th>
+          <th>TJ Number</th>
+          <th>Youtube link</th>
+          <th>category</th>
+          <th>B1</th>
+          <th>B2</th>
+      </tr>
+
+      <tr th:each="music : ${musicList}">
+          <td th:text="${music.music_id}"></td>
+          <td th:text="${music.music_name}"></td>
+          <td th:text="${music.artist}"></td>
+          <td th:text="${music.gender}"></td>
+          <td th:text="${music.time}"></td>
+          <td th:text="${music.image_link}"></td>
+          <td th:text="${music.music_numberTJ}"></td>
+          <td th:text="${music.youtube_link}"></td>
+          <td th:text="${music.category}"></td>
+          <td><a th:href="@{'/music/update/'+${music.music_id}}">수정</a></td>
+          <td><button th:onclick="Delete([[${music.music_id}]])">삭제</button></td>
+      </tr>
+  </table>
+</body>
+</html>

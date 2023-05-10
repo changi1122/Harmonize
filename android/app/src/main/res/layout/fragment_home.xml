@@ -20,17 +20,19 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Voice"
+                android:text="Harmonize"
                 android:textSize="24dp"
+                android:textStyle="bold"
                 android:textColor="?colorPrimary" />
 
             <ImageButton
+                android:id="@+id/ibtnSearch"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@android:color/transparent"
@@ -38,32 +40,21 @@
 
         </LinearLayout>
 
-        <!--<com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerMusicList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="노래 추천 리스트"
-            app:tabMode="scrollable">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="발라드 탭"
-                android:text="발라드" />
+                app:tabMode="scrollable" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="댄스 탭"
-                android:text="댄스" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="POP 탭"
-                android:text="POP" />
-
-        </com.google.android.material.tabs.TabLayout>-->
+        </androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
 

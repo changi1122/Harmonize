@@ -5,4 +5,6 @@
     <string name="title_pitch">음정</string>
     <string name="title_wishlist">찜목록</string>
     <string name="title_more">더보기</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
