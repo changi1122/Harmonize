@@ -60,5 +60,4 @@ public class MusicController {
     public String test(){
         return "hello";
     }
-
 }
