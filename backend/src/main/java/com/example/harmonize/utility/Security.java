@@ -1,28 +1,13 @@
 package com.example.harmonize.utility;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-@Configuration
-@EnableWebSecurity
 public class Security {
-
-    @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        return http
-                .cors(cors -> cors.disable())
-                .csrf(csrf -> csrf.disable())
-                .build();
-    }
 
     /**
      * @return 현재 로그인한 사용자의 username을 반환합니다. (토큰이 없거나 잘못된 경우 "anonymousUser" 반환)
