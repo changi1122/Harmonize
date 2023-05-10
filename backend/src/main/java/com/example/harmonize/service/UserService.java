@@ -1,8 +1,6 @@
 package com.example.harmonize.service;
 
-import com.example.harmonize.entity.Attempt;
 import com.example.harmonize.entity.User;
-import com.example.harmonize.repository.AttemptRepository;
 import com.example.harmonize.repository.UserRepository;
 import com.example.harmonize.security.JwtTokenProvider;
 import com.example.harmonize.security.UserAuthentication;
@@ -18,15 +16,12 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
-    private AttemptRepository attemptRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository,
-                       AttemptRepository attemptRepository,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.attemptRepository = attemptRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -68,12 +63,6 @@ public class UserService implements UserDetailsService {
                     passwordEncoder.encode(password),
                     user_name
             );
-            userRepository.save(user);
-
-            Attempt attempt = new Attempt();
-            attemptRepository.save(attempt);
-
-            user.setAttempt(attempt);
             userRepository.save(user);
     }
 

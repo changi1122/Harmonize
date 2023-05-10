@@ -41,15 +41,17 @@ public class UserController {
     @PostMapping(path = "/api/login")
     public ResponseEntity login(final HttpServletRequest req,
                                 final HttpServletResponse res,
-                                @RequestBody Map<String, String> request) throws Exception {
+                                @RequestParam("username") String username,
+                                @RequestParam("password") String password) throws Exception {
 
         try {
-            String token = userService.tryLogin(request.get("username"), request.get("password"));
+            String token = userService.tryLogin(username, password);
             Cookie tokenCookie = createTokenCookie(token, 168 * 60 * 60);
             res.addCookie(tokenCookie);
 
             HashMap<String, Object> result = new HashMap<>();
             result.put("result", "로그인에 성공하였습니다.");
+            result.put("cookie", token);
             return new ResponseEntity(result, HttpStatus.OK);
         }
         catch(Exception e) {
@@ -113,12 +115,13 @@ public class UserController {
                 );
 
                 HashMap<String, Object> result = new HashMap<>();
+
                 result.put("result", "회원가입에 성공하였습니다.");
                 return new ResponseEntity(result, HttpStatus.CREATED);
             }
             catch (Exception e) {
                 HashMap<String, Object> result = new HashMap<>();
-                result.put("result", e.getMessage());
+                result.put("result", "회원가입에 실패하였습니다.");
                 return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
             }
         }
