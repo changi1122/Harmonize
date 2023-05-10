@@ -25,10 +25,7 @@ public class User implements UserDetails {
     private String user_name;
     private int gender;
     private int age;
-    private String user_category1;
-    private String user_category2;
-    private String user_category3;
-    private Integer user_vd;
+
     private String role;
 
     private boolean isDeleted;
