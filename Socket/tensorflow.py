@@ -29,7 +29,6 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     print("tensorflow: %s" % tf.__version__)
     #print("librosa: %s" % librosa.__version__)
 
-
     EXPECTED_SAMPLE_RATE = 16000
 
     def convert_audio_for_model(user_file, output_file='converted_audio_file.wav'):
@@ -39,6 +38,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
         return output_file
 
     Url = "D:/AppP/Harmonize/backend/src/main/resources/music/"
+    #자신의 절대 경로로 수정 필요 
 
     if(SP==1):
         Url = Url+filename+"/vocals.wav"
@@ -61,23 +61,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     #plt.plot(audio_samples)
 
 
-
     MAX_ABS_INT16 = 32768.0
-
-    def plot_stft(x, sample_rate, show_black_and_white=False):
-        x_stft = np.abs(librosa.stft(x, n_fft=2048))
-        fig, ax = plt.subplots()
-        fig.set_size_inches(20, 10)
-        x_stft_db = librosa.amplitude_to_db(x_stft, ref=np.max)
-        if(show_black_and_white):
-            librosadisplay.specshow(data=x_stft_db, y_axis='log', 
-                                    sr=sample_rate, cmap='gray_r')
-        else:
-            librosadisplay.specshow(data=x_stft_db, y_axis='log', sr=sample_rate)
-
-        #plt.colorbar(format='%+2.0f dB')
-
-    plot_stft(audio_samples / MAX_ABS_INT16 , sample_rate=EXPECTED_SAMPLE_RATE)
 
     audio_samples = audio_samples / float(MAX_ABS_INT16)
 
@@ -93,13 +77,6 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
 
     # 'Uncertainty' basically means the inverse of confidence.
     confidence_outputs = 1.0 - uncertainty_outputs
-
-    #fig, ax = plt.subplots()
-    #fig.set_size_inches(20, 10)
-    #plt.plot(pitch_outputs, label='pitch')
-    #plt.plot(confidence_outputs, label='confidence')
-    #plt.legend(loc="lower right")
-    #plt.show()
 
     confidence_outputs = list(confidence_outputs)
     pitch_outputs = [ float(x) for x in pitch_outputs]
