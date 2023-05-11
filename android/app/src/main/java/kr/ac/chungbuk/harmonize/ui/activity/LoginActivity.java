@@ -19,13 +19,18 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
+import kr.ac.chungbuk.harmonize.model.Token;
+import kr.ac.chungbuk.harmonize.service.TokenService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -72,8 +77,13 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // TO-DO : 토큰과 user 정보를 저장하기
                         btnSignup.setText(response);
+
+                        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                        Token token = gson.fromJson(response, Token.class);
+                        token.setCreatedAt(OffsetDateTime.now());
+
+                        TokenService.save(token);
                     }
                 },
                 new Response.ErrorListener() {

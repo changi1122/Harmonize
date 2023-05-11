@@ -51,7 +51,7 @@ public class UserController {
 
             HashMap<String, Object> result = new HashMap<>();
             result.put("result", "로그인에 성공하였습니다.");
-            result.put("cookie", token);
+            result.put("token", token);
             return new ResponseEntity(result, HttpStatus.OK);
         }
         catch(Exception e) {
