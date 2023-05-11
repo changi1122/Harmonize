@@ -36,6 +36,9 @@ dependencies {
     /* Toggle button library */
     implementation 'nl.bryanderidder:themed-toggle-button-group:1.4.1'
 
+    /* HTTP request library */
+    implementation 'com.android.volley:volley:1.2.1'
+
     /* Image load library*/
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
