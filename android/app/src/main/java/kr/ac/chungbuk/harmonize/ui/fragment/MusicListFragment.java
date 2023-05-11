@@ -1,4 +1,4 @@
-package kr.ac.chungbuk.harmonize.ui.music;
+package kr.ac.chungbuk.harmonize.ui.fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,7 +21,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import java.util.ArrayList;
 
 import kr.ac.chungbuk.harmonize.R;
-import kr.ac.chungbuk.harmonize.item.MoreItemView;
 import kr.ac.chungbuk.harmonize.item.MusicListItemView;
 import kr.ac.chungbuk.harmonize.model.Music;
 

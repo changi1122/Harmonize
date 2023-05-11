@@ -1,21 +1,17 @@
-package kr.ac.chungbuk.harmonize.ui.home;
+package kr.ac.chungbuk.harmonize.ui.fragment;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -23,15 +19,9 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 import kr.ac.chungbuk.harmonize.R;
-import kr.ac.chungbuk.harmonize.databinding.FragmentHomeBinding;
-import kr.ac.chungbuk.harmonize.ui.more.MoreFragment;
-import kr.ac.chungbuk.harmonize.ui.music.MusicListFragment;
-import kr.ac.chungbuk.harmonize.ui.survey.CategorySurveyActivity;
-import kr.ac.chungbuk.harmonize.ui.user.LoginActivity;
+import kr.ac.chungbuk.harmonize.ui.activity.LoginActivity;
 
 public class HomeFragment extends Fragment {
-
-    private FragmentHomeBinding binding;
 
     ImageButton ibtnSearch;
     ViewPager pagerMusicList;
@@ -39,13 +29,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        return root;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -89,12 +73,6 @@ public class HomeFragment extends Fragment {
         pagerMusicList.setAdapter(adapter);
 
         tabTitle = view.findViewById(R.id.tabTitle);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {

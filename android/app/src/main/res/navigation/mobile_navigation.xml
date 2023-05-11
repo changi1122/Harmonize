@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="kr.ac.chungbuk.harmonize.ui.home.HomeFragment"
+        android:name="kr.ac.chungbuk.harmonize.ui.fragment.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="kr.ac.chungbuk.harmonize.ui.search.SearchFragment"
+        android:name="kr.ac.chungbuk.harmonize.ui.fragment.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_pitch"
-        android:name="kr.ac.chungbuk.harmonize.ui.pitch.PitchFragment"
+        android:name="kr.ac.chungbuk.harmonize.ui.fragment.PitchFragment"
         android:label="@string/title_pitch"
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="kr.ac.chungbuk.harmonize.ui.wishlist.WishlistFragment"
+        android:name="kr.ac.chungbuk.harmonize.ui.fragment.WishlistFragment"
         android:label="@string/title_wishlist"
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/navigation_more"
-        android:name="kr.ac.chungbuk.harmonize.ui.more.MoreFragment"
+        android:name="kr.ac.chungbuk.harmonize.ui.fragment.MoreFragment"
         android:label="@string/title_more"
         tools:layout="@layout/fragment_more" />
 </navigation>

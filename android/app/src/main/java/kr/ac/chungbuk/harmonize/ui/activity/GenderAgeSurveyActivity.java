@@ -1,4 +1,4 @@
-package kr.ac.chungbuk.harmonize.ui.survey;
+package kr.ac.chungbuk.harmonize.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

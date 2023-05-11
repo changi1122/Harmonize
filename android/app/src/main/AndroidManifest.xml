@@ -15,16 +15,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.user.SignupActivity"
+            android:name=".ui.activity.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.user.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.survey.GenderAgeSurveyActivity"
+            android:name=".ui.activity.GenderAgeSurveyActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.survey.CategorySurveyActivity"
+            android:name=".ui.activity.CategorySurveyActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

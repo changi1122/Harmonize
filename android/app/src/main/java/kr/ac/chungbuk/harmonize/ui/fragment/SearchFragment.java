@@ -1,4 +1,4 @@
-package kr.ac.chungbuk.harmonize.ui.search;
+package kr.ac.chungbuk.harmonize.ui.fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -23,17 +22,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import kr.ac.chungbuk.harmonize.R;
-import kr.ac.chungbuk.harmonize.databinding.FragmentSearchBinding;
 import kr.ac.chungbuk.harmonize.item.MusicListItemView;
 import kr.ac.chungbuk.harmonize.item.SearchHistoryItemView;
 import kr.ac.chungbuk.harmonize.model.Music;
-import kr.ac.chungbuk.harmonize.ui.music.MusicListFragment;
 
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
-
-    private FragmentSearchBinding binding;
 
     ListView historyListView, musicListView;
     TextInputLayout tilSearch;
@@ -41,31 +36,26 @@ public class SearchFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SearchViewModel searchViewModel =
-                new ViewModelProvider(this).get(SearchViewModel.class);
-
-        binding = FragmentSearchBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        SearchHistoryAdapter adapter = new SearchHistoryAdapter();
-        adapter.addItem("사건의지평선");
-        adapter.addItem("응급실(쾌걸춘향OST)");
-        adapter.addItem("Monologue");
-        adapter.addItem("그대라는사치");
-        adapter.addItem("어디에도");
-        adapter.addItem("내가아니라도");
-        adapter.addItem("Marry Me");
-        adapter.addItem("Monologue");
-        adapter.addItem("그대라는사치");
-
-        historyListView = (ListView) root.findViewById(R.id.historyListView);
-        historyListView.setAdapter(adapter);
-
-        return root;
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        SearchHistoryAdapter historyAdapter = new SearchHistoryAdapter();
+        historyAdapter.addItem("사건의지평선");
+        historyAdapter.addItem("응급실(쾌걸춘향OST)");
+        historyAdapter.addItem("Monologue");
+        historyAdapter.addItem("그대라는사치");
+        historyAdapter.addItem("어디에도");
+        historyAdapter.addItem("내가아니라도");
+        historyAdapter.addItem("Marry Me");
+        historyAdapter.addItem("Monologue");
+        historyAdapter.addItem("그대라는사치");
+
+        historyListView = (ListView) view.findViewById(R.id.historyListView);
+        historyListView.setAdapter(historyAdapter);
+
+
         tilSearch = view.findViewById(R.id.tilSearch);
         tilSearch.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,11 +113,6 @@ public class SearchFragment extends Fragment {
         musicListView.setAdapter(adapter);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
     private void search() {
         Toast.makeText(getActivity(), "검색 버튼 눌림", Toast.LENGTH_LONG).show();

@@ -1,4 +1,4 @@
-package kr.ac.chungbuk.harmonize.ui.more;
+package kr.ac.chungbuk.harmonize.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,44 +8,37 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 
 import kr.ac.chungbuk.harmonize.R;
-import kr.ac.chungbuk.harmonize.databinding.FragmentMoreBinding;
 import kr.ac.chungbuk.harmonize.item.MoreItemView;
-import kr.ac.chungbuk.harmonize.item.SearchHistoryItemView;
-import kr.ac.chungbuk.harmonize.ui.survey.CategorySurveyActivity;
-import kr.ac.chungbuk.harmonize.ui.survey.GenderAgeSurveyActivity;
+import kr.ac.chungbuk.harmonize.ui.activity.CategorySurveyActivity;
+import kr.ac.chungbuk.harmonize.ui.activity.GenderAgeSurveyActivity;
 
 public class MoreFragment extends Fragment {
-
-    private FragmentMoreBinding binding;
 
     ListView menuListView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        MoreViewModel moreViewModel =
-                new ViewModelProvider(this).get(MoreViewModel.class);
 
-        binding = FragmentMoreBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+       return inflater.inflate(R.layout.fragment_more, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         MoreMenuAdapter adapter = new MoreMenuAdapter();
         adapter.addItem("관심 장르 수정");
         adapter.addItem("성별/연령대 수정");
         adapter.addItem("도움말");
         adapter.addItem("로그아웃");
 
-        menuListView = (ListView) root.findViewById(R.id.menuListView);
+        menuListView = (ListView) view.findViewById(R.id.menuListView);
         menuListView.setAdapter(adapter);
 
         menuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,14 +64,6 @@ public class MoreFragment extends Fragment {
                 }
             }
         });
-
-        return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     class MoreMenuAdapter extends BaseAdapter {
