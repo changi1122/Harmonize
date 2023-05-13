@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,6 @@ import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.ui.activity.LoginActivity;
 
 public class HomeFragment extends Fragment {
-
     ImageButton ibtnSearch;
     ViewPager pagerMusicList;
     TabLayout tabTitle;

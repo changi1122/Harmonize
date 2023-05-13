@@ -44,6 +44,5 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:divider="#EEEEEE"
-        android:dividerHeight="1dp"
-        android:layout_marginBottom="58dp"/>
+        android:dividerHeight="1dp"/>
 </LinearLayout>
