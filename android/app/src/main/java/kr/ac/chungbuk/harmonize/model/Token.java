@@ -14,6 +14,11 @@ public class Token {
         createdAt = OffsetDateTime.now();
     }
 
+    public Token(String token, String createdAt) {
+        this.token = token;
+        this.createdAt = OffsetDateTime.parse(createdAt);
+    }
+
     public String getToken() {
         return token;
     }
