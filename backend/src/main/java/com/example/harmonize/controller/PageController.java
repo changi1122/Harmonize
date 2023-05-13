@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class PageController {
 
     @Autowired

@@ -1,10 +1,12 @@
 package com.example.harmonize.controller;
 
+import com.example.harmonize.dtos.MusicDTO;
 import com.example.harmonize.entity.Music;
 import com.example.harmonize.service.MusicService;
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
+@RequestMapping("/api")
 public class MusicController {
 
 
@@ -48,16 +52,17 @@ public class MusicController {
         // Need to make Music Table
     }
 
-    @GetMapping("/music/test")
-    public void testMusic(){
-        String string;
-        System.out.println("sss");
-        string = connector.SocketCall("1024test5-2.m4a", 29L, 0L);
-        System.out.println(string);
+
+    // search artist, music_name like string, Checked 23.05.13
+    @PostMapping("/music/search")
+    public List<Music> SearchMusic(@RequestParam("search") String search){
+        return musicService.GetResultBySearch(search);
     }
-    
-    @GetMapping("/music/help")
-    public String test(){
-        return "hello";
+
+    // get musicDTO list by category, Checked 23.05.13
+    @PostMapping("/music/get/list")
+    public List<MusicDTO> GetMusicList(@RequestParam("uid") Long uid){
+        return musicService.GetListByCategory(uid);
     }
+
 }

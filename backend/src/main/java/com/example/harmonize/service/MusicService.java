@@ -1,12 +1,18 @@
 package com.example.harmonize.service;
 
+import com.example.harmonize.dtos.MusicDTO;
 import com.example.harmonize.entity.Music;
-import com.example.harmonize.repository.MusicRepository;
+import com.example.harmonize.entity.UserVoice;
+import com.example.harmonize.repository.*;
+import com.example.harmonize.utility.Analyzer;
+import com.example.harmonize.utility.Builder;
+import jakarta.jws.Oneway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +20,15 @@ public class MusicService {
 
     @Autowired
     private MusicRepository musicRepository;
+
+    @Autowired
+    private UserVoiceRepository userVoiceRepository;
+
+    @Autowired
+    private BookMarkRepository bookMarkRepository;
+
+    private Builder builder = new Builder();
+    private Analyzer  analyzer = new Analyzer();
 
     public Long MusicSave(String title,String composer, String gender,
                           Integer TjNum, String link, String category, Long Convrt){
@@ -59,6 +74,32 @@ public class MusicService {
             music.setFilename(fileName);
         }
         musicRepository.save(music);
+    }
+
+    //Get music list where string = artist or music_name
+    public List<Music> GetResultBySearch(String search){
+        return musicRepository.FindBySearch(search);
+    }
+
+
+    // Get music list where music_category_id = categroy_id
+    public List<MusicDTO> GetListByCategory(Long uid){
+        List<Music> lists = musicRepository.findAll();
+        UserVoice userVoice = userVoiceRepository.FindUserVoiceRange(uid);
+
+        List<MusicDTO> musicDTOS = new ArrayList<>();
+
+        for(Music list : lists){
+            Double result = analyzer.GetPossibility(list, userVoice);
+
+            System.out.println(bookMarkRepository.IsBookMarked(uid, list.getMusic_id()));
+            Boolean bool =  (1 == bookMarkRepository.IsBookMarked(uid, list.getMusic_id()));
+
+            if(result >= 70.0){
+                musicDTOS.add(builder.BuildMicDTO(list, bool,(int)Math.round(result)));
+            }
+        }
+        return musicDTOS;
     }
 
 }
