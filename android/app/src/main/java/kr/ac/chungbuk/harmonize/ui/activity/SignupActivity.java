@@ -69,8 +69,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private void signup(String username, String password, String retypepassword)
     {
-        System.out.println("들어온겨?");
-
         StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/register"),
                 new Response.Listener<String>() {
                     @Override
