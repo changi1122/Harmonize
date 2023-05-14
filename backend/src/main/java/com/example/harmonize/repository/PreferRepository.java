@@ -18,4 +18,7 @@ public interface PreferRepository extends JpaRepository<Prefer, Long> {
 
     @Query(nativeQuery = true, value = "select c.category_name from prefer p right join category c on p.category_id = c.category_id where p.user_id = :uid")
     List<String> findCategoryNameByUser_id(@Param("uid")Long uid);
+
+    @Query(nativeQuery = true, value = "select p.prefer_id from prefer p where p.user_id = :uid AND p.category_id =:cid")
+    Long findByCategory_idAndUser_id(@Param("uid")Long uid, @Param("cid")Long cid);
 }
