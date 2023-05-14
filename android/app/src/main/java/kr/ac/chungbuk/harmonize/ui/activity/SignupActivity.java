@@ -93,9 +93,6 @@ public class SignupActivity extends AppCompatActivity {
                     params.put("username", username);
                     params.put("password", password);
                 }
-                else{
-                    System.out.println("안맞아서");
-                }
                 return params;
             }
 
