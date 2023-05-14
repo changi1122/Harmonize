@@ -117,10 +117,10 @@ public class UserController {
     @PostMapping("/GenderAgeSurvey")
     public ResponseEntity updateGenderAge(@RequestParam("username") String username,
                                             @RequestParam("gender") int gender,
-                                            @RequestParam("age") int age) {
+                                            @RequestParam("age") String age) {
         if (username != null && !username.isBlank() &&
                 gender != 0 &&
-                age != 0) {
+                age != null && !age.isBlank()) {
 
             try {
                 userService.update(

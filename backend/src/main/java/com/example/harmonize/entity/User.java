@@ -21,10 +21,10 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique=true)
-    private String username; //ID
+    private String username;     //ID
     private String password;
-    private int gender;
-    private int age;
+    private int gender;          //남자 : 1, 여자 : 2
+    private String age;          //나이 10대, 20대 ... -> string
 
     private String role;
 
