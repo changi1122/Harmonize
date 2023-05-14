@@ -80,7 +80,6 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
                         Toast.makeText(SignupActivity.this, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -97,8 +96,6 @@ public class SignupActivity extends AppCompatActivity {
             }
 
         };
-
-
 
         queue.add(request);
     }
