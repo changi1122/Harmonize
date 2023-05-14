@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -50,13 +51,14 @@ public class UserController {
                                 @RequestParam("password") String password) throws Exception {
 
         try {
-            String token = userService.tryLogin(username, password);
-            Cookie tokenCookie = createTokenCookie(token, 168 * 60 * 60);
+            List<String> list = userService.tryLogin(username, password);
+            Cookie tokenCookie = createTokenCookie(list.get(0), 168 * 60 * 60);
             res.addCookie(tokenCookie);
 
-            HashMap<String, Object> result = new HashMap<>();
+            HashMap<String, Object> result = new HashMap<>git ();
             result.put("result", "로그인에 성공하였습니다.");
-            result.put("token", token);
+            result.put("token", list.get(0));
+            result.put("uid", list.get(1));
             return new ResponseEntity(result, HttpStatus.OK);
         }
         catch(Exception e) {

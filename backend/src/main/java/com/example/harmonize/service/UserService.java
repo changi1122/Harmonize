@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -76,7 +79,7 @@ public class UserService implements UserDetailsService {
      * @return token 반환
      * @throws UsernameNotFoundException username 존재하지 않는 경우, user가 밴 또는 잠금 또는 삭제된 경우
      */
-    public String tryLogin(String username, String password) throws UsernameNotFoundException {
+    public List<String> tryLogin(String username, String password) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not present"));
 
@@ -90,7 +93,12 @@ public class UserService implements UserDetailsService {
         Authentication authentication = new UserAuthentication(username, password, user.getAuthorities());
         String token = JwtTokenProvider.generateToken(authentication);
 
-        return token;
+        List<String> list = new ArrayList<>();
+
+        list.add(token);
+        list.add(String.valueOf(user.getId()));
+
+        return list;
     }
 
     /**
