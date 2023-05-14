@@ -28,6 +28,7 @@ public class MusicController {
     @Autowired
     private MusicService musicService;
 
+    // admin page, music save, Checked 23.05.14
     @PostMapping("/music/save")
     public String SaveMusic(@RequestParam("title") String title, @RequestParam("composer") String composer,
                           @RequestParam("gender") String gender, @RequestParam("TjNum") Integer TjNum,
@@ -48,10 +49,9 @@ public class MusicController {
 
         connector.SocketCall(id+".m4a",  id, Long.parseLong(split));
 
-
+        // *Need to Add Analyzer Code & save Detail's
 
         return "/";
-        // Need to make Music Table
     }
 
 
@@ -61,7 +61,7 @@ public class MusicController {
         return musicService.GetResultBySearch(search);
     }
 
-    // get musicDTO list by category, Checked 23.05.13
+    // get All music list, Data type is MusicDTO, Checked 23.05.13
     @PostMapping("/music/get/list")
     public List<MusicDTO> GetMusicList(@RequestParam("uid") Long uid){
         return musicService.GetListByCategory(uid);

@@ -22,6 +22,7 @@ public class PreferController {
     @Autowired
     private PreferService preferService;
 
+    // Get Category List which user prefer, Checked 23.05.14
     @PostMapping("/prefer/get/categories")
     public List<String> GetUsersCategory(@RequestParam("uid") Long uid){
         return preferService.GetPreferCategory(uid);
@@ -57,7 +58,7 @@ public class PreferController {
     *
     */
 
-    // user가 선택한 category 저장
+    // Save Category which user checked or changed, Checked 23.05.14
     @PostMapping("/prefer/save")
     public void SetPreferList(@RequestBody HashMap<String, Object> model) {
 
@@ -81,7 +82,7 @@ public class PreferController {
     */
 
 
-    // user가 선택한 선호 category 삭제
+    // Delete user-selected categories, Checked 23.05.14
     @PostMapping("/prefer/delete")
     public void DeleteSomePrefer(@RequestBody HashMap<String, Object> model){
         Integer uid = (Integer) model.get("uid");

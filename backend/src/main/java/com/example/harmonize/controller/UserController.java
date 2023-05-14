@@ -2,6 +2,7 @@ package com.example.harmonize.controller;
 
 import com.example.harmonize.entity.User;
 import com.example.harmonize.service.UserService;
+import com.example.harmonize.service.UserVoiceService;
 import com.example.harmonize.utility.Security;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,9 @@ public class UserController {
     {
         this.userService = userService;
     }
+
+    @Autowired
+    private UserVoiceService userVoiceService;
 
     @GetMapping("/get/user")
     public ResponseEntity getUser(){
