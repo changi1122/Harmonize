@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/api")
 public class UserController {
 
     private UserService userService;
@@ -26,7 +27,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("api/get/user")
+    @GetMapping("/get/user")
     public ResponseEntity getUser(){
         User user = (User) userService.loadUserByUsername(Security.getCurrentUsername());
 
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     //로그인
-    @PostMapping(path = "/api/login")
+    @PostMapping(path = "/login")
     public ResponseEntity login(final HttpServletRequest req,
                                 final HttpServletResponse res,
                                 @RequestParam("username") String username,
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     //로그아웃
-    @GetMapping(path = "/api/logout")
+    @GetMapping(path = "/logout")
     public ResponseEntity logout(final HttpServletRequest req, final HttpServletResponse res) {
         Cookie tokenCookie = createTokenCookie(null, 0);
         res.addCookie(tokenCookie);
@@ -76,7 +77,7 @@ public class UserController {
     }
 
     /*
-    @GetMapping(path = "/api/currentuser")
+    @GetMapping(path = "/currentuser")
     public ResponseEntity getCurrentUserData() {
         HashMap<String, Object> result = new HashMap<>();
 
@@ -99,7 +100,7 @@ public class UserController {
      */
 
     //회원가입
-    @PostMapping("/api/register")
+    @PostMapping("/register")
     public ResponseEntity createUser(@RequestParam("username") String username,
                                      @RequestParam("password") String password,
                                      @RequestParam("user_name") String user_name) {
@@ -132,7 +133,7 @@ public class UserController {
         }
     }
 /*
-    @PutMapping("/api/user/{username}")
+    @PutMapping("/user/{username}")
     public ResponseEntity updateUser(@PathVariable("username") String username,
                                      @RequestBody Map<String, String> body) {
         if (!username.isBlank() && username.equals(Security.getCurrentUsername()) &&
@@ -164,7 +165,7 @@ public class UserController {
     }
  */
 /*
-    @GetMapping(value = "/api/user/{username}/profileImage", produces = MediaType.ALL_VALUE)
+    @GetMapping(value = "/user/{username}/profileImage", produces = MediaType.ALL_VALUE)
     @ResponseBody
     public FileSystemResource getProfileImage(@PathVariable("username") String username) throws IOException {
         String path = System.getProperty("user.dir") +
@@ -174,7 +175,7 @@ public class UserController {
     }
  */
 /*
-    @PostMapping("/api/user/{username}/profileImage")
+    @PostMapping("/user/{username}/profileImage")
     @ResponseBody
     public ResponseEntity changeProfileImage(@PathVariable("username") String username,
                                              @RequestParam("profileImage") String profileImage,
@@ -203,7 +204,7 @@ public class UserController {
 
  */
 /*
-    @DeleteMapping("/api/user/{username}")
+    @DeleteMapping("/user/{username}")
     public ResponseEntity deleteUser(@PathVariable("username") String username) {
         if (!username.isBlank() && username.equals(Security.getCurrentUsername())) {
             try {
@@ -228,7 +229,7 @@ public class UserController {
 
  */
 
-    @PostMapping("/api/checkforduplicate")
+    @PostMapping("/checkforduplicate")
     @ResponseBody
     public ResponseEntity CanUseAsUsername(@RequestBody Map<String, String> body) {
         if (body.get("username") != null && !body.get("username").isBlank() &&
@@ -244,7 +245,7 @@ public class UserController {
         }
     }
     /*
-    @PostMapping("/api/findusername")
+    @PostMapping("/findusername")
     @ResponseBody
     public ResponseEntity findUsername(@RequestBody Map<String, String> body) {
         try {
@@ -263,7 +264,7 @@ public class UserController {
     }
      */
     /*
-    @GetMapping("/api/user/{username}/reliability")
+    @GetMapping("/user/{username}/reliability")
     @ResponseBody
     public ResponseEntity getReliability(@PathVariable("username") String username) {
         HashMap<String, Object> result = new HashMap<>();

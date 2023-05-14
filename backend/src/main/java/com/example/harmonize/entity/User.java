@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users") //DB에 저장될 table 의 이름
+@Table(name = "user") //DB에 저장될 table 의 이름
 public class User implements UserDetails {
 
     @Id //@id 밑에 오는 id가 User 테이블의 Key
