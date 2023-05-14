@@ -38,17 +38,11 @@ public class User implements UserDetails {
         this.username = username;    //ID
         this.password = password;      //PW
 
-        /*
+        /* 따로 받음
         this.gender=gender;
         this.age=age;
         */
 
-        /* 카테고리 선택 시 입력됨
-        this.user_category1="임시";
-        this.user_category2="임시";
-        this.user_category3="임시";
-        this.user_vd=1; //voice data 있으면
-         */
         this.role="유저"; //유저? 관리자?
 
         isLocked = false;

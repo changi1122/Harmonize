@@ -82,29 +82,6 @@ public class UserController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    /*
-    @GetMapping(path = "/currentuser")
-    public ResponseEntity getCurrentUserData() {
-        HashMap<String, Object> result = new HashMap<>();
-
-        String username = Security.getCurrentUsername();
-
-        result.put("username", username);
-        result.put("Authorities", Security.getCurrentUserRole());
-
-        try {
-            User currentUser = (User)userService.loadUserByUsername(username);
-            result.put("role", currentUser.getRole());
-            result.put("email", currentUser.getEmail());
-            result.put("reliability", currentUser.getReliability());
-        } catch (Exception e){
-            // 로그인되지 않았거나 오류난 경우
-        }
-
-        return new ResponseEntity(result, HttpStatus.OK);
-    }
-     */
-
     //회원가입
     @PostMapping("/register")
     public ResponseEntity createUser(@RequestParam("username") String username,
@@ -135,102 +112,6 @@ public class UserController {
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         }
     }
-/*
-    @PutMapping("/user/{username}")
-    public ResponseEntity updateUser(@PathVariable("username") String username,
-                                     @RequestBody Map<String, String> body) {
-        if (!username.isBlank() && username.equals(Security.getCurrentUsername()) &&
-                body.get("password") != null && !body.get("password").isBlank()) {
-
-            try {
-                userService.update(
-                        username,
-                        body.get("password"),
-                        body.get("newPassword"),
-                        body.get("email")
-                );
-
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("result", "회원 정보 수정에 성공하였습니다.");
-                return new ResponseEntity(result, HttpStatus.ACCEPTED);
-            }
-            catch (Exception e) {
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("result", "회원 정보 수정에 실패하였습니다.");
-                return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-            }
-        }
-        else {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("result", "회원 정보 수정에 실패하였습니다.");
-            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-        }
-    }
- */
-/*
-    @GetMapping(value = "/user/{username}/profileImage", produces = MediaType.ALL_VALUE)
-    @ResponseBody
-    public FileSystemResource getProfileImage(@PathVariable("username") String username) throws IOException {
-        String path = System.getProperty("user.dir") +
-                String.format("/src/main/resources/static/resource/profile/%s.jpg", username);
-
-        return (new File(path).exists()) ? new FileSystemResource(path) : null;
-    }
- */
-/*
-    @PostMapping("/user/{username}/profileImage")
-    @ResponseBody
-    public ResponseEntity changeProfileImage(@PathVariable("username") String username,
-                                             @RequestParam("profileImage") String profileImage,
-                                             @RequestParam(value="image", required = false) MultipartFile image) {
-        if (!username.isBlank() && username.equals(Security.getCurrentUsername()) &&
-                !profileImage.isBlank()) {
-            try {
-                userService.changeProfileImage(username, profileImage, image);
-
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("result", "프로필 이미지 수정에 성공하였습니다.");
-                return new ResponseEntity(result, HttpStatus.ACCEPTED);
-            }
-            catch (Exception e) {
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("result", "프로필 이미지 수정에 실패하였습니다.");
-                return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-            }
-        }
-        else {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("result", "프로필 이미지 수정에 실패하였습니다.");
-            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-        }
-    }
-
- */
-/*
-    @DeleteMapping("/user/{username}")
-    public ResponseEntity deleteUser(@PathVariable("username") String username) {
-        if (!username.isBlank() && username.equals(Security.getCurrentUsername())) {
-            try {
-                userService.delete(username);
-
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("result", "회원 정보 삭제에 성공하였습니다.");
-                return new ResponseEntity(result, HttpStatus.ACCEPTED);
-            }
-            catch (Exception e) {
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("result", "회원 정보 삭제에 실패하였습니다.");
-                return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-            }
-        }
-        else {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("result", "회원 정보 삭제에 실패하였습니다.");
-            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
-        }
-    }
-
- */
 
     @PostMapping("/checkforduplicate")
     @ResponseBody
@@ -247,35 +128,6 @@ public class UserController {
             return new ResponseEntity(result, HttpStatus.OK);
         }
     }
-    /*
-    @PostMapping("/findusername")
-    @ResponseBody
-    public ResponseEntity findUsername(@RequestBody Map<String, String> body) {
-        try {
-            if (body.get("email") == null || body.get("email").isBlank())
-                throw new Exception();
-
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("result", userService.findUsernameByEmail(body.get("email")));
-            return new ResponseEntity(result, HttpStatus.OK);
-        }
-        catch (Exception e) {
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("result", "");
-            return new ResponseEntity(result, HttpStatus.OK);
-        }
-    }
-     */
-    /*
-    @GetMapping("/user/{username}/reliability")
-    @ResponseBody
-    public ResponseEntity getReliability(@PathVariable("username") String username) {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("result", userService.getReliability(username));
-        return new ResponseEntity(result, HttpStatus.OK);
-    }
-
-     */
 
     private Cookie createTokenCookie(String token, int age) {
         Cookie cookie = new Cookie("token", token);
