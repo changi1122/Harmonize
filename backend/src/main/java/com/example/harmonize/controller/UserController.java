@@ -113,6 +113,40 @@ public class UserController {
         }
     }
 
+    //성별(gender) & 연령대(age)
+    @PostMapping("/GenderAgeSurvey")
+    public ResponseEntity updateGenderAge(@RequestParam("username") String username,
+                                            @RequestParam("gender") int gender,
+                                            @RequestParam("age") int age) {
+        if (username != null && !username.isBlank() &&
+                gender != 0 &&
+                age != 0) {
+
+            try {
+                userService.update(
+                        username,
+                        gender,
+                        age
+                );
+
+                HashMap<String, Object> result = new HashMap<>();
+
+                result.put("result", "성별/연령대 입력에 성공하였습니다.");
+                return new ResponseEntity(result, HttpStatus.CREATED);
+            }
+            catch (Exception e) {
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("result", "성별/연령대 입력에 실패하였습니다.");
+                return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("result", "성별/연령대 입력에 실패하였습니다.");
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/checkforduplicate")
     @ResponseBody
     public ResponseEntity CanUseAsUsername(@RequestBody Map<String, String> body) {

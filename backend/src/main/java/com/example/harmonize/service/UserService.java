@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
 
 
     /********************************************************************************
-     * user를 생성합니다.
+     * user를 생성합니다. [회원가입]
      * @param username
      * @param password
      */
@@ -66,6 +66,26 @@ public class UserService implements UserDetailsService {
                     passwordEncoder.encode(password)
             );
             userRepository.save(user);
+    }
+
+    /**
+     * 주어진 username인 user를 찾아 gender와 age를 수정(첫 입력)합니다.
+     * @param username
+     * @param gender
+     * @param age
+     * @throws Exception
+     */
+    public void update(String username, int gender, int age) throws Exception {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not present"));
+
+        if (gender != 0) {
+            user.setGender(gender);
+        }
+        if (age != 0) {
+            user.setAge(age);
+        }
+        userRepository.save(user);
     }
 
 
