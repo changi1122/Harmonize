@@ -55,8 +55,8 @@ public class UserController {
             Cookie tokenCookie = createTokenCookie(list.get(0), 168 * 60 * 60);
             res.addCookie(tokenCookie);
 
-            HashMap<String, Object> result = new HashMap<>git ();
-            result.put("result", "로그인에 성공하였습니다.");
+            HashMap<String, Object> result = new HashMap<>();
+            result.put("result", "로그인에 성공하였습니다.");git 
             result.put("token", list.get(0));
             result.put("uid", list.get(1));
             return new ResponseEntity(result, HttpStatus.OK);
