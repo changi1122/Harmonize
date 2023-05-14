@@ -56,7 +56,7 @@ public class UserController {
             res.addCookie(tokenCookie);
 
             HashMap<String, Object> result = new HashMap<>();
-            result.put("result", "로그인에 성공하였습니다.");git 
+            result.put("result", "로그인에 성공하였습니다.");
             result.put("token", list.get(0));
             result.put("uid", list.get(1));
             return new ResponseEntity(result, HttpStatus.OK);
