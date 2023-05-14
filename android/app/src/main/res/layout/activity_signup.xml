@@ -117,6 +117,7 @@
             android:textSize="14dp" />
 
         <Button
+            android:id="@+id/btnSignup"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"

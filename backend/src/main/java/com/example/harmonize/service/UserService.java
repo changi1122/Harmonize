@@ -54,15 +54,13 @@ public class UserService implements UserDetailsService {
      * user를 생성합니다.
      * @param username
      * @param password
-     * @param user_name
      */
-    public void create(String username, String password, String user_name)
+    public void create(String username, String password)
     throws Exception {
 
             User user = new User(
                     username,
-                    passwordEncoder.encode(password),
-                    user_name
+                    passwordEncoder.encode(password)
             );
             userRepository.save(user);
     }
