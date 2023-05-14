@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -27,6 +28,7 @@ import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import kr.ac.chungbuk.harmonize.MainActivity;
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.model.Token;
@@ -77,19 +79,21 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        btnSignup.setText(response);
+                        ///btnSignup.setText(response);
 
                         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                         Token token = gson.fromJson(response, Token.class);
                         token.setCreatedAt(OffsetDateTime.now());
 
                         TokenService.save(token);
+
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        btnSignup.setText(error.toString());
+                        Toast.makeText(LoginActivity.this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {

@@ -12,8 +12,9 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user") //DB에 저장될 table 의 이름
+@Table(name = "users") //DB에 저장될 table 의 이름
 public class User implements UserDetails {
+
 
     @Id //@id 밑에 오는 id가 User 테이블의 Key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,6 @@ public class User implements UserDetails {
     @Column(unique=true)
     private String username; //ID
     private String password;
-    private String user_name;
     private int gender;
     private int age;
 
@@ -34,10 +34,9 @@ public class User implements UserDetails {
 
     protected User() { }
 
-    public User(String username, String password, String user_name) {
+    public User(String username, String password) {
         this.username = username;    //ID
         this.password = password;      //PW
-        this.user_name = user_name;
 
         /*
         this.gender=gender;

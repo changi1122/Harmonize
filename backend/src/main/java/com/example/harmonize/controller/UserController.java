@@ -108,17 +108,14 @@ public class UserController {
     //회원가입
     @PostMapping("/register")
     public ResponseEntity createUser(@RequestParam("username") String username,
-                                     @RequestParam("password") String password,
-                                     @RequestParam("user_name") String user_name) {
+                                     @RequestParam("password") String password) {
         if (username != null && !username.isBlank() &&
-                password != null && !password.isBlank() &&
-                user_name != null && !user_name.isBlank()) {
+                password != null && !password.isBlank()) {
 
             try {
                 userService.create(
                         username,
-                        password,
-                        user_name
+                        password
                 );
 
                 HashMap<String, Object> result = new HashMap<>();
