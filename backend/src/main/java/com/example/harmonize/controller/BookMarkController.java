@@ -30,6 +30,7 @@ public class BookMarkController {
     }
 
 
+    // user가 해제한 북마크 삭제, Checked 23.05.14
     @PostMapping("/bookmark/delete")
     public void DeleteBookMark(@RequestParam("uid") Long uid, @RequestParam("mid") Long mid){
         bookMarkService.DeleteBookMark(uid, mid);
