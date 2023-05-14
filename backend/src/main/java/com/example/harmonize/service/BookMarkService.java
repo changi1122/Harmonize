@@ -55,4 +55,11 @@ public class BookMarkService {
 
         return musicDTOS;
     }
+
+    // bookmark 삭제
+    public void DeleteBookMark(Long uid, Long mid){
+        Long bid = bookMarkRepository.findBookMarkID(uid, mid);
+        bookMarkRepository.deleteById(bid);
+    }
+
 }

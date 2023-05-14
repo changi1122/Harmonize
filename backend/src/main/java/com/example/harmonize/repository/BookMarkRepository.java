@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.naming.Name;
 import java.util.List;
 
 @Repository
@@ -19,6 +20,8 @@ public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
     @Query(nativeQuery = true, value = "SELECT bk.music_id from bookmark bk where bk.user_id = :uid ORDER BY bk.bookmark_id DESC ")
     List<Long> findAllByUser_id(@Param("uid") Long uid);
 
+    @Query(nativeQuery = true, value = "Select bk.bookmark_id from bookmark bk where bk.user_id=:uid AND bk.music_id = :mid")
+    Long findBookMarkID(@Param("uid") Long uid, @Param("mid") Long mid);
 
 
 }

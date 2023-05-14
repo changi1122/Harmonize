@@ -54,6 +54,8 @@ public class MusicService {
         return musicRepository.save(music).getMusic_id();
     }
 
+
+    // order by category_id 추가 필요
     public List<Music> getAllMusic(){
         return musicRepository.findAll();
     }
@@ -100,6 +102,16 @@ public class MusicService {
             }
         }
         return musicDTOS;
+    }
+
+    //music Detail한 정보들 저장
+    public void SetMusicDetails(Long mid, List<Double> list, Integer level){
+        Music music = musicRepository.findById(mid).get();
+        music.setMax(list.get(0));
+        music.setMin(list.get(1));
+        music.setLevel(level);
+
+        musicRepository.save(music);
     }
 
 

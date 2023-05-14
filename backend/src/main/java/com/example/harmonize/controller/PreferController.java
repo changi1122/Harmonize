@@ -57,7 +57,7 @@ public class PreferController {
     *
     */
 
-    // user가 선택한 category 저장 
+    // user가 선택한 category 저장
     @PostMapping("/prefer/save")
     public void SetPreferList(@RequestBody HashMap<String, Object> model) {
 

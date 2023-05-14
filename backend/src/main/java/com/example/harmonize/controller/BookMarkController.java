@@ -28,4 +28,10 @@ public class BookMarkController {
     public List<MusicDTO> GetBookMark(@RequestParam("uid") Long uid){
         return bookMarkService.GetMusicListByUID(uid);
     }
+
+
+    @PostMapping("/bookmark/delete")
+    public void DeleteBookMark(@RequestParam("uid") Long uid, @RequestParam("mid") Long mid){
+        bookMarkService.DeleteBookMark(uid, mid);
+    }
 }
