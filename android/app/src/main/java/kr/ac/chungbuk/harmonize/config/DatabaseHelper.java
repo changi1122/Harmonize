@@ -15,8 +15,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         String query = "CREATE TABLE IF NOT EXISTS " + "token" +
-                "(\"id\"\tINTEGER NOT NULL, \"token\"\tTEXT NOT NULL, \"created_at\"\tTEXT, PRIMARY KEY(\"id\" AUTOINCREMENT))";
+                "(\"id\"\tINTEGER NOT NULL, \"token\"\tTEXT NOT NULL, \"created_at\"\tTEXT, \"uid\"\tINTEGER NOT NULL, PRIMARY KEY(\"id\" AUTOINCREMENT))";
         database.execSQL(query);
+
+        /*//user_id(uid) 저장할 웹 DB TABLE
+        String query2 = "CREATE TABLE IF NOT EXISTS " + "uid" +
+                "(\"id\"\tINTEGER NOT NULL, \"uid\"\tINTEGER NOT NULL, PRIMARY KEY(\"id\" AUTOINCREMENT))";
+        database.execSQL(query2);
+         */
     }
 
     @Override
