@@ -86,6 +86,5 @@ public class Analyzer {
 
         list.add(max);
         list.add(min);
-
     }
 }

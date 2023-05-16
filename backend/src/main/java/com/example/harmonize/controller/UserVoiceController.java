@@ -20,11 +20,11 @@ public class UserVoiceController {
     }
 
     @PostMapping("/save/uv")
-    public ResponseEntity<?> saveUserVoice(@RequestParam("uid") Long uid,
+    public ResponseEntity<?> saveUserVoice(@RequestParam("user_id") Long user_id,
                                            @RequestParam("max") Double max,
                                            @RequestParam("min") Double min) {
         try {
-            userVoiceService.SaveUserRange(uid, max, min);
+            userVoiceService.SaveUserRange(user_id, max, min);
             return new ResponseEntity<>("사용자 음성 범위 저장에 성공하였습니다.", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("사용자 음성 범위 저장에 실패하였습니다.", HttpStatus.BAD_REQUEST);
