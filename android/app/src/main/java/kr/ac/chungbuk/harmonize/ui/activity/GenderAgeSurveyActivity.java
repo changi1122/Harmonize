@@ -3,6 +3,7 @@ package kr.ac.chungbuk.harmonize.ui.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -95,7 +96,7 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenderAgeSurvey("first", selectedGenderBtn, selectedAgeBtn);
+                GenderAgeSurvey(selectedGenderBtn, selectedAgeBtn);
                 //startActivity(new Intent(GenderAgeSurveyActivity.this, {옮겨갈액티비티}.class));
             }
         });
@@ -109,7 +110,7 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
         });
     }
 
-    private void GenderAgeSurvey(String username, String selectedGenderBtn, String selectedAgeBtn)
+    private void GenderAgeSurvey(String selectedGenderBtn, String selectedAgeBtn)
     {
         StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/GenderAgeSurvey"),
                 new Response.Listener<String>() {
@@ -122,6 +123,8 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        System.out.println(error);
+
                         Toast.makeText(GenderAgeSurveyActivity.this, "성별/연령대 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -130,12 +133,24 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String,String>();
-                params.put("username", username);
+                params.put("id", String.valueOf(TokenService.uid_load()));
                 if(selectedGenderBtn.equals("남성"))
                     params.put("gender", String.valueOf(1));
                 if(selectedGenderBtn.equals("여성"))
                     params.put("gender", String.valueOf(2));
-                params.put("age", selectedAgeBtn);
+
+                if(selectedAgeBtn.equals("10대"))
+                    params.put("age", String.valueOf(10));
+                else if(selectedAgeBtn.equals("20대"))
+                    params.put("age", String.valueOf(20));
+                else if(selectedAgeBtn.equals("30대"))
+                    params.put("age", String.valueOf(30));
+                else if(selectedAgeBtn.equals("40대"))
+                    params.put("age", String.valueOf(40));
+                else if(selectedAgeBtn.equals("50대"))
+                    params.put("age", String.valueOf(50));
+                else if(selectedAgeBtn.equals("60대 이상"))
+                    params.put("age", String.valueOf(60));
 
                 return params;
             }
