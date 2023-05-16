@@ -28,7 +28,7 @@ public class Analyzer {
     public void FindMusicRange() throws IOException {
         List<Double> list = new ArrayList<>();
 
-        String excelFilePath = "C:/Harmonize/backend/src/main/resources/excel/test.xlsx";
+        String excelFilePath = System.getProperty("user.dir")+"/src/main/resources/excel/test.xlsx";
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
