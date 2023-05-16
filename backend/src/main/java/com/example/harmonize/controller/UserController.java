@@ -115,33 +115,31 @@ public class UserController {
 
     //성별(gender) & 연령대(age)
     @PostMapping("/GenderAgeSurvey")
-    public ResponseEntity updateGenderAge(@RequestParam("gender") int gender,
-                                            @RequestParam("age") int age) {
-
-        HashMap<String, Object> result = new HashMap<>();
-        String username = Security.getCurrentUsername(); //utility > security 의 현재 로그인한 사용자의 username 반환 함수
-        result.put("username", username);
-        
-        if (username != null && !username.isBlank() &&
-                gender != 0 &&
-                age != 0) {
+    public ResponseEntity updateGenderAge(@RequestParam("id") String id,
+                                            @RequestParam("gender") String gender,
+                                            @RequestParam("age") String age) {
+        if (Integer.parseInt(id) != 0 &&
+                Integer.parseInt(gender) != 0 &&
+                Integer.parseInt(age) != 0) {
 
             try {
                 userService.update(
-                        username,
+                        id,
                         gender,
                         age
                 );
-
+                HashMap<String, Object> result = new HashMap<>();
                 result.put("result", "성별/연령대 입력에 성공하였습니다.");
                 return new ResponseEntity(result, HttpStatus.CREATED);
             }
             catch (Exception e) {
+                HashMap<String, Object> result = new HashMap<>();
                 result.put("result", "성별/연령대 입력에 실패하였습니다.");
                 return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
             }
         }
         else {
+            HashMap<String, Object> result = new HashMap<>();
             result.put("result", "성별/연령대 입력에 실패하였습니다.");
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         }

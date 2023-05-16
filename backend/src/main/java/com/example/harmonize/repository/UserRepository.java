@@ -12,9 +12,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
+    Optional<User> findById(int id);
+
     boolean existsByUsername(String username);
 
     @Query(nativeQuery = true, value = "SELECT * FROM user u WHERE u.id = :id ;")
     User SendUserInfoC(@Param("id")Long id);
-
 }

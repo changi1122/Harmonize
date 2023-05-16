@@ -69,21 +69,21 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * 주어진 username인 user를 찾아 gender와 age를 수정(첫 입력)합니다.
-     * @param username
+     * 주어진 id인 user를 찾아 gender와 age를 수정(첫 입력)합니다.
+     * @param id
      * @param gender
      * @param age
      * @throws Exception
      */
-    public void update(String username, int gender, int age) throws Exception {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not present"));
+    public void update(String id, String gender, String age) throws Exception {
+        User user = userRepository.findById(Integer.parseInt(id))
+                .orElseThrow(() -> new Exception("User not found with id: " + id));
 
-        if (gender != 0) {
-            user.setGender(gender);
+        if (Integer.parseInt(gender) != 0) {
+            user.setGender(Integer.parseInt(gender));
         }
-        if (age != 0) {
-            user.setAge(age);
+        if (Integer.parseInt(age) != 0) {
+            user.setAge(Integer.parseInt(age));
         }
         userRepository.save(user);
     }
