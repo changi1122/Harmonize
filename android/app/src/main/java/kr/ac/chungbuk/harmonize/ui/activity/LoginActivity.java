@@ -23,6 +23,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
@@ -79,13 +82,29 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ///btnSignup.setText(response);
+                        //btnSignup.setText(response);
+                        //System.out.println(response);
+
+                        int uid = 0;
+                        //response에서 uid 값 가져오기
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            uid = jsonObject.getInt("uid");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            System.out.println("uid를 가져오지 못했습니다.");
+                        }
 
                         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                         Token token = gson.fromJson(response, Token.class);
                         token.setCreatedAt(OffsetDateTime.now());
 
-                        TokenService.save(token);
+                        TokenService.save(token, uid);
+
+                        if ((token = TokenService.load()) != null) {
+                            System.out.println(token.getToken());
+                        }
 
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
