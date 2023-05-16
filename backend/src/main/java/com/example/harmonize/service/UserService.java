@@ -75,14 +75,14 @@ public class UserService implements UserDetailsService {
      * @param age
      * @throws Exception
      */
-    public void update(String username, int gender, String age) throws Exception {
+    public void update(String username, int gender, int age) throws Exception {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not present"));
 
         if (gender != 0) {
             user.setGender(gender);
         }
-        if (age != null && !age.isBlank()) {
+        if (age != 0) {
             user.setAge(age);
         }
         userRepository.save(user);

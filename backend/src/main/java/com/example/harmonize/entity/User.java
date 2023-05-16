@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private String username;     //ID
     private String password;
     private int gender;          //남자 : 1, 여자 : 2
-    private String age;          //나이 10대, 20대 ... -> string
+    private int age;          //나이 10대, 20대 ... -> string
 
     private String role;
 

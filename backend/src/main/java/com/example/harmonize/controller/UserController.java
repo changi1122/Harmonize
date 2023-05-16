@@ -66,7 +66,7 @@ public class UserController {
             res.addCookie(tokenCookie);
 
             HashMap<String, Object> result = new HashMap<>();
-            result.put("result", "로그인에 실패하였습니다.");
+            result.put("result", e.toString());
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         }
     }
@@ -116,7 +116,7 @@ public class UserController {
     //성별(gender) & 연령대(age)
     @PostMapping("/GenderAgeSurvey")
     public ResponseEntity updateGenderAge(@RequestParam("gender") int gender,
-                                            @RequestParam("age") String age) {
+                                            @RequestParam("age") int age) {
 
         HashMap<String, Object> result = new HashMap<>();
         String username = Security.getCurrentUsername(); //utility > security 의 현재 로그인한 사용자의 username 반환 함수
@@ -124,7 +124,7 @@ public class UserController {
         
         if (username != null && !username.isBlank() &&
                 gender != 0 &&
-                age != null && !age.isBlank()) {
+                age != 0) {
 
             try {
                 userService.update(
