@@ -13,7 +13,9 @@ import java.util.List;
 public interface MusicRepository extends JpaRepository<Music, Long> {
 
     // search music
-    @Query(nativeQuery = true, value = "SELECT * from music m where m.music_name like :search OR m.artist like :search ORDER BY m.music_id")
+    @Query(nativeQuery = true, value = "SELECT * from music m where m.music_name like %:search% OR m.artist like %:search% ORDER BY m.music_id")
     List<Music> FindBySearch(@Param("search")String search);
 
+    @Query(nativeQuery = true, value = "SELECT  * from music m ORDER BY m.category_id DESC ")
+    List<Music> FindAllByOrderByCategory_id();
 }
