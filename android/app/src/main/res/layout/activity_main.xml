@@ -27,7 +27,7 @@
         android:layout_marginBottom="58dp"
         android:gravity="bottom"
         android:background="#ffffff"
-        sothree:umanoPanelHeight="68dp"
+        sothree:umanoPanelHeight="70dp"
         sothree:umanoShadowHeight="1dp">
 
         <fragment
@@ -42,12 +42,25 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/mobile_navigation" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center|top"
-            android:text="The Awesome Sliding Up Panel"
-            android:textSize="16sp" />
+            android:orientation="vertical">
+
+            <kr.ac.chungbuk.harmonize.item.MusicPlayingItemView
+                android:id="@+id/playingView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <kr.ac.chungbuk.harmonize.item.MusicDetailItemView
+                android:id="@+id/detailView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
