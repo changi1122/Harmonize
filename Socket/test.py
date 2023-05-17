@@ -21,6 +21,8 @@ from pydub import AudioSegment
 
 import pandas as pd
 
+import os
+from pathlib import Path
 
 def MakeVoiceXlsxFile(filename, fileID, SP):
     logger = logging.getLogger()
@@ -29,6 +31,8 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     print("tensorflow: %s" % tf.__version__)
     #print("librosa: %s" % librosa.__version__)
 
+    path = Path(os.path.dirname(os.path.abspath(__file__)))
+    real = os.path.abspath(os.path.join(path, '..'))
 
     EXPECTED_SAMPLE_RATE = 16000
 
@@ -38,7 +42,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
         audio.export(output_file, format="wav")
         return output_file
 
-    Url = "D:/AppP/Harmonize/backend/src/main/resources/music/"
+    Url = real+"/backend/src/main/resources/music/"
 
     if(SP==1):
         Url = Url+filename+"/vocals.wav"
@@ -63,21 +67,6 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
 
 
     MAX_ABS_INT16 = 32768.0
-
-    def plot_stft(x, sample_rate, show_black_and_white=False):
-        x_stft = np.abs(librosa.stft(x, n_fft=2048))
-        fig, ax = plt.subplots()
-        fig.set_size_inches(20, 10)
-        x_stft_db = librosa.amplitude_to_db(x_stft, ref=np.max)
-        if(show_black_and_white):
-            librosadisplay.specshow(data=x_stft_db, y_axis='log', 
-                                    sr=sample_rate, cmap='gray_r')
-        else:
-            librosadisplay.specshow(data=x_stft_db, y_axis='log', sr=sample_rate)
-
-        #plt.colorbar(format='%+2.0f dB')
-
-    plot_stft(audio_samples / MAX_ABS_INT16 , sample_rate=EXPECTED_SAMPLE_RATE)
 
     audio_samples = audio_samples / float(MAX_ABS_INT16)
 
@@ -113,7 +102,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
 
     print(df) 
 
-    df.to_excel('D:/AppP/Harmonize/backend/src/main/resources/execl/'+str(fileID)+'.xlsx', sheet_name=filename)
+    df.to_excel(real+'/backend/src/main/resources/execl/'+str(fileID)+'.xlsx', sheet_name=filename)
 
     #결과가 잘 나오는지 시각화 하려면 주석 해재
     #fig, ax = plt.subplots()

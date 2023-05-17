@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class PageController {
 
     @Autowired
@@ -23,6 +24,7 @@ public class PageController {
 
     Files files = new Files();
 
+    //admin page, show all music table info, Checked 23.05.14
     @GetMapping(value = "/music/show")
     public String ShowMusicList(Model model){
 
@@ -33,6 +35,7 @@ public class PageController {
         return "musicList";
     }
 
+    //admin page, update music, Checked 23.05.14
     @GetMapping("/music/update/{id}")
     public String FindMusicByID(@PathVariable String id, Model model){
         System.out.println("music Update");
@@ -43,19 +46,21 @@ public class PageController {
         return "refactor";
     }
 
+    //admin page, delete music from Music by id, Checked 23.05.14
     @PostMapping("/music/delete")
     public String DeleteMusicByID(@RequestParam("id") String id){
         musicService.DeleteByID(id);
         return "musicList";
     }
 
+    //admin page, update music from Music by id, Checked 23.05.13
     @PostMapping("/music/update")
     public String UpdateMusic(@RequestParam("id") Long id, @RequestParam("title") String title, @RequestParam("composer") String composer,
-                              @RequestParam("gender") String gender, @RequestParam("time") Integer time,
-                              @RequestParam("TjNum") Integer TjNum, @RequestParam("link") String link,
-                              @RequestParam("category") String category, @RequestParam("file") MultipartFile file) throws IOException {
+                              @RequestParam("gender") String gender, @RequestParam("TjNum") Integer TjNum,
+                              @RequestParam("link") String link, @RequestParam("category") String category,
+                              @RequestParam("file") MultipartFile file) throws IOException {
 
-        musicService.MusicSave(title, composer, gender, time, TjNum, link, category, id);
+        musicService.MusicSave(title, composer, gender, TjNum, link, category, id);
         System.out.println(id);
 
         String fileName = files.SaveFile(file, id, 0);

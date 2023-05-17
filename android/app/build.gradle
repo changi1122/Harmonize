@@ -25,6 +25,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     buildFeatures {
         viewBinding true
@@ -32,9 +33,20 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+
+    /* Slide up panel Layout library */
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
     /* Toggle button library */
     implementation 'nl.bryanderidder:themed-toggle-button-group:1.4.1'
+
+    /* HTTP request library */
+    implementation 'com.android.volley:volley:1.2.1'
+
+    /* JSON parsing and serializing library */
+    implementation 'com.google.code.gson:gson:2.9.1'
+
 
     /* Image load library*/
     implementation 'com.github.bumptech.glide:glide:4.11.0'

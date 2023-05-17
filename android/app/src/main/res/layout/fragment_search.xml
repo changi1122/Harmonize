@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.search.SearchFragment">
+    tools:context=".ui.fragment.SearchFragment">
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
@@ -37,6 +37,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -60,13 +61,11 @@
             android:layout_weight="1"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="58dp"
             android:divider="#EEEEEE"
             android:dividerHeight="1dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -106,13 +105,30 @@
         </LinearLayout>
 
         <ListView
+            android:visibility="gone"
             android:id="@+id/musicListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:divider="#EEEEEE"
-            android:dividerHeight="1dp"
-            android:layout_marginBottom="58dp"/>
+            android:dividerHeight="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/search"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="곡명이나 가수를 입력해 원하는 노래를 찾아보세요."/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

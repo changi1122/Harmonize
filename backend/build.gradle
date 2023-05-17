@@ -23,13 +23,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5' //이거랑
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5' //얘네랑
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5' //얘네랑
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.0.4'
+	implementation 'org.apache.poi:poi:5.2.0'
+	implementation 'org.apache.poi:poi-ooxml:5.2.0'
+
+	implementation 'org.json:json:20230227'
 }
 
 tasks.named('test') {

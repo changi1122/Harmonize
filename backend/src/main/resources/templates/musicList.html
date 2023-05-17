@@ -33,11 +33,10 @@
           <th>Name</th>
           <th>artist</th>
           <th>gender</th>
-          <th>time</th>
-          <th>img</th>
+          <th>filename</th>
+          <th>category</th>
           <th>TJ Number</th>
           <th>Youtube link</th>
-          <th>category</th>
           <th>B1</th>
           <th>B2</th>
       </tr>
@@ -47,11 +46,10 @@
           <td th:text="${music.music_name}"></td>
           <td th:text="${music.artist}"></td>
           <td th:text="${music.gender}"></td>
-          <td th:text="${music.time}"></td>
-          <td th:text="${music.image_link}"></td>
-          <td th:text="${music.music_numberTJ}"></td>
+          <td th:text="${music.filename}"></td>
+          <td th:text="${music.category_id}"></td>
+          <td th:text="${music.TJ_Num}"></td>
           <td th:text="${music.youtube_link}"></td>
-          <td th:text="${music.category}"></td>
           <td><a th:href="@{'/music/update/'+${music.music_id}}">수정</a></td>
           <td><button th:onclick="Delete([[${music.music_id}]])">삭제</button></td>
       </tr>
