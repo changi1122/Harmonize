@@ -50,6 +50,17 @@ public class TokenService {
     }
 
     /**
+     * 데이터베이스에서 저장된 토큰과 uid를 삭제합니다.
+     */
+    public static void clear() {
+        SQLiteDatabase database = helper.getWritableDatabase();
+        database.execSQL(
+                "DELETE FROM token"
+        );
+        database.close();
+    }
+
+    /**
      * @return 저장된 uid 값 또는 0
      * 데이터베이스에서 uid 값을 가져오거나, 없을 시 0을 반환합니다.
      */

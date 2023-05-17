@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,11 +68,22 @@ public class MoreFragment extends Fragment {
                     case 1: // 성별/연령대 수정 클릭시
                         startActivity(new Intent(getActivity(), GenderAgeSurveyActivity.class)); break;
                     case 2: break; // 도움말 클릭시
-                    case 3: break; // 로그아웃 클릭시
+                    case 3: // 로그아웃 클릭시
+                        logout(); break;
                     default: break;
                 }
             }
         });
+    }
+
+
+    /**
+     * 로그아웃 : 저장된 토큰과 user id를 지우고, 앱을 종료합니다.
+     */
+    private void logout() {
+        Toast.makeText(getContext(), "로그아웃하기 위해 앱을 종료합니다.", Toast.LENGTH_LONG).show();
+        TokenService.clear();
+        getActivity().finish();
     }
 
     class MoreMenuAdapter extends BaseAdapter {

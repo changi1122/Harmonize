@@ -74,7 +74,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(SignupActivity.this, "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignupActivity.this, LoginActivity.class)); //회원가입 -> 로그인 activity
+                        finish(); //회원가입 activity 종료 -> 로그인 activity
                     }
                 },
                 new Response.ErrorListener() {
