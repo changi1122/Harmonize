@@ -92,6 +92,7 @@ public class SearchFragment extends Fragment {
         emptyView = view.findViewById(R.id.emptyView);
         tilSearch = view.findViewById(R.id.tilSearch);
         etSearch = view.findViewById(R.id.etSearch);
+        musicListView = view.findViewById(R.id.musicListView);
 
 
         tilSearch.setEndIconOnClickListener(new View.OnClickListener() {
@@ -113,8 +114,6 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
-        musicListView = view.findViewById(R.id.musicListView);
 
         adapter = new MusicListAdapter();
         musicListView.setAdapter(adapter);

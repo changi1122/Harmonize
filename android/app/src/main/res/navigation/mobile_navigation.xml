@@ -21,13 +21,13 @@
         android:id="@+id/navigation_pitch"
         android:name="kr.ac.chungbuk.harmonize.ui.fragment.PitchFragment"
         android:label="@string/title_pitch"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_bookmark" />
 
     <fragment
         android:id="@+id/navigation_wishlist"
-        android:name="kr.ac.chungbuk.harmonize.ui.fragment.WishlistFragment"
+        android:name="kr.ac.chungbuk.harmonize.ui.fragment.BookmarkFragment"
         android:label="@string/title_wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_bookmark" />
 
     <fragment
         android:id="@+id/navigation_more"
