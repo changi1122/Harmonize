@@ -1,10 +1,13 @@
 package kr.ac.chungbuk.harmonize.ui.fragment;
 
 import android.content.Intent;
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -40,7 +43,7 @@ import kr.ac.chungbuk.harmonize.model.Music;
 import kr.ac.chungbuk.harmonize.service.TokenService;
 import kr.ac.chungbuk.harmonize.ui.activity.LoginActivity;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     ImageButton ibtnSearch;
     ViewPager pagerMusicList;
     TabLayout tabTitle;
