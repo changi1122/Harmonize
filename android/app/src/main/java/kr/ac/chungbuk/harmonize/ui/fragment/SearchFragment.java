@@ -1,5 +1,6 @@
 package kr.ac.chungbuk.harmonize.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,21 +18,51 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import kr.ac.chungbuk.harmonize.MainActivity;
 import kr.ac.chungbuk.harmonize.R;
+import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.item.MusicListItemView;
 import kr.ac.chungbuk.harmonize.item.SearchHistoryItemView;
 import kr.ac.chungbuk.harmonize.model.Music;
+import kr.ac.chungbuk.harmonize.model.MusicSearchResult;
+import kr.ac.chungbuk.harmonize.model.Token;
+import kr.ac.chungbuk.harmonize.service.TokenService;
+import kr.ac.chungbuk.harmonize.ui.activity.LoginActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
+    RequestQueue queue;
+    LinearLayout emptyView;
     ListView historyListView, musicListView;
+    MusicListAdapter adapter;
     TextInputLayout tilSearch;
     TextInputEditText etSearch;
 
@@ -41,6 +73,8 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        queue = Volley.newRequestQueue(getContext());
+
         SearchHistoryAdapter historyAdapter = new SearchHistoryAdapter();
         historyAdapter.addItem("사건의지평선");
         historyAdapter.addItem("응급실(쾌걸춘향OST)");
@@ -52,44 +86,105 @@ public class SearchFragment extends Fragment {
         historyAdapter.addItem("Monologue");
         historyAdapter.addItem("그대라는사치");
 
+
         historyListView = (ListView) view.findViewById(R.id.historyListView);
         historyListView.setAdapter(historyAdapter);
-
-
+        emptyView = view.findViewById(R.id.emptyView);
         tilSearch = view.findViewById(R.id.tilSearch);
+        etSearch = view.findViewById(R.id.etSearch);
+        musicListView = view.findViewById(R.id.musicListView);
+
+
         tilSearch.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search();
+                search(etSearch.getText().toString());
             }
         });
 
-        etSearch = view.findViewById(R.id.etSearch);
         etSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
                         keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    search();
+                    search(etSearch.getText().toString());
                     return true;
                 }
                 return false;
             }
         });
 
-
-        musicListView = view.findViewById(R.id.musicListView);
-
-        MusicListAdapter adapter = new MusicListAdapter();
-        adapter.addItem(new Music(
-                1L, "사건의 지평선", "윤하", "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F007%2F434%2F7434553.jpg%3Ftype%3Dr204Fll%26v%3D20230109102326",
-                2, 79, false, 1L));
+        adapter = new MusicListAdapter();
         musicListView.setAdapter(adapter);
     }
 
 
-    private void search() {
-        Toast.makeText(getActivity(), "검색 버튼 눌림", Toast.LENGTH_LONG).show();
+    private void search(String query) {
+        if (query.equals("")) {
+            hideResultListView();
+            adapter.clear();
+            return;
+        }
+
+        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/music/search"),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                            List<MusicSearchResult> searchResults = gson.fromJson(response, new TypeToken<List<MusicSearchResult>>(){}.getType());
+
+                            adapter.clear();
+                            adapter.setItems(searchResults);
+
+                            if (searchResults.size() < 1) hideResultListView();
+                            else showResultListView();;
+                        }
+                        catch (Exception e) {
+                            Toast.makeText(getContext(), "검색 요청 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "검색 요청 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String,String>();
+                params.put("search", query);
+                return params;
+            }
+        };
+
+        queue.add(request);
+    }
+
+    private void showResultListView() {
+        musicListView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+    }
+
+    private void hideResultListView() {
+        emptyView.setVisibility(View.VISIBLE);
+        musicListView.setVisibility(View.GONE);
     }
 
     class SearchHistoryAdapter extends BaseAdapter {
@@ -124,15 +219,23 @@ public class SearchFragment extends Fragment {
 
 
     class MusicListAdapter extends BaseAdapter {
-        ArrayList<Music> musics = new ArrayList<>();
+        List<MusicSearchResult> musics = new ArrayList<>();
 
         @Override
         public int getCount() {
             return musics.size();
         }
 
-        public void addItem(Music music) {
+        public void addItem(MusicSearchResult music) {
             musics.add(music);
+        }
+
+        public void setItems(List<MusicSearchResult> musics) {
+            this.musics = musics;
+        }
+
+        public void clear() {
+            musics.clear();
         }
 
         @Override
@@ -147,16 +250,17 @@ public class SearchFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Music music = musics.get(position);
+            MusicSearchResult searchResult = musics.get(position);
 
+            System.out.println(searchResult.id);
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(music.music_name, music.artist, music.level, music.range_avg);
+            view.setNameAndArtist(searchResult.name, searchResult.artist, 1/*searchResult.level*/, 0/*searchResult.matchRate*/);
 
-            if (music.img_link != null) {
+            if (searchResult.thumbnail != null) {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);
                 Glide
                         .with(getActivity())
-                        .load(music.img_link)
+                        .load(searchResult.thumbnail)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                         .into(thumbnailView);
