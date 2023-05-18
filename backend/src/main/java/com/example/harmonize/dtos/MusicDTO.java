@@ -19,5 +19,5 @@ public class MusicDTO  implements Serializable  {
     private Integer level;
     private Integer range_avg;
     private Boolean is_prefer;
-    private String category;
+    private Long category_id;
 }

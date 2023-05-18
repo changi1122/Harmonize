@@ -17,6 +17,7 @@ public class Builder {
                 .level(list.getLevel())
                 .range_avg(result)
                 .is_prefer(bool)
+                .category_id(list.getCategory_id())
                 .build();
 
         return musicDTO;

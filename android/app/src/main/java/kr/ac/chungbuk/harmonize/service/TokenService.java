@@ -61,8 +61,8 @@ public class TokenService {
     }
 
     /**
-     * @return 저장된 uid 값 또는 0
-     * 데이터베이스에서 uid 값을 가져오거나, 없을 시 0을 반환합니다.
+     * @return 저장된 uid 값 또는 -1
+     * 데이터베이스에서 uid 값을 가져오거나, 없을 시 -1을 반환합니다.
      */
     public static int uid_load() {
         SQLiteDatabase database = helper.getWritableDatabase();
@@ -72,7 +72,7 @@ public class TokenService {
             int uid = cursor.getInt(3);
             return uid;
         } else {
-            return 0;
+            return -1;
         }
     }
 

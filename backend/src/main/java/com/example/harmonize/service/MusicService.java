@@ -8,6 +8,7 @@ import com.example.harmonize.utility.Analyzer;
 import com.example.harmonize.utility.Builder;
 import jakarta.jws.Oneway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,13 +81,15 @@ public class MusicService {
 
     //Get music list where string = artist or music_name
     public List<Music> GetResultBySearch(String search){
+        System.out.println(search);
+        System.out.println(musicRepository.FindBySearch(search));
         return musicRepository.FindBySearch(search);
     }
 
 
     // Get music list where music_category_id = categroy_id
     public List<MusicDTO> GetListByCategory(Long uid){
-        List<Music> lists = musicRepository.findAll();
+        List<Music> lists = musicRepository.FindAllByOrderByCategory_id();
         UserVoice userVoice = userVoiceRepository.FindUserVoiceRange(uid);
 
         List<MusicDTO> musicDTOS = new ArrayList<>();

@@ -86,33 +86,8 @@ public class MusicListFragment extends Fragment {
 
         MusicListAdapter adapter = new MusicListAdapter();
         adapter.addItem(new Music(
-                "사건의 지평선", "윤하(YOUNHA)", 1, 45, false,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F007%2F434%2F7434553.jpg%3Ftype%3Dr204Fll%26v%3D20230109102326"));
-        adapter.addItem(new Music(
-                "좋니", "윤종신", 2, 88, false,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F002%2F067%2F2067347.jpg%3Ftype%3Dr204Fll%26v%3D20220513012522"));
-        adapter.addItem(new Music(
-                "Tears", "소찬휘", 2, 45, true,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F000%2F001%2F1408.jpg%3Ftype%3Dr204Fll%26v%3D20230103162533"));
-        adapter.addItem(new Music(
-                "어디에도", "엠씨더맥스(M.C the MAX)", 3, 66, false,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F000%2F614%2F614753.jpg%3Ftype%3Dr204Fll%26v%3D20230106154012"));
-        adapter.addItem(new Music(
-                "사건의 지평선", "윤하(YOUNHA)", 1, 34, false));
-        adapter.addItem(new Music(
-                "좋니", "윤종신", 3, 86, true));
-        adapter.addItem(new Music(
-                "Tears", "소찬휘", 1, 76, false));
-        adapter.addItem(new Music(
-                "어디에도", "엠씨더맥스(M.C the MAX)", 2, 32, false));
-        adapter.addItem(new Music(
-                "사건의 지평선", "윤하(YOUNHA)", 3, 56, false));
-        adapter.addItem(new Music(
-                "좋니", "윤종신", 2, 23, true));
-        adapter.addItem(new Music(
-                "Tears", "소찬휘", 1, 99, false));
-        adapter.addItem(new Music(
-                "어디에도", "엠씨더맥스(M.C the MAX)", 3, 45, false));
+                1L, "사건의 지평선", "윤하", "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F007%2F434%2F7434553.jpg%3Ftype%3Dr204Fll%26v%3D20230109102326",
+                2, 79, false, 1L));
 
         musicListView.setAdapter(adapter);
     }
@@ -144,13 +119,13 @@ public class MusicListFragment extends Fragment {
             Music music = musics.get(position);
 
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(music.name, music.artist, music.level, music.matchRate);
+            view.setNameAndArtist(music.music_name, music.artist, music.level, music.range_avg);
 
-            if (music.thumbnail != null) {
+            if (music.img_link != null) {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);
                 Glide
                         .with(getActivity())
-                        .load(music.thumbnail)
+                        .load(music.img_link)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                         .into(thumbnailView);
