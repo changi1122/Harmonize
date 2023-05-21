@@ -1,5 +1,6 @@
 package com.example.harmonize.service;
 
+import com.example.harmonize.entity.Category;
 import com.example.harmonize.entity.Prefer;
 import com.example.harmonize.repository.CategoryRepository;
 import com.example.harmonize.repository.PreferRepository;
@@ -44,4 +45,6 @@ public class PreferService {
             preferRepository.deleteById(pid);
         }
     }
+
+
 }

@@ -101,8 +101,7 @@ public class MusicService {
 
         for(Music list : lists){
             Double result = analyzer.GetPossibility(list, userVoice);
-
-            System.out.println(bookMarkRepository.IsBookMarked(uid, list.getMusic_id()));
+            
             Boolean bool =  (1 == bookMarkRepository.IsBookMarked(uid, list.getMusic_id()));
 
             if(result >= 70.0){

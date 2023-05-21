@@ -36,7 +36,7 @@ public class MusicListItemView extends LinearLayout {
         tvMatchRate = findViewById(R.id.tvMatchRate);
     }
 
-    public void setNameAndArtist(String name, String artist, Integer level, Integer matchRate) {
+    public void setNameAndArtist(String name, String artist, Integer level, Integer matchRate, Boolean is_prefer) {
         tvName.setText(name);
         tvArtist.setText(artist);
         if (level == 1) {
