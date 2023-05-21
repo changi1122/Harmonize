@@ -88,8 +88,13 @@ public class MusicService {
 
 
     // Get music list where music_category_id = categroy_id
-    public List<MusicDTO> GetListByCategory(Long uid){
-        List<Music> lists = musicRepository.FindAllByOrderByCategory_id();
+    public List<MusicDTO> GetListByCategory(Long uid, Long cid){
+        List<Music> lists;
+        if(cid==1){
+            lists= musicRepository.FindAllByOrderByCategory_id();
+        }else{
+            lists = musicRepository.FindAllByCategory_id(cid);
+        }
         UserVoice userVoice = userVoiceRepository.FindUserVoiceRange(uid);
 
         List<MusicDTO> musicDTOS = new ArrayList<>();

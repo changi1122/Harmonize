@@ -48,9 +48,6 @@ public class HomeFragment extends Fragment{
     ViewPager pagerMusicList;
     TabLayout tabTitle;
 
-    RequestQueue queue;
-
-    ArrayList<Music> musics;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,42 +64,60 @@ public class HomeFragment extends Fragment{
             }
         });
 
-        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         Integer uid = TokenService.uid_load();
 
         System.out.println("hello");
-        GetMusicList(String.valueOf(1));
 
         pagerMusicList = view.findViewById(R.id.pagerMusicList);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         MusicListFragment all = new MusicListFragment();
-
-
-
+        all.SetCategory("1");
         adapter.addItem("전체", all);
+
         MusicListFragment genre1 = new MusicListFragment();
+        genre1.SetCategory("2");
         adapter.addItem("가요", genre1);
+
         MusicListFragment genre2 = new MusicListFragment();
+        genre2.SetCategory("3");
         adapter.addItem("팝송", genre2);
+
         MusicListFragment genre3 = new MusicListFragment();
+        genre3.SetCategory("4");
         adapter.addItem("일본곡", genre3);
+
         MusicListFragment genre4 = new MusicListFragment();
+        genre4.SetCategory("5");
         adapter.addItem("랩/힙합", genre4);
+
         MusicListFragment genre5 = new MusicListFragment();
+        genre5.SetCategory("6");
         adapter.addItem("R&B", genre5);
+
         MusicListFragment genre6 = new MusicListFragment();
+        genre6.SetCategory("7");
         adapter.addItem("발라드", genre6);
+
         MusicListFragment genre7 = new MusicListFragment();
+        genre7.SetCategory("8");
         adapter.addItem("댄스", genre7);
+
         MusicListFragment genre8 = new MusicListFragment();
+        genre8.SetCategory("9");
         adapter.addItem("OST", genre8);
+
         MusicListFragment genre9 = new MusicListFragment();
+        genre9.SetCategory("10");
         adapter.addItem("인디뮤직", genre9);
+
         MusicListFragment genre10 = new MusicListFragment();
+        genre10.SetCategory("11");
         adapter.addItem("트로트", genre10);
+
         MusicListFragment genre11 = new MusicListFragment();
+        genre11.SetCategory("12");
         adapter.addItem("어린이곡", genre11);
 
         pagerMusicList.setAdapter(adapter);
@@ -137,71 +152,5 @@ public class HomeFragment extends Fragment{
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
-    }
-
-    private void GetMusicList(String uid){
-        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/music/get/list"),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            System.out.println("response" + response);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.out.println("Error 발생");
-                        }
-                        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-
-                        musics = gson.fromJson(response, TypeToken.getParameterized(ArrayList.class, Music.class).getType());
-
-                        if (musics.isEmpty()) {
-                            System.out.println(" ");
-                        } else {
-                            System.out.println(musics);
-                            for (int i = 0; i < musics.size(); i++) {
-                                System.out.println(musics.get(i).getMusic_id());
-                            }
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    String utf8String = new String(response.data, "UTF-8");
-                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
-                } catch (UnsupportedEncodingException e) {
-                    // log error
-                    return Response.error(new ParseError(e));
-                } catch (Exception e) {
-                    // log error
-                    return Response.error(new ParseError(e));
-                }
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                //params.put("Content-Type", "application/json; charset=UTF-8");
-                //params.put("token", "welkfjlwejflwe");
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                System.out.println(uid);
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("uid", uid);
-                return params;
-            }
-        };
-
-        queue.add(request);
-
     }
 }

@@ -63,8 +63,9 @@ public class MusicController {
 
     // get All music list, Data type is MusicDTO, Checked 23.05.13
     @PostMapping("/music/get/list")
-    public List<MusicDTO> GetMusicList(@RequestParam("uid") Long uid){
-        return musicService.GetListByCategory(uid);
+    public List<MusicDTO> GetMusicList(@RequestParam("uid") String uid , @RequestParam("cid") String cid ){
+        System.out.println("category_id"+cid);
+        return musicService.GetListByCategory(Long.valueOf(uid) , Long.valueOf(cid));
     }
 
 }

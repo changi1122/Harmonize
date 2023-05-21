@@ -16,6 +16,9 @@ public interface MusicRepository extends JpaRepository<Music, Long> {
     @Query(nativeQuery = true, value = "SELECT * from music m where m.music_name like %:search% OR m.artist like %:search% ORDER BY m.music_id")
     List<Music> FindBySearch(@Param("search")String search);
 
-    @Query(nativeQuery = true, value = "SELECT  * from music m ORDER BY m.category_id DESC ")
+    @Query(nativeQuery = true, value = "SELECT  * from music ")
     List<Music> FindAllByOrderByCategory_id();
+
+    @Query(nativeQuery = true, value = "SELECT * from music m where m.category_id = :cid")
+    List<Music> FindAllByCategory_id(@Param("cid") Long cid);
 }
