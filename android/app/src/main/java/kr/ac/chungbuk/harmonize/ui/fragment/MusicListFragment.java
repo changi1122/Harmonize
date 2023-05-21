@@ -117,7 +117,6 @@ public class MusicListFragment extends Fragment {
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
         get(String.valueOf(1));
-
         adapter = new MusicListAdapter();
         musicListView.setAdapter(adapter);
     }
@@ -126,6 +125,7 @@ public class MusicListFragment extends Fragment {
     private void get(String uid){
 
         if(uid.equals("")){
+            System.out.println("clear");
             adapter.clear();
             return;
         }
@@ -142,6 +142,8 @@ public class MusicListFragment extends Fragment {
 
                             adapter.clear();
                             adapter.setItems(musics);
+                            System.out.println("sddsdsd"+musics);
+
 
                             if (musics.isEmpty()) {
                                 hideResultListView();

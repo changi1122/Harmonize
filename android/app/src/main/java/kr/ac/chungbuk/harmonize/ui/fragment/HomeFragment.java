@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment{
 
     private void Deduplication(View view){
         Last = new ArrayList<>();
-        List<String> category = new ArrayList<String>(Arrays.asList( "가요", "팝송", "일본곡", "랩/힙합", "R&B", "발라드", "댄스", "OST", "인디뮤직", "트로트", "어린이곡"));
+        List<String> category = new ArrayList<String>(Arrays.asList("전체" ,"가요", "팝송", "일본곡", "랩/힙합", "R&B", "발라드", "댄스", "OST", "인디뮤직", "트로트", "어린이곡"));
         Last.add("전체");
         for(int i=0; i<UserPrefer.size(); i++){
             Last.add(UserPrefer.get(i));
@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment{
 
         for(int i=0; i<Last.size(); i++){
             genre.add(new MusicListFragment());
-            genre.get(i).SetCategory(String.valueOf(i+1));
+            genre.get(i).SetCategory(String.valueOf(category.indexOf(Last.get(i))+1));
             adapter.addItem(Last.get(i), genre.get(i));
         }
 
