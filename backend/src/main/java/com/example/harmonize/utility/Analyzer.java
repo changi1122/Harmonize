@@ -25,10 +25,10 @@ public class Analyzer {
         return (max_pos - min_pos) / (list.getMax() - list.getMin()) * 100;
     }
 
-    public void FindMusicRange() throws IOException {
+    public List<Double> FindMusicRange(String fileName) throws IOException {
         List<Double> list = new ArrayList<>();
 
-        String excelFilePath = System.getProperty("user.dir")+"/src/main/resources/excel/test.xlsx";
+        String excelFilePath = System.getProperty("user.dir")+"/src/main/resources/excel/" + fileName+".xlsx";
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
@@ -86,5 +86,7 @@ public class Analyzer {
 
         list.add(max);
         list.add(min);
+
+        return list;
     }
 }

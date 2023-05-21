@@ -102,7 +102,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
 
     print(df) 
 
-    df.to_excel(real+'/backend/src/main/resources/execl/'+str(fileID)+'.xlsx', sheet_name=filename)
+    df.to_excel(real+'/backend/src/main/resources/excel/'+str(fileID)+'.xlsx', sheet_name=filename)
 
     #결과가 잘 나오는지 시각화 하려면 주석 해재
     #fig, ax = plt.subplots()
