@@ -65,6 +65,8 @@ public class MusicListFragment extends Fragment {
 
     MusicListAdapter adapter;
 
+    List<Music> musics;
+
     private String cid;
 
     public MusicListFragment() {
@@ -118,6 +120,11 @@ public class MusicListFragment extends Fragment {
 
         get(String.valueOf(1));
         adapter = new MusicListAdapter();
+    }
+
+    private void Set(){
+        adapter.clear();
+        adapter.setItems(musics);
         musicListView.setAdapter(adapter);
     }
 
@@ -138,12 +145,9 @@ public class MusicListFragment extends Fragment {
 
                             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-                            List<Music> musics = gson.fromJson(response, TypeToken.getParameterized(ArrayList.class, Music.class).getType());
+                            musics = gson.fromJson(response, TypeToken.getParameterized(ArrayList.class, Music.class).getType());
 
-                            adapter.clear();
-                            adapter.setItems(musics);
-                            System.out.println("sddsdsd"+musics);
-
+                            Set();
 
                             if (musics.isEmpty()) {
                                 hideResultListView();
