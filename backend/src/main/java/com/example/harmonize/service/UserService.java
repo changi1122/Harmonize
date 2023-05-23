@@ -59,13 +59,13 @@ public class UserService implements UserDetailsService {
      * @param password
      */
     public void create(String username, String password)
-    throws Exception {
+            throws Exception {
 
-            User user = new User(
-                    username,
-                    passwordEncoder.encode(password)
-            );
-            userRepository.save(user);
+        User user = new User(
+                username,
+                passwordEncoder.encode(password)
+        );
+        userRepository.save(user);
     }
 
     /**
@@ -115,6 +115,7 @@ public class UserService implements UserDetailsService {
 
         list.add(token);
         list.add(String.valueOf(user.getId()));
+        list.add(String.valueOf(user.getGender()));
 
         return list;
     }
