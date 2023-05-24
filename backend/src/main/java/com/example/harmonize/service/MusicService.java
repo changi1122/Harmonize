@@ -95,6 +95,7 @@ public class MusicService {
         }else{
             lists = musicRepository.FindAllByCategory_id(cid);
         }
+
         UserVoice userVoice = userVoiceRepository.FindUserVoiceRange(uid);
 
         List<MusicDTO> musicDTOS = new ArrayList<>();

@@ -6,7 +6,9 @@ import com.example.harmonize.service.MusicService;
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -68,4 +70,19 @@ public class MusicController {
         return musicService.GetListByCategory(Long.valueOf(uid) , Long.valueOf(cid));
     }
 
+    // send music album cover
+    @GetMapping(value = "/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
+    public FileSystemResource getImage(@PathVariable("imgNo") String imgNo){
+        String IMG_PATH = System.getProperty("user.dir")+ "/src/main/resources/img/";
+        String fileExt = "";
+        if (new File(IMG_PATH + imgNo + ".png").exists())
+            fileExt = ".png";
+        else if (new File(IMG_PATH + imgNo + ".jpg").exists())
+            fileExt = ".jpg";
+        else if (new File(IMG_PATH + imgNo + ".jpeg").exists())
+            fileExt = ".jpeg";
+
+        String path = IMG_PATH + imgNo + fileExt;
+        return new FileSystemResource(path);
+    }
 }
