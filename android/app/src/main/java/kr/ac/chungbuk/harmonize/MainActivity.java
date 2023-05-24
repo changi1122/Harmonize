@@ -4,7 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +27,18 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.databinding.ActivityMainBinding;
 import kr.ac.chungbuk.harmonize.item.MusicDetailItemView;
 import kr.ac.chungbuk.harmonize.item.MusicPlayingItemView;
+import kr.ac.chungbuk.harmonize.model.Music;
+import kr.ac.chungbuk.harmonize.model.MusicDetail;
+import kr.ac.chungbuk.harmonize.model.Token;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     SlidingUpPanelLayout slidingLayout;
     MusicPlayingItemView playingView;
     MusicDetailItemView detailItemView;
+    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        queue = Volley.newRequestQueue(this);
         playingView = findViewById(R.id.playingView);
         detailItemView = findViewById(R.id.detailItemView);
         slidingLayout = findViewById(R.id.slidingLayout);
@@ -69,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /* Sliding Layout */
-        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         slidingLayout.setTouchEnabled(false);
 
         slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -91,10 +115,52 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void hideMusicPlayingView()
+    {
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+    }
+
     /* MusicDetailItem Event Handler */
     public void loadMusicDetail(Long id)
     {
-        playingView.setNameAndArtist(String.valueOf(id), "아티스트 이름");
-        detailItemView.loadMusicDetail(id);
+        StringRequest request = new StringRequest(Request.Method.GET, Domain.url("/api/musics/" + String.valueOf(id)),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                            MusicDetail music = gson.fromJson(response, MusicDetail.class);
+
+                            playingView.setMusic(music);
+                            detailItemView.loadMusicDetail(music);
+                            slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("Error 발생");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+        };
+        queue.add(request);
     }
 }

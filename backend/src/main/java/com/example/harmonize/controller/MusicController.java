@@ -1,8 +1,10 @@
 package com.example.harmonize.controller;
 
 import com.example.harmonize.dtos.MusicDTO;
+import com.example.harmonize.dtos.MusicDetailDTO;
 import com.example.harmonize.entity.Music;
 import com.example.harmonize.service.MusicService;
+import com.example.harmonize.utility.Builder;
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,9 +72,18 @@ public class MusicController {
         return musicService.GetListByCategory(Long.valueOf(uid) , Long.valueOf(cid));
     }
 
+    // get a music detail
+    @GetMapping("/musics/{id}")
+    public MusicDetailDTO GetMusicDetail(@PathVariable("id") String mid)
+    {
+        Music target = musicService.FindByID(mid);
+        Builder builder = new Builder();
+        return builder.BuildDetailDTO(target, false, 0);
+    }
+
     // send music album cover
     @GetMapping(value = "/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
-    public FileSystemResource getImage(@PathVariable("imgNo") String imgNo){
+    public FileSystemResource GetImage(@PathVariable("imgNo") String imgNo){
         String IMG_PATH = System.getProperty("user.dir")+ "/src/main/resources/img/";
         String fileExt = "";
         if (new File(IMG_PATH + imgNo + ".png").exists())

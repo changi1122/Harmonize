@@ -28,6 +28,7 @@
                 android:textAlignment="center"/>
 
             <TextView
+                android:id="@+id/tvArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="아티스트 이름"
@@ -52,6 +53,7 @@
             </FrameLayout>
 
             <ImageView
+                android:id="@+id/thumbnailView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/gray_background">

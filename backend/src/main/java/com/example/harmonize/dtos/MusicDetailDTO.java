@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MusicDTO implements Serializable  {
+public class MusicDetailDTO implements Serializable  {
     private Long music_id;
     private String music_name;
     private String artist;
