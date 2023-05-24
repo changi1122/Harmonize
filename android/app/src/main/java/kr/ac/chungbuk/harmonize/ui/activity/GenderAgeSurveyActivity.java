@@ -41,7 +41,7 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
     RequestQueue queue;
 
     ThemedButton genderFemale, genderMale, age10, age20, age30, age40, age50, age60;
-    Button btnNext, btnCancel;
+    Button btnNext;
 
     private String selectedGenderBtn;
     private String selectedAgeBtn;
@@ -97,15 +97,6 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 GenderAgeSurvey(selectedGenderBtn, selectedAgeBtn);
-                //startActivity(new Intent(GenderAgeSurveyActivity.this, {옮겨갈액티비티}.class));
-            }
-        });
-
-        btnCancel = findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //startActivity(new Intent(GenderAgeSurveyActivity.this, {옮겨갈액티비티}.class));
             }
         });
     }
@@ -117,7 +108,7 @@ public class GenderAgeSurveyActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(GenderAgeSurveyActivity.this, "성별/연령대 저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(GenderAgeSurveyActivity.this, {옮겨갈액티비티}.class));
+                        startActivity(new Intent(GenderAgeSurveyActivity.this, CategorySurveyActivity.class));
                     }
                 },
                 new Response.ErrorListener() {
