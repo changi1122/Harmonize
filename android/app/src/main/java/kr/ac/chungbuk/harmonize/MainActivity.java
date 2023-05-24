@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import kr.ac.chungbuk.harmonize.databinding.ActivityMainBinding;
+import kr.ac.chungbuk.harmonize.item.MusicDetailItemView;
 import kr.ac.chungbuk.harmonize.item.MusicPlayingItemView;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     SlidingUpPanelLayout slidingLayout;
     MusicPlayingItemView playingView;
+    MusicDetailItemView detailItemView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         playingView = findViewById(R.id.playingView);
+        detailItemView = findViewById(R.id.detailItemView);
         slidingLayout = findViewById(R.id.slidingLayout);
 
         playingView.setOnClickListener(new View.OnClickListener() {
@@ -88,4 +91,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /* MusicDetailItem Event Handler */
+    public void loadMusicDetail(Long id)
+    {
+        playingView.setNameAndArtist(String.valueOf(id), "아티스트 이름");
+        detailItemView.loadMusicDetail(id);
+    }
 }

@@ -59,9 +59,8 @@ public class MusicPlayingItemView extends LinearLayout {
         }
     }
 
-    public void setNameAndArtist(String name, String artist, Integer level, Integer matchRate) {
+    public void setNameAndArtist(String name, String artist) {
         tvName.setText(name);
         tvArtist.setText(artist);
     }
-
 }
