@@ -1,5 +1,6 @@
 package kr.ac.chungbuk.harmonize.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,14 +27,18 @@ import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.renderer.BarChartRenderer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.chungbuk.harmonize.R;
+import kr.ac.chungbuk.harmonize.enums.Gender;
 
 public class ResultPageActivity extends AppCompatActivity {
 
     private BarChart barChart;
+
+    Button buttonNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +143,15 @@ public class ResultPageActivity extends AppCompatActivity {
         barChart.setDescription(description);
         barChart.setRenderer(new RoundedBarChartRenderer(barChart, barChart.getAnimator(), barChart.getViewPortHandler()));
         barChart.invalidate();
+
+        buttonNext = findViewById(R.id.buttonNext);
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ResultPageActivity.this, GenderAgeSurveyActivity.class));
+            }
+        });
+
     }
 
     // 그라데이션 색상 보간
