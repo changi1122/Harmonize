@@ -76,7 +76,8 @@ public class HomeFragment extends Fragment{
 
 
         queue = Volley.newRequestQueue(getContext());
-        getC(String.valueOf(1), view);
+
+        getC(String.valueOf(TokenService.uid_load()), view);
         System.out.println("2323"+Last);
 
 

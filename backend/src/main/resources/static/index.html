@@ -5,9 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-  <h1>Menager Controller</h1>
+  <h1>Manager Controller</h1>
 
-  <form action="/music/save" method="post" enctype="multipart/form-data">
+  <form action="/api/music/save" method="post" enctype="multipart/form-data">
 
     <label for="title">제목</label>
     <input type="text" id="title" name="title">
@@ -42,17 +42,23 @@
     <input type="number" id="TjNum" name="TjNum">
     <br>
 
-    <label for="link">유트브 링크</label>
+    <label for="link">유튜브 링크</label>
     <input type="text" id="link" name="link">
     <br>
 
     <label for="category">카테고리</label>
     <select name="category" id="category">
-      <option value="0">test1</option>
-      <option value="1">test2</option>
-      <option value="2">test3</option>
-      <option value="3">test4</option>
-      <option value="4">test5</option>
+      <option value="2">가요</option>
+      <option value="3">팝송</option>
+      <option value="4">일본곡</option>
+      <option value="5">랩/힙합</option>
+      <option value="6">R&B</option>
+      <option value="7">발라드</option>
+      <option value="8">댄스</option>
+      <option value="9">OST</option>
+      <option value="10">인디뮤직</option>
+      <option value="11">트로트</option>
+      <option value="12">어린이곡</option>
     </select>
     <br>
 
