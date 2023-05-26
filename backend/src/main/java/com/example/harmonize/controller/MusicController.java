@@ -81,7 +81,7 @@ public class MusicController {
     }
 
     // get a music detail
-    @GetMapping("/musics/{id}")
+    @GetMapping("/api/musics/{id}")
     public MusicDetailDTO GetMusicDetail(@PathVariable("id") String mid)
     {
         Music target = musicService.FindByID(mid);
@@ -90,7 +90,7 @@ public class MusicController {
     }
 
     // send music album cover
-    @GetMapping(value = "/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
+    @GetMapping(value = "/api/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
     public FileSystemResource GetImage(@PathVariable("imgNo") String imgNo){
         String IMG_PATH = System.getProperty("user.dir")+ "/src/main/resources/img/";
         String fileExt = "";
