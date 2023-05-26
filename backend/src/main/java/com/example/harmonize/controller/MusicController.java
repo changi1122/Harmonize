@@ -3,6 +3,7 @@ package com.example.harmonize.controller;
 import com.example.harmonize.dtos.MusicDTO;
 import com.example.harmonize.entity.Music;
 import com.example.harmonize.service.MusicService;
+import com.example.harmonize.utility.Analyzer;
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,13 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api")
 public class MusicController {
 
 
     Connector connector = new Connector();
     Files files = new Files();
 
+    Analyzer analyzer  =new Analyzer();
     @Autowired
     private MusicService musicService;
 
@@ -50,22 +51,27 @@ public class MusicController {
         connector.SocketCall(id+".m4a",  id, Long.parseLong(split));
 
         // *Need to Add Analyzer Code & save Detail's
-
+        musicService.SaveDetail(id, gender);
         return "/";
     }
 
 
     // search artist, music_name like string, Checked 23.05.13
-    @PostMapping("/music/search")
+    @PostMapping("/api/music/search")
     public List<Music> SearchMusic(@RequestParam("search") String search){
         return musicService.GetResultBySearch(search);
     }
 
     // get All music list, Data type is MusicDTO, Checked 23.05.13
-    @PostMapping("/music/get/list")
+    @PostMapping("/api/music/get/list")
     public List<MusicDTO> GetMusicList(@RequestParam("uid") String uid , @RequestParam("cid") String cid ){
         System.out.println("category_id"+cid);
         return musicService.GetListByCategory(Long.valueOf(uid) , Long.valueOf(cid));
+    }
+
+    @PostMapping("/api/music/analyzer/test")
+    public void TestSet(@RequestParam("mid") String mid, @RequestParam("gender") String gender) throws IOException {
+        analyzer.FindMusicRange(mid, gender);
     }
 
 }

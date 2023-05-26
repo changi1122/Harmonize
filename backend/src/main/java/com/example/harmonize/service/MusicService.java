@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,14 +113,16 @@ public class MusicService {
     }
 
     //music Detail한 정보들 저장
-    public void SetMusicDetails(Long mid, List<Double> list, Integer level){
+    public void SaveDetail(Long mid, String gender) throws IOException {
+        List<Double> list = analyzer.FindMusicRange(String.valueOf(mid), gender.equals("man")?"m":"g");
         Music music = musicRepository.findById(mid).get();
         music.setMax(list.get(0));
         music.setMin(list.get(1));
-        music.setLevel(level);
-
+        music.setHigh(list.get(2));
+        music.setLow(list.get(3));
+        System.out.println((int) Math.round(list.get(4)));
+        music.setLevel((int) Math.round(list.get(4)));
         musicRepository.save(music);
     }
-
 
 }

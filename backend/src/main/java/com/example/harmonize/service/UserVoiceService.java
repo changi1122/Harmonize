@@ -19,7 +19,7 @@ public class UserVoiceService {
 
     // save user detail
     public void SaveUserRange(Long uid, Double max, Double min) throws IOException {
-        List<Double> list =  analyzer.FindMusicRange(String.valueOf(uid));
+        List<Double> list =  analyzer.FindMusicRange(String.valueOf(uid), "men");
         UserVoice userVoice = new UserVoice();
         userVoice.setUser_id(uid);
         userVoice.setFileName(String.valueOf(uid));

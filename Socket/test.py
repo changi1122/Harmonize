@@ -42,12 +42,10 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
         audio.export(output_file, format="wav")
         return output_file
 
-    Url = real+"/backend/src/main/resources/music/"
-
     if(SP==1):
-        Url = Url+filename+"/vocals.wav"
+        Url = real+ "/backend/src/main/resources/split/" +filename+"/vocals.wav"
     elif(SP==0):
-        Url = Url+filename
+        Url = real+ "/backend/src/main/resources/music/" +filename
         
     converted_audio_file = convert_audio_for_model(Url)
     #분석할 보컬이 저장된 경로 지정 필요
