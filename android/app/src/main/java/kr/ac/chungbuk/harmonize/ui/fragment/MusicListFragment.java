@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -37,11 +39,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.ac.chungbuk.harmonize.MainActivity;
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.item.MusicListItemView;
 import kr.ac.chungbuk.harmonize.model.Music;
 import kr.ac.chungbuk.harmonize.model.MusicSearchResult;
+import kr.ac.chungbuk.harmonize.service.TokenService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,7 +122,7 @@ public class MusicListFragment extends Fragment {
 
         queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
-        get(String.valueOf(1));
+        get(String.valueOf(TokenService.uid_load()));
         adapter = new MusicListAdapter();
     }
 
@@ -225,6 +229,8 @@ public class MusicListFragment extends Fragment {
             musics.add(music);
         }
 
+        public Long getMusicId(int position) { return musics.get(position).music_id; }
+
         @Override
         public Object getItem(int position) {
             return musics.get(position);
@@ -246,11 +252,19 @@ public class MusicListFragment extends Fragment {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);
                 Glide
                         .with(getActivity())
-                        .load(music.img_link)
+                        .load(Domain.url("/api/music/img/" + music.img_link))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                         .into(thumbnailView);
             }
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity main = (MainActivity)getActivity();
+                    main.loadMusicDetail(music.music_id);
+                }
+            });
 
             return view;
         }

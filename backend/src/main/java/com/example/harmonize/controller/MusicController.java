@@ -1,13 +1,20 @@
 package com.example.harmonize.controller;
 
 import com.example.harmonize.dtos.MusicDTO;
+import com.example.harmonize.dtos.MusicDetailDTO;
 import com.example.harmonize.entity.Music;
 import com.example.harmonize.service.MusicService;
+<<<<<<< HEAD
 import com.example.harmonize.utility.Analyzer;
+=======
+import com.example.harmonize.utility.Builder;
+>>>>>>> refs/remotes/origin/develop
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +79,31 @@ public class MusicController {
     @PostMapping("/api/music/analyzer/test")
     public void TestSet(@RequestParam("mid") String mid, @RequestParam("gender") String gender) throws IOException {
         analyzer.FindMusicRange(mid, gender);
+    }
+
+    // get a music detail
+    @GetMapping("/musics/{id}")
+    public MusicDetailDTO GetMusicDetail(@PathVariable("id") String mid)
+    {
+        Music target = musicService.FindByID(mid);
+        Builder builder = new Builder();
+        return builder.BuildDetailDTO(target, false, 0);
+    }
+
+    // send music album cover
+    @GetMapping(value = "/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
+    public FileSystemResource GetImage(@PathVariable("imgNo") String imgNo){
+        String IMG_PATH = System.getProperty("user.dir")+ "/src/main/resources/img/";
+        String fileExt = "";
+        if (new File(IMG_PATH + imgNo + ".png").exists())
+            fileExt = ".png";
+        else if (new File(IMG_PATH + imgNo + ".jpg").exists())
+            fileExt = ".jpg";
+        else if (new File(IMG_PATH + imgNo + ".jpeg").exists())
+            fileExt = ".jpeg";
+
+        String path = IMG_PATH + imgNo + fileExt;
+        return new FileSystemResource(path);
     }
 
 }

@@ -24,17 +24,30 @@
         <input type="number" id="TjNum" name="TjNum" th:value="${music.TJ_Num}">
         <br>
 
-        <label for="link">유트브 링크</label>
+        <label for="link">유튜브 링크</label>
         <input type="text" id="link" name="link" th:value="${music.youtube_link}">
         <br>
 
         <label for="category">카테고리</label>
         <select name="category" id="category" th:value="${music.category_id}">
-            <option value="0">test1</option>
-            <option value="1">test2</option>
-            <option value="2">test3</option>
-            <option value="3">test4</option>
-            <option value="4">test5</option>
+            <option value="2">가요</option>
+            <option value="3">팝송</option>
+            <option value="4">일본곡</option>
+            <option value="5">랩/힙합</option>
+            <option value="6">R&B</option>
+            <option value="7">발라드</option>
+            <option value="8">댄스</option>
+            <option value="9">OST</option>
+            <option value="10">인디뮤직</option>
+            <option value="11">트로트</option>
+            <option value="12">어린이곡</option>
+        </select>
+        <br>
+
+        <label for="category">성별</label>
+        <select name="gender" id="gender" th:value="${music.gender}">
+            <option value="man">남성</option>
+            <option value="woman">여성</option>
         </select>
         <br>
 

@@ -266,6 +266,14 @@ public class SearchFragment extends Fragment {
                         .into(thumbnailView);
             }
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity main = (MainActivity)getActivity();
+                    main.loadMusicDetail(searchResult.id);
+                }
+            });
+
             return view;
         }
     }
