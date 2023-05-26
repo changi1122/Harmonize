@@ -4,11 +4,10 @@ import com.example.harmonize.dtos.MusicDTO;
 import com.example.harmonize.dtos.MusicDetailDTO;
 import com.example.harmonize.entity.Music;
 import com.example.harmonize.service.MusicService;
-<<<<<<< HEAD
+
 import com.example.harmonize.utility.Analyzer;
-=======
 import com.example.harmonize.utility.Builder;
->>>>>>> refs/remotes/origin/develop
+
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
 import org.springframework.beans.factory.annotation.Autowired;
