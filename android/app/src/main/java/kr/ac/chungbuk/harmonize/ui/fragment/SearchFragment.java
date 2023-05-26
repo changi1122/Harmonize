@@ -170,6 +170,7 @@ public class SearchFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String,String>();
                 params.put("search", query);
+                params.put("uid", String.valueOf(TokenService.uid_load()));
                 return params;
             }
         };
@@ -254,7 +255,8 @@ public class SearchFragment extends Fragment {
 
             System.out.println(searchResult.id);
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(searchResult.name, searchResult.artist, 1/*searchResult.level*/, 0/*searchResult.matchRate*/, false/*searchResult.is_prefer*/);
+            view.setNameAndArtist(searchResult.name, searchResult.artist, searchResult.level,
+                    searchResult.matchRate, searchResult.isFavorite);
 
             if (searchResult.thumbnail != null) {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);

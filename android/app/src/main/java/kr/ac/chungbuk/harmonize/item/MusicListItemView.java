@@ -3,6 +3,7 @@ package kr.ac.chungbuk.harmonize.item;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ public class MusicListItemView extends LinearLayout {
 
     TextView tvName, tvArtist, tvMatchRate;
     ImageView ivLevel;
+    ImageButton ibBookmark;
 
     public MusicListItemView(Context context) {
         super(context);
@@ -34,17 +36,20 @@ public class MusicListItemView extends LinearLayout {
         tvArtist = findViewById(R.id.tvArtist);
         ivLevel = findViewById(R.id.ivLevel);
         tvMatchRate = findViewById(R.id.tvMatchRate);
+        ibBookmark = findViewById(R.id.ibBookmark);
     }
 
     public void setNameAndArtist(String name, String artist, Integer level, Integer matchRate, Boolean is_prefer) {
         tvName.setText(name);
         tvArtist.setText(artist);
-        if (level == 1) {
+        if (level == 0) {
             ivLevel.setImageResource(R.drawable.circle_green);
-        } else if (level == 2) {
+        } else if (level == 1) {
             ivLevel.setImageResource(R.drawable.circle_yellow);
         }
         tvMatchRate.setText(matchRate.toString() + "%");
+        if (is_prefer)
+            ibBookmark.setImageResource(R.drawable.ic_favorite_24);
     }
 
 }

@@ -64,8 +64,8 @@ public class MusicController {
 
     // search artist, music_name like string, Checked 23.05.13
     @PostMapping("/api/music/search")
-    public List<Music> SearchMusic(@RequestParam("search") String search){
-        return musicService.GetResultBySearch(search);
+    public List<MusicDTO> SearchMusic(@RequestParam("search") String search, @RequestParam("uid") String uid){
+        return musicService.GetResultBySearch(search, Long.parseLong(uid));
     }
 
     // get All music list, Data type is MusicDTO, Checked 23.05.13
