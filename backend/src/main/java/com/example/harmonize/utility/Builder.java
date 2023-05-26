@@ -36,6 +36,7 @@ public class Builder {
                 .category_id(music.getCategory_id())
                 .max(music.getMax())
                 .min(music.getMin())
+                .tj_num(music.getTJ_Num())
                 .build();
 
         return musicDetailDTO;

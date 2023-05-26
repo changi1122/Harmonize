@@ -34,10 +34,12 @@ public class BookMarkService {
 
     //북마크 저장
     public void SaveBookMark(Long uid, Long mid){
-        BookMark bookMark = new BookMark();
-        bookMark.setMusic_id(mid);
-        bookMark.setUser_id(uid);
-        bookMarkRepository.save(bookMark);
+        if (bookMarkRepository.IsBookMarked(uid, mid) != 1) {
+            BookMark bookMark = new BookMark();
+            bookMark.setMusic_id(mid);
+            bookMark.setUser_id(uid);
+            bookMarkRepository.save(bookMark);
+        }
     }
 
     // user Table id 기준으로 일치하는 컬럼 list로 제공

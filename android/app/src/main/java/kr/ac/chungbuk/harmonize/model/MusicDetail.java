@@ -24,9 +24,11 @@ public class MusicDetail {
     public Double max;
     @Expose
     public Double min;
+    @Expose
+    public Integer tj_num;
 
     public MusicDetail(Long music_id, String music_name, String artist, String img_link, Integer level,
-                       Integer range_avg, Boolean is_prefer, Long category_id, Double max, Double min) {
+                       Integer range_avg, Boolean is_prefer, Long category_id, Double max, Double min, Integer tj_num) {
         this.music_id = music_id;
         this.music_name = music_name;
         this.artist = artist;
@@ -37,6 +39,7 @@ public class MusicDetail {
         this.category_id = category_id;
         this.max = max;
         this.min = min;
+        this.tj_num = tj_num;
     }
 
     public Long getMusic_id() {

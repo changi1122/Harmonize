@@ -21,7 +21,7 @@ import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MusicDetailItemView extends LinearLayout {
 
-    TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty;
+    TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty, tvTJNum;
     ImageView thumbnailView;
 
     public MusicDetailItemView(Context context) {
@@ -44,6 +44,7 @@ public class MusicDetailItemView extends LinearLayout {
         tvMaxPitch = findViewById(R.id.tvMaxPitch);
         tvMinPitch = findViewById(R.id.tvMinPitch);
         tvDifficulty = findViewById(R.id.tvDifficulty);
+        tvTJNum = findViewById(R.id.tvTJNum);
     }
 
     public void loadMusicDetail(MusicDetail music)
@@ -53,6 +54,7 @@ public class MusicDetailItemView extends LinearLayout {
         tvMaxPitch.setText(PitchConverter.doubleToPitch(music.max));
         tvMinPitch.setText(PitchConverter.doubleToPitch(music.min));
         tvDifficulty.setText((music.level == 0) ? "쉬움" : ((music.level == 1) ? "보통" : "어려움"));
+        tvTJNum.setText("TJ 노래방 번호 : " + music.tj_num);
 
         Glide
                 .with(getContext())

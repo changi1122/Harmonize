@@ -22,4 +22,5 @@ public class MusicDetailDTO implements Serializable  {
     private Long category_id;
     private Double max;
     private Double min;
+    private Integer tj_num;
 }

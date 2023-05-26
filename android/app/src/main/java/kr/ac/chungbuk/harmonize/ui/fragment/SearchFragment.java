@@ -255,7 +255,7 @@ public class SearchFragment extends Fragment {
 
             System.out.println(searchResult.id);
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(searchResult.name, searchResult.artist, searchResult.level,
+            view.setNameAndArtist(searchResult.id, searchResult.name, searchResult.artist, searchResult.level,
                     searchResult.matchRate, searchResult.isFavorite);
 
             if (searchResult.thumbnail != null) {
