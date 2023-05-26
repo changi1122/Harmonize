@@ -34,6 +34,8 @@ public class Builder {
                 .range_avg(matchRate)
                 .is_prefer(isPrefer)
                 .category_id(music.getCategory_id())
+                .max(music.getMax())
+                .min(music.getMin())
                 .build();
 
         return musicDetailDTO;

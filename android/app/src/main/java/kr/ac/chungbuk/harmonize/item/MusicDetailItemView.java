@@ -17,10 +17,11 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.model.MusicDetail;
+import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MusicDetailItemView extends LinearLayout {
 
-    TextView tvName, tvArtist;
+    TextView tvName, tvArtist, tvMaxPitch, tvMinPitch;
     ImageView thumbnailView;
 
     public MusicDetailItemView(Context context) {
@@ -40,12 +41,16 @@ public class MusicDetailItemView extends LinearLayout {
         tvName = findViewById(R.id.tvName);
         tvArtist = findViewById(R.id.tvArtist);
         thumbnailView = findViewById(R.id.thumbnailView);
+        tvMaxPitch = findViewById(R.id.tvMaxPitch);
+        tvMinPitch = findViewById(R.id.tvMinPitch);
     }
 
     public void loadMusicDetail(MusicDetail music)
     {
         tvName.setText(music.music_name);
         tvArtist.setText(music.artist);
+        tvMaxPitch.setText(PitchConverter.doubleToPitch(music.max));
+        tvMinPitch.setText(PitchConverter.doubleToPitch(music.min));
 
         Glide
                 .with(getContext())

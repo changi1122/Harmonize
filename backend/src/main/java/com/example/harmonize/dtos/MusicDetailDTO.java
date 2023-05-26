@@ -20,4 +20,6 @@ public class MusicDetailDTO implements Serializable  {
     private Integer range_avg;
     private Boolean is_prefer;
     private Long category_id;
+    private Double max;
+    private Double min;
 }

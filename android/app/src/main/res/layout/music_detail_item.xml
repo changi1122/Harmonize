@@ -131,6 +131,7 @@
                     android:textSize="13dp" />
 
                 <TextView
+                    android:id="@+id/tvMaxPitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A3"
@@ -152,6 +153,7 @@
                     android:textSize="13dp" />
 
                 <TextView
+                    android:id="@+id/tvMinPitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="D2"
