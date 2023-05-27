@@ -25,6 +25,7 @@ import os
 from pathlib import Path
 
 def MakeVoiceXlsxFile(filename, fileID, SP):
+    print("hello")
     logger = logging.getLogger()
     logger.setLevel(logging.ERROR)
 
@@ -41,8 +42,12 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
         audio = audio.set_frame_rate(EXPECTED_SAMPLE_RATE).set_channels(1)
         audio.export(output_file, format="wav")
         return output_file
-
-    if(SP==1):
+    
+    print(fileID)
+    if( 'U' in fileID):
+        Url = real+ "/backend/src/main/resources/recode/" + filename
+    elif(SP==1):
+        filename = filename[:-4]
         Url = real+ "/backend/src/main/resources/split/" +filename+"/vocals.wav"
     elif(SP==0):
         Url = real+ "/backend/src/main/resources/music/" +filename

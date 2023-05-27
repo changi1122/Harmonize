@@ -2,6 +2,7 @@ package com.example.harmonize.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -23,6 +24,59 @@ public class Analyzer {
         Double max_pos = (list.getMax() > userVoice.getMax()) ? userVoice.getMax() : list.getMax();
         Double min_pos = (list.getMin() > userVoice.getMin()) ? list.getMin() : userVoice.getMin();
         return (max_pos - min_pos) / (list.getMax() - list.getMin()) * 100;
+    }
+
+    public Boolean JudgmentRate(String fileName, String uid) throws IOException {
+        String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/"+fileName+".xlsx";
+        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+
+        int cnt = 0;
+
+        int sheetIndex = 0;
+        Row row;
+        Cell cell;
+        Double value;
+        int rows = workbook.getSheetAt(sheetIndex).getLastRowNum();
+
+        double data = 0.0;
+        String scale = fileName.replaceAll("U", "");
+        scale = scale.replaceAll(uid, "");
+        System.out.println(scale);
+
+        double basic = GetRefer(scale);
+
+        for (int i = 1; i <= rows; i++) {
+            row = workbook.getSheetAt(sheetIndex).getRow(i);
+            cell = row.getCell(2);
+            if (cell != null) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        value = Double.parseDouble(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        value = cell.getNumericCellValue();
+                        data += value;
+                        cnt++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        System.out.println(data + " " + cnt +" " + data/(double)cnt);
+
+        System.out.println(basic+ " "+ data/(double)cnt + " "+ data/(double)cnt*100/basic);
+
+        double rate = data/(double)cnt*100/basic;
+
+        if(rate >= 0.9){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<Double> FindMusicRange(String fileName, String gender) throws IOException {
@@ -552,6 +606,44 @@ public class Analyzer {
             return basicMap.get(avg);
         }
     }
+
+    public double GetRefer(String scale){
+        Map<String, Double> basicMap = new HashMap<>();
+
+        basicMap.put("C2", 0.11);
+        basicMap.put("D2", 0.14);
+        basicMap.put("E2", 0.17);
+        basicMap.put("F2", 0.19);
+        basicMap.put("G2", 0.22);
+        basicMap.put("A2", 0.25);
+        basicMap.put("B2", 0.28);
+        basicMap.put("C3", 0.30);
+        basicMap.put("D3", 0.33);
+        basicMap.put("E3", 0.36);
+        basicMap.put("F3", 0.38);
+        basicMap.put("G3", 0.41);
+        basicMap.put("A3", 0.44);
+        basicMap.put("B3", 0.47);
+        basicMap.put("C4", 0.49);
+        basicMap.put("D4", 0.52);
+        basicMap.put("E4", 0.55);
+        basicMap.put("F4", 0.57);
+        basicMap.put("G4", 0.60);
+        basicMap.put("A4", 0.63);
+        basicMap.put("B4", 0.66);
+        basicMap.put("C5", 0.68);
+        basicMap.put("D5", 0.71);
+        basicMap.put("E5", 0.74);
+        basicMap.put("F5", 0.76);
+        basicMap.put("G5", 0.79);
+        basicMap.put("A5", 0.82);
+        basicMap.put("B5", 0.85);
+        basicMap.put("C6", 0.87);
+        basicMap.put("D6", 0.90);
+
+        return basicMap.get(scale);
+    }
+
 
 
 }

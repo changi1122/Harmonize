@@ -10,17 +10,23 @@ import com.example.harmonize.utility.Builder;
 
 import com.example.harmonize.utility.Connector;
 import com.example.harmonize.utility.Files;
+import io.jsonwebtoken.io.Decoder;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLDecoder;
 import java.util.List;
 
 
@@ -54,7 +60,7 @@ public class MusicController {
         System.out.println(MusicfileName);
         // music 파일 저장
 
-        connector.SocketCall(id+".m4a",  id, Long.parseLong(split));
+        connector.SocketCall(id+".m4a", String.valueOf(id), Long.parseLong(split));
 
         // *Need to Add Analyzer Code & save Detail's
         musicService.SaveDetail(id, gender);
@@ -103,6 +109,66 @@ public class MusicController {
 
         String path = IMG_PATH + imgNo + fileExt;
         return new FileSystemResource(path);
+    }
+
+    @GetMapping(value = "/music/m4a/{musicNo}", produces = MediaType.ALL_VALUE)
+    public FileSystemResource GetMusic(@PathVariable("musicNo") String musicNo){
+        String IMG_PATH = System.getProperty("user.dir")+ "/src/main/resources/music/";
+        String fileExt = "";
+        if (new File(IMG_PATH + musicNo + ".m4a").exists())
+            fileExt = ".m4a";
+
+        String path = IMG_PATH + musicNo + fileExt;
+        System.out.println(path);
+        return new FileSystemResource(path);
+    }
+
+
+    @PostMapping(value = "/api/download")
+    public ResponseEntity<InputStreamResource> download(@RequestParam("name") String fileName) throws UnsupportedEncodingException, FileNotFoundException {
+        String decodeString = URLDecoder.decode(fileName, "UTF-8");
+        System.out.println("Download" + decodeString);
+        File file = new File( System.getProperty("user.dir")+"/src/main/resources/music/"+ decodeString +".m4a");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-disposition", "attachment; filename="+decodeString);
+        return ResponseEntity.ok().headers(headers).contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(new FileInputStream(file)));
+    }
+
+
+    //get recoded .m4a fail from Android
+    @PostMapping(value = "/api/catch/file/{scale}")
+    public Boolean CatchFile(@RequestBody byte[] file, @PathVariable("scale") String scale){
+        System.out.println(file);
+
+        String filePath = System.getProperty("user.dir")+"/src/main/resources/recode/"+scale+".m4a";
+
+        File files = new File(filePath);
+
+        try{
+            if(files.exists()){
+                files.delete();
+                File FE = new File(System.getProperty("user.dir")+"/src/main/resources/recode/U"+scale+".xlsx");
+                if(FE.exists()){
+                    FE.delete();
+                }
+            }
+            FileUtils.writeByteArrayToFile(new File(filePath), file);
+
+            String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
+            System.out.println(result);
+
+
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @PostMapping(value = "/test/comparison/scale")
+    public void ComparsionTest(@RequestParam("fileName")String fileName, @RequestParam("uid")String uid) throws IOException {
+        analyzer.JudgmentRate(fileName, uid);
     }
 
 }

@@ -10,7 +10,7 @@ import java.net.Socket;
 public class Connector {
     //Socket
 
-    public String SocketCall(String filename, Long id, Long order){
+    public String SocketCall(String filename, String id, Long order){
         BufferedReader in = null;
         PrintWriter out = null;
 
@@ -22,7 +22,7 @@ public class Connector {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream());
 
-            String sendMessage = "1024"+ filename +"/"+Long.toString(id)+"/"+Long.toString(order);
+            String sendMessage = "1024"+ filename +"/"+id+"/"+Long.toString(order);
             System.out.println("result : " + sendMessage);
             out.println(sendMessage);
             out.flush();
