@@ -246,7 +246,7 @@ public class MusicListFragment extends Fragment {
             Music music = musics.get(position);
 
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(music.music_name, music.artist, music.level, music.range_avg, music.is_prefer);
+            view.setNameAndArtist(music.music_id, music.music_name, music.artist, music.level, music.range_avg, music.is_prefer);
 
             if (music.img_link != null) {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);

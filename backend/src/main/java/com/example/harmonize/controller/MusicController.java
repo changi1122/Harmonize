@@ -70,8 +70,8 @@ public class MusicController {
 
     // search artist, music_name like string, Checked 23.05.13
     @PostMapping("/api/music/search")
-    public List<Music> SearchMusic(@RequestParam("search") String search){
-        return musicService.GetResultBySearch(search);
+    public List<MusicDTO> SearchMusic(@RequestParam("search") String search, @RequestParam("uid") String uid){
+        return musicService.GetResultBySearch(search, Long.parseLong(uid));
     }
 
     // get All music list, Data type is MusicDTO, Checked 23.05.13
@@ -87,7 +87,7 @@ public class MusicController {
     }
 
     // get a music detail
-    @GetMapping("/musics/{id}")
+    @GetMapping("/api/musics/{id}")
     public MusicDetailDTO GetMusicDetail(@PathVariable("id") String mid)
     {
         Music target = musicService.FindByID(mid);
@@ -96,7 +96,7 @@ public class MusicController {
     }
 
     // send music album cover
-    @GetMapping(value = "/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
+    @GetMapping(value = "/api/music/img/{imgNo}", produces = MediaType.ALL_VALUE)
     public FileSystemResource GetImage(@PathVariable("imgNo") String imgNo){
         String IMG_PATH = System.getProperty("user.dir")+ "/src/main/resources/img/";
         String fileExt = "";

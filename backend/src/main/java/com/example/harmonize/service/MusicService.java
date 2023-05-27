@@ -81,10 +81,21 @@ public class MusicService {
     }
 
     //Get music list where string = artist or music_name
-    public List<Music> GetResultBySearch(String search){
-        System.out.println(search);
-        System.out.println(musicRepository.FindBySearch(search));
-        return musicRepository.FindBySearch(search);
+    public List<MusicDTO> GetResultBySearch(String search, Long uid){
+        List<Music> founds = musicRepository.FindBySearch(search);
+
+        UserVoice userVoice = userVoiceRepository.FindUserVoiceRange(uid);
+
+        List<MusicDTO> musicDTOS = new ArrayList<>();
+                
+        for (Music music : founds){
+            Double result = analyzer.GetPossibility(music, userVoice);
+            Boolean bool =  (1 == bookMarkRepository.IsBookMarked(uid, music.getMusic_id()));
+
+            musicDTOS.add(builder.BuildMicDTO(music, bool,(int)Math.round(result)));
+        }
+    
+        return musicDTOS;
     }
 
 
