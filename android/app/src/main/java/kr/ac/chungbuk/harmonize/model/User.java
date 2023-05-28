@@ -1,11 +1,15 @@
 package kr.ac.chungbuk.harmonize.model;
 
-import kr.ac.chungbuk.harmonize.enums.Gender;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class User {
+    @Expose
+    @SerializedName("username")
     public String username;
-    public String[] category = new String[3];
-
-    public Gender gender;
-    public Integer age;
+    @Expose
+    @SerializedName("categories")
+    public ArrayList<String> categories = new ArrayList<>();
 }

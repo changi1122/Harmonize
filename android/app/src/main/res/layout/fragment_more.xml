@@ -20,7 +20,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="60dp"
             android:layout_marginRight="20dp"
-            android:text="username"
+            android:text="로그인되지 않았습니다"
             android:textColor="#000000"
             android:textSize="24dp"
             android:textStyle="bold"
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="POP, 발라드, R&amp;B"
+                android:text="-"
                 android:textColor="#999999"
                 android:textSize="14dp" />
 

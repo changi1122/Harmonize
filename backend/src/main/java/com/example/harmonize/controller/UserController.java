@@ -1,6 +1,7 @@
 package com.example.harmonize.controller;
 
 import com.example.harmonize.entity.User;
+import com.example.harmonize.service.PreferService;
 import com.example.harmonize.service.UserService;
 import com.example.harmonize.service.UserVoiceService;
 import com.example.harmonize.utility.Security;
@@ -32,13 +33,20 @@ public class UserController {
     @Autowired
     private UserVoiceService userVoiceService;
 
-    @GetMapping("/get/user")
-    public ResponseEntity getUser(){
-        User user = (User) userService.loadUserByUsername(Security.getCurrentUsername());
+    @Autowired
+    private PreferService preferService;
 
+    @PostMapping("/get/user")
+    public ResponseEntity getUser(@RequestParam("uid") Long uid){
+        //User user = (User) userService.loadUserByUsername(Security.getCurrentUsername());
+        User user = (User) userService.loadUserById(uid);
         HashMap<String, Object> result = new HashMap<>();
+
+        if (user == null)
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+
         result.put("username", user.getUsername());
-        result.put("password", user.getPassword());
+        result.put("categories", preferService.GetPreferCategory(user.getId()));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
