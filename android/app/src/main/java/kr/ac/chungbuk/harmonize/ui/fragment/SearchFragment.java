@@ -251,7 +251,7 @@ public class SearchFragment extends Fragment {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);
                 Glide
                         .with(getActivity())
-                        .load(searchResult.thumbnail)
+                        .load(Domain.url("/api/music/img/" + searchResult.thumbnail))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                         .into(thumbnailView);
