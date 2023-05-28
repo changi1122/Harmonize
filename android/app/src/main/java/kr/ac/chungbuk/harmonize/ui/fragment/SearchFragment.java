@@ -76,16 +76,6 @@ public class SearchFragment extends Fragment {
         queue = Volley.newRequestQueue(getContext());
 
         SearchHistoryAdapter historyAdapter = new SearchHistoryAdapter();
-        historyAdapter.addItem("사건의지평선");
-        historyAdapter.addItem("응급실(쾌걸춘향OST)");
-        historyAdapter.addItem("Monologue");
-        historyAdapter.addItem("그대라는사치");
-        historyAdapter.addItem("어디에도");
-        historyAdapter.addItem("내가아니라도");
-        historyAdapter.addItem("Marry Me");
-        historyAdapter.addItem("Monologue");
-        historyAdapter.addItem("그대라는사치");
-
 
         historyListView = (ListView) view.findViewById(R.id.historyListView);
         historyListView.setAdapter(historyAdapter);
@@ -253,7 +243,6 @@ public class SearchFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             MusicSearchResult searchResult = musics.get(position);
 
-            System.out.println(searchResult.id);
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
             view.setNameAndArtist(searchResult.id, searchResult.name, searchResult.artist, searchResult.level,
                     searchResult.matchRate, searchResult.isFavorite);
