@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -157,7 +158,10 @@ public class MusicController {
             FileUtils.writeByteArrayToFile(new File(filePath), file);
 
             String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
-            System.out.println(result);
+
+            String[] parts = scale.split("[ABCDEFG]");
+
+            analyzer.JudgmentRate(scale, parts[0]);
 
 
             return true;
