@@ -47,6 +47,7 @@ import kr.ac.chungbuk.harmonize.model.Music;
 import kr.ac.chungbuk.harmonize.model.User;
 import kr.ac.chungbuk.harmonize.service.TokenService;
 import kr.ac.chungbuk.harmonize.ui.activity.LoginActivity;
+import kr.ac.chungbuk.harmonize.ui.activity.TuneCheckPageActivity;
 
 public class HomeFragment extends Fragment{
     ImageButton ibtnSearch;

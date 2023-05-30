@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,14 +25,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import kr.ac.chungbuk.harmonize.R;
+import kr.ac.chungbuk.harmonize.service.TokenService;
 
 public class TuneCheckPageActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 101;
     private ImageButton btnRecord;
 
-    //이미지 버튼 초기 상태
-    boolean isImage1 = true;
+    //이미지 버튼 초기 상태 - 녹음 수행
+    boolean isRecording = false;
+    boolean sucRecording = true;
+    int recordingCount = 0;
+    Handler handler = new Handler();
+    int MAX_RECORDINGS = 3;
 
     private MediaRecorder recorder;
     private String filename;
@@ -41,27 +47,66 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tune_check_page);
 
-        btnRecord = findViewById(R.id.btnRecord);
-        // 이미지 버튼 클릭 이벤트 처리
-        btnRecord.setOnClickListener(new View.OnClickListener() {
+        final String baseFileName = String.valueOf(TokenService.uid_load())+"_"; // 기본 파일 이름
+
+        Runnable recordingRunnable = new Runnable() {
             @Override
-            public void onClick(View v) {
-                if (isImage1) {
-                    btnRecord.setImageResource(R.drawable.baseline_mic_24);
-                    btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
-                    recordAudio();
-                } else {
-                    btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
-                    btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
+            public void run() {
+                if (isRecording) {
                     stopRecording();
                     try {
                         uploadFileToServer(filename);
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                }
+                    recordingCount++;
 
-                isImage1 = !isImage1;
+                    if (recordingCount < MAX_RECORDINGS) {
+                        // 새로운 파일 이름 생성
+                        String numberedFileName = baseFileName + recordingCount;
+                        filename = getFilePath(numberedFileName); // 파일 경로 업데이트
+
+                        handler.postDelayed(this, 2000); // 2초 후에 다시 녹음 시작
+                    } else {
+                        isRecording = false;
+                        btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
+                        btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
+                    }
+                } else {
+                    recordAudio();
+                    handler.postDelayed(this, 2000); // 2초 후에 녹음 중지
+                }
+                //spring에서 녹음 성공(true)/실패(false) 가져와야함
+                sucRecording=false;
+                if(sucRecording == true){
+                    isRecording = !isRecording;
+                    System.out.println(isRecording);
+                    System.out.println(recordingCount);
+
+                }
+            }
+        };
+
+        //녹음 이미지 버튼 클릭 시 녹음 처리
+        btnRecord = findViewById(R.id.btnRecord);
+        btnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isRecording) {
+                    btnRecord.setImageResource(R.drawable.baseline_mic_24);
+                    btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recordingRunnable.run();
+                        }
+                    }, 5000); // 5초 후에 녹음 시작
+                } else {
+                    btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
+                    btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
+                    handler.removeCallbacks(recordingRunnable); // 현재 예약된 녹음 작업 취소
+                    isRecording = false;
+                }
             }
         });
 
@@ -72,11 +117,18 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         };
         checkPermission(permissions);
 
-        File sdcard = getExternalFilesDir(null);
-        File file = new File(sdcard, "recorded.mp4");
-        filename = file.getAbsolutePath();
+        // 초기 파일 이름 설정
+        filename = getFilePath(baseFileName + recordingCount);
         Log.d("TuneCheckPageActivity", "저장할 파일명: " + filename);
     }
+
+    // 파일 경로 생성 메서드
+    private String getFilePath(String fileName) {
+        File sdcard = getExternalFilesDir(null);
+        File file = new File(sdcard, fileName + ".mp4");
+        return file.getAbsolutePath();
+    }
+
 
     public void checkPermission(String[] permissions) {
         ArrayList<String> targetList = new ArrayList<>();
@@ -132,6 +184,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
             recorder.prepare();
             recorder.start();
             Toast.makeText(getApplicationContext(), "녹음 시작", Toast.LENGTH_SHORT).show();
+            System.out.println("녹음 시작");
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "녹음 시작 오류", Toast.LENGTH_SHORT).show();
@@ -145,6 +198,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                 recorder.release();
                 recorder = null;
                 Toast.makeText(getApplicationContext(), "녹음 중지", Toast.LENGTH_SHORT).show();
+                System.out.println("녹음 중지");
             } catch (IllegalStateException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "녹음 중지 오류", Toast.LENGTH_SHORT).show();
