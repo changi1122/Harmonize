@@ -5,9 +5,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -20,9 +22,10 @@ import kr.ac.chungbuk.harmonize.model.MusicDetail;
 import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MusicDetailItemView extends LinearLayout {
-
+    
     Long mid;
-    TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty, tvTJNum;
+    TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty, tvTJNum, tvHighRate, tvLowRate;
+
     ImageView thumbnailView;
 
     public MusicDetailItemView(Context context) {
@@ -46,6 +49,8 @@ public class MusicDetailItemView extends LinearLayout {
         tvMinPitch = findViewById(R.id.tvMinPitch);
         tvDifficulty = findViewById(R.id.tvDifficulty);
         tvTJNum = findViewById(R.id.tvTJNum);
+        tvHighRate = findViewById(R.id.tvHighRate);
+        tvLowRate = findViewById(R.id.tvLowRate);
     }
 
     public void loadMusicDetail(MusicDetail music)
@@ -56,7 +61,9 @@ public class MusicDetailItemView extends LinearLayout {
         tvMaxPitch.setText(PitchConverter.doubleToPitch(music.max));
         tvMinPitch.setText(PitchConverter.doubleToPitch(music.min));
         tvDifficulty.setText((music.level == 0) ? "쉬움" : ((music.level == 1) ? "보통" : "어려움"));
-        tvTJNum.setText("TJ 노래방 번호 : " + music.tj_num);
+        tvTJNum.setText("TJ [" + music.tj_num + "]");
+        tvHighRate.setText(music.high + "%");
+        tvLowRate.setText(music.low + "%");
 
         Glide
                 .with(getContext())

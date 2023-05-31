@@ -26,6 +26,11 @@ public class MusicDetail {
     public Double min;
     @Expose
     public Integer tj_num;
+    @Expose
+    public Double high;
+    @Expose
+    public Double low;
+
 
     public MusicDetail(Long music_id, String music_name, String artist, String img_link, Integer level,
                        Integer range_avg, Boolean is_prefer, Long category_id, Double max, Double min, Integer tj_num) {

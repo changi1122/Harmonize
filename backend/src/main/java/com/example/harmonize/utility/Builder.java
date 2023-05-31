@@ -37,6 +37,8 @@ public class Builder {
                 .max(music.getMax())
                 .min(music.getMin())
                 .tj_num(music.getTJ_Num())
+                .high(music.getHigh())
+                .low(music.getLow())
                 .build();
 
         return musicDetailDTO;
