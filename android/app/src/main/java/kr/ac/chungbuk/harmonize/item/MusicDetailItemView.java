@@ -33,6 +33,8 @@ public class MusicDetailItemView extends LinearLayout {
     private MediaPlayer mediaPlayer;
     int position = 0;
 
+    PitchGraphView pitchGraphView;
+
     TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty,
             tvTJNum, tvHighRate, tvLowRate, tvCover;
 
@@ -53,6 +55,8 @@ public class MusicDetailItemView extends LinearLayout {
     private void init(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.music_detail_item, this, true);
+
+        pitchGraphView = new PitchGraphView(getContext());
 
         queue = Volley.newRequestQueue(getContext());
 
@@ -96,6 +100,13 @@ public class MusicDetailItemView extends LinearLayout {
                     mediaPlayer.release();
                     mediaPlayer = null;
                 }
+            }
+        });
+
+        tvName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pitchGraphView.makeStringRequest("107", "107");
             }
         });
     }
