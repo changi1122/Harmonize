@@ -21,6 +21,7 @@ import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MusicDetailItemView extends LinearLayout {
 
+    Long mid;
     TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty, tvTJNum;
     ImageView thumbnailView;
 
@@ -49,6 +50,7 @@ public class MusicDetailItemView extends LinearLayout {
 
     public void loadMusicDetail(MusicDetail music)
     {
+        mid = music.getMusic_id();
         tvName.setText(music.music_name);
         tvArtist.setText(music.artist);
         tvMaxPitch.setText(PitchConverter.doubleToPitch(music.max));
