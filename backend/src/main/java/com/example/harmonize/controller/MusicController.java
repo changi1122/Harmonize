@@ -143,28 +143,37 @@ public class MusicController {
     public Boolean CatchFile(@RequestBody byte[] file, @PathVariable("scale") String scale){
         System.out.println(file);
 
-        String filePath = System.getProperty("user.dir")+"/src/main/resources/recode/"+scale+".m4a";
+        String [] fileInfo = scale.split("_");
+        scale = fileInfo[0];
+        System.out.println(fileInfo[0]+" "+ fileInfo[1]+" "+scale);
+
+        String DirPath = System.getProperty("user.dir")+"/src/main/resources/recode";
+
+        if (!new File(DirPath).exists())
+            new File(DirPath).mkdir();
+
+        String filePath = DirPath+ "/"+scale+".m4a";
 
         File files = new File(filePath);
 
         try{
             if(files.exists()){
                 files.delete();
-                File FE = new File(System.getProperty("user.dir")+"/src/main/resources/recode/U"+scale+".xlsx");
+                File FE = new File(System.getProperty("user.dir")+"/src/main/resources/excel/U"+scale+".xlsx");
                 if(FE.exists()){
                     FE.delete();
                 }
             }
             FileUtils.writeByteArrayToFile(new File(filePath), file);
 
-            String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
+            /*String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
 
             String[] parts = scale.split("[ABCDEFG]");
 
-            analyzer.JudgmentRate(scale, parts[0]);
-
+            return analyzer.JudgmentRate(scale, parts[0]);*/
 
             return true;
+
         } catch (IOException e) {
             return false;
         }

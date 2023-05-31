@@ -18,6 +18,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import kr.ac.chungbuk.harmonize.R;
+import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.service.TokenService;
 
 public class TuneCheckPageActivity extends AppCompatActivity {
@@ -39,15 +49,27 @@ public class TuneCheckPageActivity extends AppCompatActivity {
     Handler handler = new Handler();
     int MAX_RECORDINGS = 3;
 
+    int RecordingScalePosition =14;
+
     private MediaRecorder recorder;
     private String filename;
+
+    RequestQueue queue;
+
+    byte[] fileBytes;
+
+    String [] scale = new String[30];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tune_check_page);
 
-        final String baseFileName = String.valueOf(TokenService.uid_load())+"_"; // 기본 파일 이름
+        queue = Volley.newRequestQueue(getApplicationContext());
+
+        MakeBasicScale();
+
+        final String baseFileName = String.valueOf(TokenService.uid_load()); // 기본 파일 이름
 
         Runnable recordingRunnable = new Runnable() {
             @Override
@@ -63,8 +85,8 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
                     if (recordingCount < MAX_RECORDINGS) {
                         // 새로운 파일 이름 생성
-                        String numberedFileName = baseFileName + recordingCount;
-                        filename = getFilePath(numberedFileName); // 파일 경로 업데이트
+                        //String numberedFileName = baseFileName +"_"+ recordingCount;
+                        //filename = getFilePath(numberedFileName); // 파일 경로 업데이트
 
                         handler.postDelayed(this, 2000); // 2초 후에 다시 녹음 시작
                     } else {
@@ -75,14 +97,42 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                 } else {
                     recordAudio();
                     handler.postDelayed(this, 2000); // 2초 후에 녹음 중지
+
+                    File file = new File(filename);
+                    System.out.println(filename);
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while((len=fis.read(buffer)) != -1){
+                            bos.write(buffer, 0, len);
+                        }
+                        fis.close();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(fileBytes == null || fileBytes.length == 0){
+                        fileBytes = new byte[0];
+                    }
+                    fileBytes = bos.toByteArray();
+
+                    // uid + scale Name
+                    get(baseFileName+scale[RecordingScalePosition]+"_"+recordingCount);
                 }
                 //spring에서 녹음 성공(true)/실패(false) 가져와야함
-                sucRecording=false;
+                //sucRecording=false;
                 if(sucRecording == true){
                     isRecording = !isRecording;
+                    System.out.println("RRR " + RecordingScalePosition);
                     System.out.println(isRecording);
                     System.out.println(recordingCount);
-
+                    RecordingScalePosition++;
+                    recordingCount =0;
                 }
             }
         };
@@ -118,14 +168,14 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         checkPermission(permissions);
 
         // 초기 파일 이름 설정
-        filename = getFilePath(baseFileName + recordingCount);
+        filename = getFilePath(baseFileName);
         Log.d("TuneCheckPageActivity", "저장할 파일명: " + filename);
     }
 
     // 파일 경로 생성 메서드
     private String getFilePath(String fileName) {
         File sdcard = getExternalFilesDir(null);
-        File file = new File(sdcard, fileName + ".mp4");
+        File file = new File(sdcard, fileName + ".m4a");
         return file.getAbsolutePath();
     }
 
@@ -214,5 +264,55 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void MakeBasicScale(){
+        int k=0;
+        for(int i=2; i<=5; i++){
+            scale[k++] = "C"+i;
+            scale[k++] = "D"+i;
+            scale[k++] = "E"+i;
+            scale[k++] = "F"+i;
+            scale[k++] = "G"+i;
+            scale[k++] = "A"+i;
+            scale[k++] = "B"+i;
+        }
+        scale[k++] = "C6";
+        scale[k] = "B6";
+    }
+
+    private void get(String scale){
+        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/catch/file/"+ scale),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Handle the response from the server
+                        System.out.println("Response" + response);
+                        if(response.equals("true")){
+                            sucRecording = true;
+                            System.out.println("sucRecording : " + sucRecording);
+                        }else{
+                            sucRecording= false;
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle the error
+                    }
+                }) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return fileBytes;
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "audio/m4a";
+            }
+        };
+
+        queue.add(request);
     }
 }
