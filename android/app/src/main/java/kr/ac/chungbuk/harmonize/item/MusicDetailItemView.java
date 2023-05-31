@@ -26,7 +26,6 @@ import kr.ac.chungbuk.harmonize.model.MusicDetail;
 import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MusicDetailItemView extends LinearLayout {
-
     Long musicId;
 
     RequestQueue queue;
@@ -35,6 +34,7 @@ public class MusicDetailItemView extends LinearLayout {
 
     TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty,
             tvTJNum, tvHighRate, tvLowRate, tvCover;
+
     ImageView thumbnailView;
     ImageButton ibPlay, ibPause, ibStop;
 

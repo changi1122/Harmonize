@@ -104,6 +104,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     df=pd.DataFrame(confident_pitch_outputs, columns=['time', 'pitch_point'])
 
     print(df) 
+    print(real+'/backend/src/main/resources/excel/'+str(fileID)+'.xlsx')
 
     df.to_excel(real+'/backend/src/main/resources/excel/'+str(fileID)+'.xlsx', sheet_name=filename)
 
