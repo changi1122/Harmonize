@@ -95,7 +95,7 @@ public class MusicDetailItemView extends LinearLayout {
         ibStop.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                if (mediaPlayer != null) {
                     mediaPlayer.stop();
                     mediaPlayer.release();
                     mediaPlayer = null;
@@ -113,8 +113,10 @@ public class MusicDetailItemView extends LinearLayout {
 
     private void playMusic() {
         try {
-            if (mediaPlayer != null){
+            if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                mediaPlayer.seekTo(position);
                 mediaPlayer.start();
+                return;
             }
 
             mediaPlayer = new MediaPlayer();
