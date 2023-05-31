@@ -174,7 +174,7 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
             set1.setHighLightColor(Color.BLACK);
             set1.setColor(Color.rgb(219, 153, 241));
             set1.setFillColor(Color.rgb(219, 153, 241));
-            set1.setFillAlpha(100);
+            set1.setFillAlpha(0);
             set1.setDrawHorizontalHighlightIndicator(false);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
@@ -195,7 +195,7 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
             set2.setHighLightColor(Color.BLACK);
             set2.setColor(Color.rgb(34, 104, 227));
             set2.setFillColor(Color.rgb(34, 104, 227));
-            set2.setFillAlpha(50);
+            set2.setFillAlpha(0);
             set2.setDrawHorizontalHighlightIndicator(false);
             set2.setFillFormatter(new IFillFormatter() {
                 @Override
