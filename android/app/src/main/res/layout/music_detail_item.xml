@@ -80,6 +80,40 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/ibPlay"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/transparent_button"
+                android:src="@drawable/ic_play_arrow_24" />
+
+            <ImageButton
+                android:id="@+id/ibPause"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/transparent_button"
+                android:src="@drawable/ic_pause_24" />
+
+            <ImageButton
+                android:id="@+id/ibStop"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/transparent_button"
+                android:src="@drawable/ic_stop_24" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/style_border_bottom"
             android:gravity="bottom"
@@ -263,6 +297,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/tvCover"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
