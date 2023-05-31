@@ -13,34 +13,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="노래 제목"
-                android:textSize="20dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:id="@+id/tvArtist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="아티스트 이름"
-                android:textSize="14dp"
-                android:textColor="#8F8F8F"
-                android:layout_marginTop="7dp"
-                android:textAlignment="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
@@ -66,16 +38,43 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvTJNum"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="TJ 노래방 번호 : 0000"
-            android:textColor="#8F8F8F"
-            android:textAlignment="center"/>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="노래 제목"
+                android:textSize="20dp"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="아티스트 이름"
+                android:textSize="14dp"
+                android:textColor="#8F8F8F"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTJNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:text="TJ [000]"
+            android:textColor="#8F8F8F"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -212,6 +211,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/tvHighRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -237,36 +237,12 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/tvLowRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:text="0%"
-                    android:textAlignment="textEnd"
-                    android:textColor="#8F8F8F"
-                    android:textSize="14dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="급격한 음 변화"
-                    android:textColor="#8F8F8F"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:text="3회"
                     android:textAlignment="textEnd"
                     android:textColor="#8F8F8F"
                     android:textSize="14dp" />
