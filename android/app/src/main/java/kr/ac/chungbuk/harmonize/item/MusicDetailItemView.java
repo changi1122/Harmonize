@@ -22,7 +22,7 @@ import kr.ac.chungbuk.harmonize.model.MusicDetail;
 import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MusicDetailItemView extends LinearLayout {
-    
+
     Long mid;
     TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty, tvTJNum, tvHighRate, tvLowRate;
 

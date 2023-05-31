@@ -10,6 +10,7 @@ import java.util.*;
 import com.example.harmonize.entity.Music;
 import com.example.harmonize.entity.UserVoice;
 import com.example.harmonize.repository.UserVoiceRepository;
+import org.apache.commons.math3.analysis.function.Max;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,10 +21,128 @@ public class Analyzer {
 
     int number=0;
 
+    int MaxRow=0;
+
     public Double GetPossibility(Music list, UserVoice userVoice) {
         Double max_pos = (list.getMax() > userVoice.getMax()) ? userVoice.getMax() : list.getMax();
         Double min_pos = (list.getMin() > userVoice.getMin()) ? list.getMin() : userVoice.getMin();
         return (max_pos - min_pos) / (list.getMax() - list.getMin()) * 100;
+    }
+
+    public Map<String, double []> GetGraphData(String Excel, String mid) throws IOException {
+        MaxRow =0;
+        double [] music = ListDoubleToInt(ExcelToList(mid));
+        double [] user = ListDoubleToInt(ExcelToList(Excel));
+
+        double [] diffRate = new double[MaxRow];
+        double rate=0.0, sub, m, u;
+
+        for(int i=0; i<MaxRow; i++){
+
+            if(i>=music.length){
+                m=0.0;
+            }else{
+                m = music[i];
+            }
+
+            if(i>=user.length){
+                u=0.0;
+            }else{
+                u= user[i];
+            }
+
+            sub = Math.abs((m-u));
+            if(m ==0.0){
+                if(u==0.0) {
+                    diffRate[i]=0.0;
+                }
+            }else{
+                diffRate[i] = (sub*100.0)/m;
+            }
+            rate += diffRate[i];
+        }
+
+        System.out.println(100.0 - rate/MaxRow + " "+ Math.round((100.0 - rate/MaxRow)*10.0)/10.0);
+        double [] doubles = new double[1];
+        doubles[0] = (100.0 - rate/MaxRow)*100.0/100.0;
+
+        Map<String, double []> map = new HashMap<String, double[]>();
+        map.put("rate", doubles);
+        map.put("user", user);
+        map.put("music", music);
+
+        return map;
+    }
+
+    public double[] ListDoubleToInt(double[][] doubles){
+        double[] cnvt = new double[MaxRow];
+        int index=0;
+        for(int i=0; i<MaxRow; i++){
+            if(index <doubles[0].length && i==doubles[0][index]){
+                cnvt[i] = doubles[1][index++];
+            }else{
+                cnvt[i] =0;
+            }
+        }
+        return cnvt;
+    }
+
+
+
+    //user 녹음파일 저장 UC{userid}
+    public double[][] ExcelToList(String fileName) throws IOException {
+        String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/"+fileName+".xlsx";
+        FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+
+        int cnt =0, sheetIndex=0;
+        Row row;
+        Cell cell;
+        Double value;
+
+        int rows = workbook.getSheetAt(sheetIndex).getLastRowNum();
+
+        double[][] data = new double[2][rows];
+
+        for (int i = 1; i <= rows; i++) {
+            row = workbook.getSheetAt(sheetIndex).getRow(i);
+            cell = row.getCell(1);
+            if (cell != null) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        value = Double.parseDouble(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        value = cell.getNumericCellValue();
+                        if(MaxRow <value){
+                            MaxRow = value.intValue();
+                        }
+                        data[0][cnt] = value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            cell = row.getCell(2);
+            if (cell != null) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        value = Double.parseDouble(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        value = cell.getNumericCellValue();
+                        data[1][cnt] = value;
+                        cnt++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        System.out.println(MaxRow);
+        return data;
     }
 
     public Boolean JudgmentRate(String fileName, String uid) throws IOException {

@@ -203,4 +203,7 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
 
     }
 
+
+
+
 }

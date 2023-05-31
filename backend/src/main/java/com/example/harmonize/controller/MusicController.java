@@ -29,6 +29,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -182,6 +183,11 @@ public class MusicController {
     @PostMapping(value = "/test/comparison/scale")
     public void ComparsionTest(@RequestParam("fileName")String fileName, @RequestParam("uid")String uid) throws IOException {
         analyzer.JudgmentRate(fileName, uid);
+    }
+
+    @PostMapping(value = "/test/compare")
+    public Map<String, double []> CompareGraph(@RequestParam("excel") String excel, @RequestParam("mid") String mid) throws IOException {
+        return analyzer.GetGraphData(excel, mid);
     }
 
 }
