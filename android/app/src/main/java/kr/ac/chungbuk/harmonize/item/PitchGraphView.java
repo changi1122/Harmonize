@@ -102,7 +102,8 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
 
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false);
-        chart.getViewPortHandler().setMaximumScaleX(4f);
+        chart.getViewPortHandler().setMinimumScaleX(16f);
+        chart.getViewPortHandler().setMaximumScaleX(64f);
 
         chart.setDrawBorders(true);
         chart.setDrawGridBackground(false);
@@ -165,7 +166,10 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
         ArrayList<Entry> values = new ArrayList<>();
 
         for (int i = 0; i < musiclist.size(); i++) {
-            values.add(new Entry(i, musiclist.get(i).floatValue()));
+            if (musiclist.get(i) != 0)
+                values.add(new Entry(i, musiclist.get(i).floatValue()));
+            else
+                values.add(new Entry(i, -1));
         }
 
         LineDataSet set1;
