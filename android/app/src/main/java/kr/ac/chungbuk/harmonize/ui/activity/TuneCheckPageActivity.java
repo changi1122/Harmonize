@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -16,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,6 +29,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,15 +47,18 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 101;
     private ImageButton btnRecord;
+    private ImageView pianoImage;
+    private TextView t1, t2, t3, t4, t5, t6, t7, myTextView;
 
     //이미지 버튼 초기 상태 - 녹음 수행
     boolean isRecording = false;
     boolean sucRecording = true;
     int recordingCount = 0;
+    int WholeCount=0;
     Handler handler = new Handler();
-    int MAX_RECORDINGS = 3;
+    int MAX_RECORDINGS = 30;
 
-    int RecordingScalePosition =14;
+    int RecordingScalePosition =0;
 
     private MediaRecorder recorder;
     private String filename;
@@ -60,6 +69,8 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
     String [] scale = new String[30];
 
+    final String baseFileName = String.valueOf(TokenService.uid_load()); // 기본 파일 이름
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,34 +80,23 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
         MakeBasicScale();
 
-        final String baseFileName = String.valueOf(TokenService.uid_load()); // 기본 파일 이름
+        btnRecord = findViewById(R.id.btnRecord);
+        pianoImage = findViewById(R.id.pianoImage);
+        t1=findViewById(R.id.t1);
+        t2=findViewById(R.id.t2);
+        t3=findViewById(R.id.t3);
+        t4=findViewById(R.id.t4);
+        t5=findViewById(R.id.t5);
+        t6=findViewById(R.id.t6);
+        t7=findViewById(R.id.t7);
+        myTextView=findViewById(R.id.myTextView);
 
         Runnable recordingRunnable = new Runnable() {
             @Override
             public void run() {
                 if (isRecording) {
                     stopRecording();
-                    try {
-                        uploadFileToServer(filename);
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                    recordingCount++;
-
-                    if (recordingCount < MAX_RECORDINGS) {
-                        // 새로운 파일 이름 생성
-                        //String numberedFileName = baseFileName +"_"+ recordingCount;
-                        //filename = getFilePath(numberedFileName); // 파일 경로 업데이트
-
-                        handler.postDelayed(this, 2000); // 2초 후에 다시 녹음 시작
-                    } else {
-                        isRecording = false;
-                        btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
-                        btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
-                    }
-                } else {
-                    recordAudio();
-                    handler.postDelayed(this, 2000); // 2초 후에 녹음 중지
+                    btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
 
                     File file = new File(filename);
                     System.out.println(filename);
@@ -107,7 +107,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         FileInputStream fis = new FileInputStream(file);
                         byte[] buffer = new byte[1024];
                         int len;
-                        while((len=fis.read(buffer)) != -1){
+                        while ((len = fis.read(buffer)) != -1) {
                             bos.write(buffer, 0, len);
                         }
                         fis.close();
@@ -116,29 +116,75 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    if(fileBytes == null || fileBytes.length == 0){
+                    if (fileBytes == null || fileBytes.length == 0) {
                         fileBytes = new byte[0];
                     }
                     fileBytes = bos.toByteArray();
 
                     // uid + scale Name
-                    get(baseFileName+scale[RecordingScalePosition]+"_"+recordingCount);
-                }
-                //spring에서 녹음 성공(true)/실패(false) 가져와야함
-                //sucRecording=false;
-                if(sucRecording == true){
+                    get(baseFileName + scale[RecordingScalePosition] + "_" + recordingCount);
+                } else {
+
+                    //알파벳+"숫자" : 2~6
+                    char noteNum = scale[RecordingScalePosition].charAt(1);
+                    t1.setText("C"+noteNum); t2.setText("D"+noteNum);
+                    t3.setText("E"+noteNum); t4.setText("F"+noteNum);
+                    t5.setText("G"+noteNum); t6.setText("A"+noteNum);
+                    t7.setText("B"+noteNum);
+
+                    //음계 피아노 변환(디자인) 코드 (단, 재녹음 여부 판단 하에)
+                    //"알파벳"+숫자 : C~G,A,B
+                    char note = scale[RecordingScalePosition].charAt(0);
+                    if (note == 'C') {
+                        pianoImage.setImageResource(R.drawable.pianoc4);
+                        t1.setTextColor(Color.RED);
+                        t7.setTextColor(Color.BLACK); t2.setTextColor(Color.BLACK);
+                    } else if (note == 'D') {
+                        pianoImage.setImageResource(R.drawable.pianod4);
+                        t2.setTextColor(Color.RED);
+                        t1.setTextColor(Color.BLACK); t3.setTextColor(Color.BLACK);
+                    } else if (note == 'E') {
+                        pianoImage.setImageResource(R.drawable.pianoe4);
+                        t3.setTextColor(Color.RED);
+                        t2.setTextColor(Color.BLACK); t4.setTextColor(Color.BLACK);
+                    } else if (note == 'F') {
+                        pianoImage.setImageResource(R.drawable.pianof4);
+                        t4.setTextColor(Color.RED);
+                        t3.setTextColor(Color.BLACK); t5.setTextColor(Color.BLACK);
+                    } else if (note == 'G') {
+                        pianoImage.setImageResource(R.drawable.pianog4);
+                        t5.setTextColor(Color.RED); t4.setTextColor(Color.BLACK);
+                    } else if (note == 'A') {
+                        pianoImage.setImageResource(R.drawable.pianoa4);
+                        t6.setTextColor(Color.RED);
+                        t5.setTextColor(Color.BLACK); t7.setTextColor(Color.BLACK);
+                    } else if (note == 'B') {
+                        pianoImage.setImageResource(R.drawable.pianob4);
+                        t7.setTextColor(Color.RED);
+                        t6.setTextColor(Color.BLACK); t1.setTextColor(Color.BLACK);
+                    } else {
+                        System.out.println("Invalid note");
+                    }
+
+                    //@김성욱, 여기다가 음악 재생시켜서 들려주면 됨
+
+                    recordAudio();
+                    btnRecord.setImageResource(R.drawable.baseline_mic_24);
+
                     isRecording = !isRecording;
-                    System.out.println("RRR " + RecordingScalePosition);
-                    System.out.println(isRecording);
-                    System.out.println(recordingCount);
-                    RecordingScalePosition++;
-                    recordingCount =0;
                 }
+
+                if (WholeCount < MAX_RECORDINGS) {
+                    // 새로운 파일 이름 생성
+                    //String numberedFileName = baseFileName +"_"+ recordingCount;
+                    //filename = getFilePath(numberedFileName); // 파일 경로 업데이트
+
+                    handler.postDelayed(this, 5000); // 5초 후에 다시 녹음 시작
+                }
+
             }
         };
 
-        //녹음 이미지 버튼 클릭 시 녹음 처리
-        btnRecord = findViewById(R.id.btnRecord);
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +196,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         public void run() {
                             recordingRunnable.run();
                         }
-                    }, 5000); // 5초 후에 녹음 시작
+                    }, 1000); // 5초 후에 녹음 시작
                 } else {
                     btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
                     btnRecord.setBackgroundResource(R.drawable.btnrecord_click_effect);
@@ -235,6 +281,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
             recorder.start();
             Toast.makeText(getApplicationContext(), "녹음 시작", Toast.LENGTH_SHORT).show();
             System.out.println("녹음 시작");
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "녹음 시작 오류", Toast.LENGTH_SHORT).show();
@@ -256,19 +303,13 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         }
     }
 
-    public void uploadFileToServer(String filePath) throws FileNotFoundException {
-        try{
-            File file=new File(filePath);
-            FileInputStream fileInputStream = new FileInputStream(file); //파일 내용 바이트 단위로 출력
-            System.out.println(fileInputStream);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    public void uploadFileToServer(String filePath) throws FileNotFoundException {
+//
+//    }
 
     public void MakeBasicScale(){
         int k=0;
-        for(int i=2; i<=5; i++){
+        for(int i=4; i<=5; i++){
             scale[k++] = "C"+i;
             scale[k++] = "D"+i;
             scale[k++] = "E"+i;
@@ -278,7 +319,17 @@ public class TuneCheckPageActivity extends AppCompatActivity {
             scale[k++] = "B"+i;
         }
         scale[k++] = "C6";
-        scale[k] = "B6";
+        scale[k++] = "D6";
+
+        for(int i=3; i>=2; i--){
+            scale[k++] = "B"+i;
+            scale[k++] = "A"+i;
+            scale[k++] = "G"+i;
+            scale[k++] = "F"+i;
+            scale[k++] = "E"+i;
+            scale[k++] = "D"+i;
+            scale[k++] = "C"+i;
+        }
     }
 
     private void get(String scale){
@@ -291,8 +342,30 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         if(response.equals("true")){
                             sucRecording = true;
                             System.out.println("sucRecording : " + sucRecording);
+
+                            Toast.makeText(getApplicationContext(), "음정 일치", Toast.LENGTH_SHORT).show();
+
+                            System.out.println("RRR " + RecordingScalePosition);
+                            System.out.println(isRecording);
+                            System.out.println(recordingCount);
+                            System.out.println(WholeCount);
+                            RecordingScalePosition++;
+                            recordingCount=0; //새로운 녹음은 녹음 횟수 초기화
+                            WholeCount++;     //전체에 대한 녹음 완료 횟수 카운트
+
+                            isRecording = !isRecording;
                         }else{
                             sucRecording= false;
+                            System.out.println("sucRecording : " + sucRecording);
+
+                            Toast.makeText(getApplicationContext(), "음정 불일치", Toast.LENGTH_SHORT).show();
+
+                            recordingCount++; //재녹음 시 녹음 횟수 +1
+                            System.out.println("여기는 false");
+                            System.out.println(recordingCount);
+                            System.out.println(WholeCount);
+
+                            isRecording = !isRecording;
                         }
                     }
                 },

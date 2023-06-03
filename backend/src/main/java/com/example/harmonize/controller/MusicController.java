@@ -167,13 +167,13 @@ public class MusicController {
             }
             FileUtils.writeByteArrayToFile(new File(filePath), file);
 
-            /*String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
+            String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
 
             String[] parts = scale.split("[ABCDEFG]");
 
-            return analyzer.JudgmentRate(scale, parts[0]);*/
-
-            return true;
+            return analyzer.JudgmentRate(scale, parts[0]);
+//
+//            return true;
 
         } catch (IOException e) {
             return false;

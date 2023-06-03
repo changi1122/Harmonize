@@ -758,7 +758,7 @@ public class Analyzer {
         basicMap.put("A5", 0.82);
         basicMap.put("B5", 0.85);
         basicMap.put("C6", 0.87);
-        basicMap.put("D6", 0.90);
+        basicMap.put("D6x", 0.90);
 
         return basicMap.get(scale);
     }
