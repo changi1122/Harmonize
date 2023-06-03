@@ -49,7 +49,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 101;
     private ImageButton btnRecord;
     private ImageView pianoImage;
-    private TextView t1, t2, t3, t4, t5, t6, t7, myTextView;
+    private TextView t1, t2, t3, t4, t5, t6, t7;
 
     //이미지 버튼 초기 상태 - 녹음 수행
     boolean isRecording = false;
@@ -72,6 +72,8 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
     final String baseFileName = String.valueOf(TokenService.uid_load()); // 기본 파일 이름
 
+    boolean next=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,40 +92,46 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         t5=findViewById(R.id.t5);
         t6=findViewById(R.id.t6);
         t7=findViewById(R.id.t7);
-        myTextView=findViewById(R.id.myTextView);
 
         Runnable recordingRunnable = new Runnable() {
             @Override
             public void run() {
                 if (isRecording) {
-                    stopRecording();
-                    btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
 
-                    File file = new File(filename);
-                    System.out.println(filename);
+                    if(next){
+                        next=false;
 
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        stopRecording();
+                        btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
 
-                    try {
-                        FileInputStream fis = new FileInputStream(file);
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while ((len = fis.read(buffer)) != -1) {
-                            bos.write(buffer, 0, len);
+                        File file = new File(filename);
+                        System.out.println(filename);
+
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                        try {
+                            FileInputStream fis = new FileInputStream(file);
+                            byte[] buffer = new byte[1024];
+                            int len;
+                            while ((len = fis.read(buffer)) != -1) {
+                                bos.write(buffer, 0, len);
+                            }
+                            fis.close();
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
-                        fis.close();
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (fileBytes == null || fileBytes.length == 0) {
-                        fileBytes = new byte[0];
-                    }
-                    fileBytes = bos.toByteArray();
+                        if (fileBytes == null || fileBytes.length == 0) {
+                            fileBytes = new byte[0];
+                        }
+                        fileBytes = bos.toByteArray();
 
-                    // uid + scale Name
-                    get(baseFileName + scale[RecordingScalePosition] + "_" + recordingCount);
+                        // uid + scale Name
+                        get(baseFileName + scale[RecordingScalePosition] + "_" + recordingCount);
+                    }
+
+
                 } else {
 
                     //알파벳+"숫자" : 2~6
@@ -174,7 +182,6 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
                     isRecording = !isRecording;
                 }
-
                 if (WholeCount < MAX_RECORDINGS) {
                     // 새로운 파일 이름 생성
                     //String numberedFileName = baseFileName +"_"+ recordingCount;
@@ -182,7 +189,6 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
                     handler.postDelayed(this, 5000); // 5초 후에 다시 녹음 시작
                 }
-
             }
         };
 
@@ -368,6 +374,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
 
                             isRecording = !isRecording;
                         }
+                        next=true;
                     }
                 },
                 new Response.ErrorListener() {
