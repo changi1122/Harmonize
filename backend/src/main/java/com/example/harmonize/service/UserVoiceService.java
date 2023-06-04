@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserVoiceService {
@@ -27,5 +30,20 @@ public class UserVoiceService {
         userVoice.setMin(list.get(1));
 
         userVoiceRepository.save(userVoice);
+    }
+
+    // get user voice range
+    public Map<String, Double> GetUserRange(Long uid) {
+        Map<String, Double> range = new HashMap<String, Double>();
+        UserVoice userVoice = userVoiceRepository.FindUserVoiceRange(uid);
+        if (userVoice != null) {
+            range.put("max", userVoice.getMax());
+            range.put("min", userVoice.getMin());
+        }
+        else {
+            range.put("max", -1.0);
+            range.put("min", -1.0);
+        }
+        return range;
     }
 }

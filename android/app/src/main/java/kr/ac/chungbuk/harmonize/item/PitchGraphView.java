@@ -78,8 +78,6 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
 
         queue = Volley.newRequestQueue(getContext());
 
-        makeStringRequest("104", "104");
-
         tvX = findViewById(R.id.tvXMax);
         tvY = findViewById(R.id.tvYMax);
         seekBarX = findViewById(R.id.seekBar1);
@@ -250,6 +248,7 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
                         musiclist = (ArrayList<Double>) map.get("music");
                         userlist = (ArrayList<Double>) map.get("user");
                         setData();
+                        chart.invalidate();
                     }
                 },
                 new Response.ErrorListener() {
