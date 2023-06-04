@@ -91,7 +91,8 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
 
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false);
-        chart.getViewPortHandler().setMaximumScaleX(4f);
+        chart.getViewPortHandler().setMinimumScaleX(16f);
+        chart.getViewPortHandler().setMaximumScaleX(64f);
 
         chart.setDrawBorders(true);
         chart.setDrawGridBackground(false);
@@ -157,16 +158,16 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
         for (int i = 0; i < musiclist.size(); i++) {
             if (musiclist.get(i) != 0)
                 values.add(new Entry(i, musiclist.get(i).floatValue()));
-            //else
-                //values.add(new Entry(i, -1));
+            else
+                values.add(new Entry(i, -1));
         }
 
         for (int i = 0; i < userlist.size(); i++) {
             if (userlist.get(i) != 0) {
                 values2.add(new Entry(i, userlist.get(i).floatValue()));
             }
-            //else
-            //values2.add(new Entry(i, -1));
+            else
+                values2.add(new Entry(i, -1));
         }
 
         LineDataSet set1, set2;
@@ -187,15 +188,12 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
 
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             set1.setCubicIntensity(0.2f);
-            set1.setDrawFilled(true);
-            set1.setDrawCircles(false);
-            set1.setLineWidth(1.8f);
-            set1.setCircleRadius(4f);
+            set1.setDrawFilled(false);
+            set1.setDrawCircles(true);
+            set1.setCircleRadius(2f);
             set1.setCircleColor(Color.rgb(219, 153, 241));
             set1.setHighLightColor(Color.BLACK);
-            set1.setColor(Color.rgb(219, 153, 241));
-            set1.setFillColor(Color.rgb(219, 153, 241));
-            set1.setFillAlpha(0);
+            set1.setColor(Color.argb(0, 0, 0, 0));
             set1.setDrawHorizontalHighlightIndicator(false);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
@@ -208,15 +206,12 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
 
             set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             set2.setCubicIntensity(0.2f);
-            set2.setDrawFilled(true);
-            set2.setDrawCircles(false);
-            set2.setLineWidth(1.8f);
-            set2.setCircleRadius(4f);
+            set2.setDrawFilled(false);
+            set2.setDrawCircles(true);
+            set2.setCircleRadius(2f);
             set2.setCircleColor(Color.rgb(34, 104, 227));
             set2.setHighLightColor(Color.BLACK);
-            set2.setColor(Color.rgb(34, 104, 227));
-            set2.setFillColor(Color.rgb(34, 104, 227));
-            set2.setFillAlpha(0);
+            set2.setColor(Color.argb(0, 0, 0, 0));
             set2.setDrawHorizontalHighlightIndicator(false);
             set2.setFillFormatter(new IFillFormatter() {
                 @Override

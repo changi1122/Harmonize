@@ -148,7 +148,7 @@ public class MusicDetailItemView extends LinearLayout {
                 .with(getContext())
                 .load(Domain.url("/api/music/img/" + music.img_link))
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
+                    .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                 .into(thumbnailView);
 
         pitchGraphView.makeStringRequest("104", "104");
