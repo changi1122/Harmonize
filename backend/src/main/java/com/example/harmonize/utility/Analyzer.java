@@ -145,11 +145,13 @@ public class Analyzer {
         return data;
     }
 
-    public Boolean JudgmentRate(String fileName, String uid) throws IOException {
-        String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/"+fileName+".xlsx";
+    synchronized public Boolean JudgmentRate(String fileName, String uid) throws IOException {
+        String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/U"+fileName+".xlsx";
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+
+        System.out.println(workbook);
 
         int cnt = 0;
 
@@ -189,9 +191,13 @@ public class Analyzer {
 
         System.out.println(basic+ " "+ data/(double)cnt + " "+ data/(double)cnt*100/basic);
 
-        double rate = data/(double)cnt*100/basic;
+        double rate = (data/(double)cnt)*100/basic;
 
-        if(rate >= 0.9){
+        rate = Math.abs(100.0 -rate);
+
+        System.out.println(rate);
+
+        if(rate <= 0.1){
             return true;
         }else{
             return false;

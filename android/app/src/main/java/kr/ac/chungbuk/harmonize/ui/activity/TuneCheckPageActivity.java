@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -38,6 +39,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
@@ -103,8 +108,17 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         stopRecording();
                         btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
 
+                       /* String rootSD =  getExternalFilesDir("/").getAbsolutePath();
+                        File file2 = new File(rootSD);
+                        File list[]  = file2.listFiles();
+                        Uri audioUrl = Uri.parse(rootSD+"/"+list[1].getName());
+
+                        System.out.println(audioUrl);*/
+
                         File file = new File(filename);
                         System.out.println(filename);
+                       /* String uriName = String.valueOf(audioUrl);
+                        File file = new File(uriName);*/
 
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -127,9 +141,9 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         fileBytes = bos.toByteArray();
 
                         // uid + scale Name
+                        System.out.println("Let's send message");
                         get(baseFileName + scale[RecordingScalePosition] + "_" + recordingCount);
                     }
-
 
                 } else {
 
@@ -338,7 +352,8 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         }
     }
 
-    private void get(String scale){
+    synchronized private void get(String scale){
+        CompletableFuture<String> future = new CompletableFuture<>();
         StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/catch/file/"+ scale),
                 new Response.Listener<String>() {
                     @Override
@@ -374,11 +389,14 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                             isRecording = !isRecording;
                         }
                         next=true;
+                        System.out.println("next" + next);
+                        future.complete(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        future.completeExceptionally(error);
                         // Handle the error
                     }
                 }) {
@@ -394,5 +412,12 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         };
 
         queue.add(request);
+
+        try {
+            String response = future.get(5, TimeUnit.SECONDS); // 응답을 5초 동안 기다림
+            // 응답 처리 로직 ...
+        } catch (Exception e) {
+            // 예외 처리 또는 타임아웃 처리
+        }
     }
 }

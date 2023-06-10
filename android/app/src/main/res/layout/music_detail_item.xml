@@ -348,6 +348,12 @@
             android:paddingBottom="20dp">
         </kr.ac.chungbuk.harmonize.item.MultiPitchGraphView>
 
+        <kr.ac.chungbuk.harmonize.item.MusicRecordingView
+            android:id="@+id/musicRecording"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+        </kr.ac.chungbuk.harmonize.item.MusicRecordingView>
 
     </LinearLayout>
 </ScrollView>
