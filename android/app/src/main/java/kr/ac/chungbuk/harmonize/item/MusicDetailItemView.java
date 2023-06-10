@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -42,6 +41,7 @@ public class MusicDetailItemView extends LinearLayout {
 
     ImageView thumbnailView;
     ImageButton ibPlay, ibPause, ibStop;
+    MusicRecordingView musicRecording;
 
     public MusicDetailItemView(Context context) {
         super(context);
@@ -59,6 +59,7 @@ public class MusicDetailItemView extends LinearLayout {
 
         pitchGraphView = findViewById(R.id.pitchGraphView);
         multiPitchGraphView = findViewById(R.id.multiPitchGraphView);
+        musicRecording = findViewById(R.id.musicRecording);
 
         queue = Volley.newRequestQueue(getContext());
 
@@ -76,6 +77,7 @@ public class MusicDetailItemView extends LinearLayout {
         ibPlay = findViewById(R.id.ibPlay);
         ibPause = findViewById(R.id.ibPause);
         ibStop = findViewById(R.id.ibStop);
+
 
         ibPlay.setOnClickListener(new OnClickListener() {
             @Override
@@ -151,6 +153,7 @@ public class MusicDetailItemView extends LinearLayout {
                     .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                 .into(thumbnailView);
 
+        musicRecording.setMusicId(String.valueOf(music.music_id));
         pitchGraphView.makeStringRequest("104", "104");
         multiPitchGraphView.makeStringRequest("105", "104");
     }
