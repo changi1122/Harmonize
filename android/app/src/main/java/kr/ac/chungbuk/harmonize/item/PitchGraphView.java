@@ -78,8 +78,6 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
 
         queue = Volley.newRequestQueue(getContext());
 
-        makeStringRequest("104", "104");
-
         tvX = findViewById(R.id.tvXMax);
         tvY = findViewById(R.id.tvYMax);
         seekBarX = findViewById(R.id.seekBar1);
@@ -186,15 +184,13 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
 
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             set1.setCubicIntensity(0.2f);
-            set1.setDrawFilled(true);
-            set1.setDrawCircles(false);
-            set1.setLineWidth(1.8f);
-            set1.setCircleRadius(4f);
+            set1.setDrawFilled(false);
+            set1.setDrawCircles(true);
+            set1.setCircleRadius(2f);
+            set1.setColor(Color.argb(0, 0, 0, 0));
             set1.setCircleColor(Color.rgb(219, 153, 241));
             set1.setHighLightColor(Color.rgb(244, 117, 117));
-            set1.setColor(Color.rgb(219, 153, 241));
-            set1.setFillColor(Color.rgb(219, 153, 241));
-            set1.setFillAlpha(100);
+            set1.setFillAlpha(0);
             set1.setDrawHorizontalHighlightIndicator(false);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
@@ -250,6 +246,7 @@ public class PitchGraphView extends LinearLayout implements SeekBar.OnSeekBarCha
                         musiclist = (ArrayList<Double>) map.get("music");
                         userlist = (ArrayList<Double>) map.get("user");
                         setData();
+                        chart.invalidate();
                     }
                 },
                 new Response.ErrorListener() {

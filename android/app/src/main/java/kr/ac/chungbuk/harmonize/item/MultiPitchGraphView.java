@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -23,10 +27,15 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import kr.ac.chungbuk.harmonize.R;
+import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.utility.PitchConverter;
 
 public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekBarChangeListener {
@@ -35,6 +44,10 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
     private LineChart chart;
     private SeekBar seekBarX, seekBarY;
     private TextView tvX, tvY;
+
+    ArrayList<Double> musiclist;
+    ArrayList<Double> userlist;
+
 
     public MultiPitchGraphView(Context context) {
         super(context);
@@ -50,7 +63,11 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.pitch_graph, this, true);
 
+        musiclist = new ArrayList<>();
+        userlist = new ArrayList<>();
+
         queue = Volley.newRequestQueue(getContext());
+
 
         tvX = findViewById(R.id.tvXMax);
         tvY = findViewById(R.id.tvYMax);
@@ -74,7 +91,8 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
 
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false);
-        chart.getViewPortHandler().setMaximumScaleX(4f);
+        chart.getViewPortHandler().setMinimumScaleX(16f);
+        chart.getViewPortHandler().setMaximumScaleX(64f);
 
         chart.setDrawBorders(true);
         chart.setDrawGridBackground(false);
@@ -132,23 +150,27 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
         chart.invalidate();
     }
 
-    private void setData(int count, float range) {
+    private void setData() {
 
         ArrayList<Entry> values = new ArrayList<>();
+        ArrayList<Entry> values2 = new ArrayList<>();
 
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random());
-            values.add(new Entry(i, val));
+        for (int i = 0; i < musiclist.size(); i++) {
+            if (musiclist.get(i) != 0)
+                values.add(new Entry(i, musiclist.get(i).floatValue()));
+            else
+                values.add(new Entry(i, -1));
+        }
+
+        for (int i = 0; i < userlist.size(); i++) {
+            if (userlist.get(i) != 0) {
+                values2.add(new Entry(i, userlist.get(i).floatValue()));
+            }
+            else
+                values2.add(new Entry(i, -1));
         }
 
         LineDataSet set1, set2;
-
-        ArrayList<Entry> values2 = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random());
-            values2.add(new Entry(i, val));
-        }
 
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
@@ -166,15 +188,12 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
 
             set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             set1.setCubicIntensity(0.2f);
-            set1.setDrawFilled(true);
-            set1.setDrawCircles(false);
-            set1.setLineWidth(1.8f);
-            set1.setCircleRadius(4f);
+            set1.setDrawFilled(false);
+            set1.setDrawCircles(true);
+            set1.setCircleRadius(2f);
             set1.setCircleColor(Color.rgb(219, 153, 241));
             set1.setHighLightColor(Color.BLACK);
-            set1.setColor(Color.rgb(219, 153, 241));
-            set1.setFillColor(Color.rgb(219, 153, 241));
-            set1.setFillAlpha(0);
+            set1.setColor(Color.argb(0, 0, 0, 0));
             set1.setDrawHorizontalHighlightIndicator(false);
             set1.setFillFormatter(new IFillFormatter() {
                 @Override
@@ -183,19 +202,16 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
                 }
             });
 
-            set2 = new LineDataSet(values, "DataSet 2");
+            set2 = new LineDataSet(values2, "DataSet 2");
 
             set2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             set2.setCubicIntensity(0.2f);
-            set2.setDrawFilled(true);
-            set2.setDrawCircles(false);
-            set2.setLineWidth(1.8f);
-            set2.setCircleRadius(4f);
+            set2.setDrawFilled(false);
+            set2.setDrawCircles(true);
+            set2.setCircleRadius(2f);
             set2.setCircleColor(Color.rgb(34, 104, 227));
             set2.setHighLightColor(Color.BLACK);
-            set2.setColor(Color.rgb(34, 104, 227));
-            set2.setFillColor(Color.rgb(34, 104, 227));
-            set2.setFillAlpha(0);
+            set2.setColor(Color.argb(0, 0, 0, 0));
             set2.setDrawHorizontalHighlightIndicator(false);
             set2.setFillFormatter(new IFillFormatter() {
                 @Override
@@ -220,7 +236,7 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
         tvX.setText(String.valueOf(seekBarX.getProgress()));
         tvY.setText(String.valueOf(seekBarY.getProgress()));
 
-        setData(seekBarX.getProgress(), seekBarY.getProgress());
+        setData();
 
         // redraw
         chart.invalidate();
@@ -234,6 +250,43 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    public void makeStringRequest(String fileName, String mid) {
+        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/test/compare"),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // JSON 응답 처리
+                        System.out.println( response.getClass() );
+
+                        Gson gson = new Gson();
+                        Type mapType= new com.google.gson.reflect.TypeToken<Map<String, Object>>(){}.getType();
+                        Map<String, Object> map = gson.fromJson(response, mapType);
+
+                        System.out.println(map.get("music").getClass());
+                        musiclist = (ArrayList<Double>) map.get("music");
+                        userlist = (ArrayList<Double>) map.get("user");
+                        setData();
+                        chart.invalidate();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // 오류 처리
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("excel", fileName);
+                params.put("mid", mid);
+                return params;
+            }
+        };
+
+        queue.add(request);
     }
 
 }

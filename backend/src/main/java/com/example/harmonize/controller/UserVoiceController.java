@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/api")
 public class UserVoiceController {
@@ -29,5 +31,11 @@ public class UserVoiceController {
         } catch (Exception e) {
             return new ResponseEntity<>("사용자 음성 범위 저장에 실패하였습니다.", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/uservoice/range")
+    @ResponseBody
+    public Map<String, Double> getUserRange(@RequestParam("uid") Long uid) {
+        return userVoiceService.GetUserRange(uid);
     }
 }

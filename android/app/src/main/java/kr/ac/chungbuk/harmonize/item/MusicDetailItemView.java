@@ -34,6 +34,7 @@ public class MusicDetailItemView extends LinearLayout {
     int position = 0;
 
     PitchGraphView pitchGraphView;
+    MultiPitchGraphView multiPitchGraphView;
 
     TextView tvName, tvArtist, tvMaxPitch, tvMinPitch, tvDifficulty,
             tvTJNum, tvHighRate, tvLowRate, tvCover;
@@ -56,7 +57,8 @@ public class MusicDetailItemView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.music_detail_item, this, true);
 
-        pitchGraphView = new PitchGraphView(getContext());
+        pitchGraphView = findViewById(R.id.pitchGraphView);
+        multiPitchGraphView = findViewById(R.id.multiPitchGraphView);
 
         queue = Volley.newRequestQueue(getContext());
 
@@ -146,8 +148,11 @@ public class MusicDetailItemView extends LinearLayout {
                 .with(getContext())
                 .load(Domain.url("/api/music/img/" + music.img_link))
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
+                    .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                 .into(thumbnailView);
+
+        pitchGraphView.makeStringRequest("104", "104");
+        multiPitchGraphView.makeStringRequest("105", "104");
     }
 
 }

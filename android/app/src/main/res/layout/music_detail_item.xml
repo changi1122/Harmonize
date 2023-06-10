@@ -321,6 +321,7 @@
             android:textSize="16dp" />
 
         <kr.ac.chungbuk.harmonize.item.PitchGraphView
+            android:id="@+id/pitchGraphView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginLeft="20dp"
@@ -339,6 +340,7 @@
             android:textSize="16dp" />
 
         <kr.ac.chungbuk.harmonize.item.MultiPitchGraphView
+            android:id="@+id/multiPitchGraphView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginLeft="20dp"
