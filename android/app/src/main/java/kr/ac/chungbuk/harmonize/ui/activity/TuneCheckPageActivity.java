@@ -108,7 +108,6 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         stopRecording();
                         btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
 
-
                        /* String rootSD =  getExternalFilesDir("/").getAbsolutePath();
                         File file2 = new File(rootSD);
                         File list[]  = file2.listFiles();
@@ -144,10 +143,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         // uid + scale Name
                         System.out.println("Let's send message");
                         get(baseFileName + scale[RecordingScalePosition] + "_" + recordingCount);
-                    }else{
-                        System.out.println("Next is false" + next);
                     }
-
 
                 } else {
 
@@ -418,7 +414,7 @@ public class TuneCheckPageActivity extends AppCompatActivity {
         queue.add(request);
 
         try {
-            String response = future.get(15, TimeUnit.SECONDS); // 응답을 5초 동안 기다림
+            String response = future.get(5, TimeUnit.SECONDS); // 응답을 5초 동안 기다림
             // 응답 처리 로직 ...
         } catch (Exception e) {
             // 예외 처리 또는 타임아웃 처리
