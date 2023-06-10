@@ -191,9 +191,13 @@ public class Analyzer {
 
         System.out.println(basic+ " "+ data/(double)cnt + " "+ data/(double)cnt*100/basic);
 
-        double rate = data/(double)cnt*100/basic;
+        double rate = (data/(double)cnt)*100/basic;
 
-        if(rate >= 0.9){
+        rate = Math.abs(100.0 -rate);
+
+        System.out.println(rate);
+
+        if(rate <= 0.1){
             return true;
         }else{
             return false;

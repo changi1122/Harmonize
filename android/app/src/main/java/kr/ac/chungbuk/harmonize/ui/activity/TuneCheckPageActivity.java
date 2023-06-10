@@ -109,17 +109,17 @@ public class TuneCheckPageActivity extends AppCompatActivity {
                         btnRecord.setImageResource(R.drawable.baseline_mic_none_24);
 
 
-                        String rootSD =  getExternalFilesDir("/").getAbsolutePath();
+                       /* String rootSD =  getExternalFilesDir("/").getAbsolutePath();
                         File file2 = new File(rootSD);
                         File list[]  = file2.listFiles();
                         Uri audioUrl = Uri.parse(rootSD+"/"+list[1].getName());
 
-                        System.out.println(audioUrl);
+                        System.out.println(audioUrl);*/
 
-                        /*File file = new File(filename);
-                        System.out.println(filename);*/
-                        String uriName = String.valueOf(audioUrl);
-                        File file = new File(uriName);
+                        File file = new File(filename);
+                        System.out.println(filename);
+                       /* String uriName = String.valueOf(audioUrl);
+                        File file = new File(uriName);*/
 
                         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
