@@ -104,7 +104,7 @@ public class CategorySurveyActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(CategorySurveyActivity.this, "선호 장르 저장에 성공했습니다.", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(CategorySurveyActivity.this, MainActivity.class));
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {

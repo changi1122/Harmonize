@@ -21,4 +21,7 @@ public interface PreferRepository extends JpaRepository<Prefer, Long> {
 
     @Query(nativeQuery = true, value = "select p.prefer_id from prefer p where p.user_id = :uid AND p.category_id =:cid")
     Long findByCategory_idAndUser_id(@Param("uid")Long uid, @Param("cid")Long cid);
+
+    @Query(nativeQuery = true, value = "delete from prefer where user_id = :uid")
+    void deleteAllByUser_id(@Param("uid")Long uid);
 }
