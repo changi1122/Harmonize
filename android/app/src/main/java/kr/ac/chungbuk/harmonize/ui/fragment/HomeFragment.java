@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment{
         ibtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), TuneCheckPageActivity.class));
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
 

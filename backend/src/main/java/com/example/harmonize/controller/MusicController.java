@@ -143,6 +143,7 @@ public class MusicController {
     @PostMapping(value = "/api/catch/file/{scale}")
     public Boolean CatchFile(@RequestBody byte[] file, @PathVariable("scale") String scale){
         System.out.println(file);
+        System.out.println(scale);
 
         String [] fileInfo = scale.split("_");
         scale = fileInfo[0];
@@ -169,13 +170,20 @@ public class MusicController {
 
             String result = connector.SocketCall(scale+".m4a", "U"+scale, 0L);
 
+            System.out.println("result " + result);
+
             String[] parts = scale.split("[ABCDEFG]");
 
-            return analyzer.JudgmentRate(scale, parts[0]);
-//
-//            return true;
+            System.out.println(parts);
+
+            boolean data  = analyzer.JudgmentRate(scale, parts[0]);
+
+            System.out.println("SOSOSOSOSOSOOS "+ data);
+            return data;
 
         } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.out.println("help");
             return false;
         }
     }

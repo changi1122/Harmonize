@@ -145,11 +145,13 @@ public class Analyzer {
         return data;
     }
 
-    public Boolean JudgmentRate(String fileName, String uid) throws IOException {
-        String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/"+fileName+".xlsx";
+    synchronized public Boolean JudgmentRate(String fileName, String uid) throws IOException {
+        String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/U"+fileName+".xlsx";
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+
+        System.out.println(workbook);
 
         int cnt = 0;
 
