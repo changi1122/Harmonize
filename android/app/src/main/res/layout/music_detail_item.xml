@@ -13,32 +13,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="노래 제목"
-                android:textSize="20dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="아티스트 이름"
-                android:textSize="14dp"
-                android:textColor="#8F8F8F"
-                android:layout_marginTop="7dp"
-                android:textAlignment="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
@@ -51,6 +25,7 @@
             </FrameLayout>
 
             <ImageView
+                android:id="@+id/thumbnailView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/gray_background">
@@ -63,15 +38,77 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="TJ 노래방 번호 : 0000"
-            android:textColor="#8F8F8F"
-            android:textAlignment="center"/>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="노래 제목"
+                android:textSize="20dp"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="아티스트 이름"
+                android:textSize="14dp"
+                android:textColor="#8F8F8F"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTJNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="20dp"
+            android:text="TJ [000]"
+            android:textColor="#8F8F8F"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/ibPlay"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/transparent_button"
+                android:src="@drawable/ic_play_arrow_24" />
+
+            <ImageButton
+                android:id="@+id/ibPause"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/transparent_button"
+                android:src="@drawable/ic_pause_24" />
+
+            <ImageButton
+                android:id="@+id/ibStop"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/transparent_button"
+                android:src="@drawable/ic_stop_24" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,6 +128,7 @@
                 android:textSize="16dp" />
 
             <TextView
+                android:id="@+id/tvDifficulty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -128,6 +166,7 @@
                     android:textSize="13dp" />
 
                 <TextView
+                    android:id="@+id/tvMaxPitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A3"
@@ -149,6 +188,7 @@
                     android:textSize="13dp" />
 
                 <TextView
+                    android:id="@+id/tvMinPitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="D2"
@@ -205,6 +245,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/tvHighRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -230,6 +271,7 @@
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/tvLowRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -250,36 +292,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="급격한 음 변화"
-                    android:textColor="#8F8F8F"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:text="3회"
-                    android:textAlignment="textEnd"
-                    android:textColor="#8F8F8F"
-                    android:textSize="14dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:text="맞춤 음역대 평가"
                     android:textColor="#8F8F8F"
                     android:textSize="14dp" />
 
                 <TextView
+                    android:id="@+id/tvCover"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -302,16 +320,14 @@
             android:textColor="#000000"
             android:textSize="16dp" />
 
-        <LinearLayout
+        <kr.ac.chungbuk.harmonize.item.PitchGraphView
+            android:id="@+id/pitchGraphView"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="200dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/gray_background"
-            android:gravity="bottom"
-            android:orientation="horizontal"
             android:paddingBottom="20dp">
-        </LinearLayout>
+        </kr.ac.chungbuk.harmonize.item.PitchGraphView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -323,20 +339,21 @@
             android:textColor="#000000"
             android:textSize="16dp" />
 
-        <LinearLayout
+        <kr.ac.chungbuk.harmonize.item.MultiPitchGraphView
+            android:id="@+id/multiPitchGraphView"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="200dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/gray_background"
-            android:gravity="bottom"
-            android:orientation="horizontal"
             android:paddingBottom="20dp">
-        </LinearLayout>
+        </kr.ac.chungbuk.harmonize.item.MultiPitchGraphView>
 
-
-
+        <kr.ac.chungbuk.harmonize.item.MusicRecordingView
+            android:id="@+id/musicRecording"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+        </kr.ac.chungbuk.harmonize.item.MusicRecordingView>
 
     </LinearLayout>
 </ScrollView>

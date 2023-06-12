@@ -11,18 +11,41 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import kr.ac.chungbuk.harmonize.MainActivity;
 import kr.ac.chungbuk.harmonize.R;
+import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.item.MusicListItemView;
 import kr.ac.chungbuk.harmonize.model.Music;
+import kr.ac.chungbuk.harmonize.model.MusicSearchResult;
+import kr.ac.chungbuk.harmonize.service.TokenService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +64,14 @@ public class MusicListFragment extends Fragment {
     private String mParam2;
 
     ListView musicListView;
+
+    RequestQueue queue;
+
+    MusicListAdapter adapter;
+
+    List<Music> musics;
+
+    private String cid;
 
     public MusicListFragment() {
         // Required empty public constructor
@@ -64,6 +95,11 @@ public class MusicListFragment extends Fragment {
         return fragment;
     }
 
+    public void SetCategory(String category_id){
+        cid = category_id;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,41 +120,105 @@ public class MusicListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         musicListView = view.findViewById(R.id.musicListView);
 
-        MusicListAdapter adapter = new MusicListAdapter();
-        adapter.addItem(new Music(
-                "사건의 지평선", "윤하(YOUNHA)", 1, 45, false,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F007%2F434%2F7434553.jpg%3Ftype%3Dr204Fll%26v%3D20230109102326"));
-        adapter.addItem(new Music(
-                "좋니", "윤종신", 2, 88, false,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F002%2F067%2F2067347.jpg%3Ftype%3Dr204Fll%26v%3D20220513012522"));
-        adapter.addItem(new Music(
-                "Tears", "소찬휘", 2, 45, true,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F000%2F001%2F1408.jpg%3Ftype%3Dr204Fll%26v%3D20230103162533"));
-        adapter.addItem(new Music(
-                "어디에도", "엠씨더맥스(M.C the MAX)", 3, 66, false,
-                "https://search.pstatic.net/common?type=n&size=174x174&quality=95&direct=true&src=https%3A%2F%2Fmusicmeta-phinf.pstatic.net%2Falbum%2F000%2F614%2F614753.jpg%3Ftype%3Dr204Fll%26v%3D20230106154012"));
-        adapter.addItem(new Music(
-                "사건의 지평선", "윤하(YOUNHA)", 1, 34, false));
-        adapter.addItem(new Music(
-                "좋니", "윤종신", 3, 86, true));
-        adapter.addItem(new Music(
-                "Tears", "소찬휘", 1, 76, false));
-        adapter.addItem(new Music(
-                "어디에도", "엠씨더맥스(M.C the MAX)", 2, 32, false));
-        adapter.addItem(new Music(
-                "사건의 지평선", "윤하(YOUNHA)", 3, 56, false));
-        adapter.addItem(new Music(
-                "좋니", "윤종신", 2, 23, true));
-        adapter.addItem(new Music(
-                "Tears", "소찬휘", 1, 99, false));
-        adapter.addItem(new Music(
-                "어디에도", "엠씨더맥스(M.C the MAX)", 3, 45, false));
+        queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
+        get(String.valueOf(TokenService.uid_load()));
+        adapter = new MusicListAdapter();
+    }
+
+    private void Set(){
+        adapter.clear();
+        adapter.setItems(musics);
         musicListView.setAdapter(adapter);
     }
 
+
+    private void get(String uid){
+
+        if(uid.equals("")){
+            System.out.println("clear");
+            adapter.clear();
+            return;
+        }
+        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/music/get/list"),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            System.out.println("response" + response);
+
+                            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+                            musics = gson.fromJson(response, TypeToken.getParameterized(ArrayList.class, Music.class).getType());
+
+                            Set();
+
+                            if (musics.isEmpty()) {
+                                hideResultListView();
+                            } else {
+                                showResultListView();
+                                System.out.println(musics);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("Error 발생");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/json; charset=UTF-8");
+                //params.put("token", "welkfjlwejflwe");
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                System.out.println(uid);
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("uid", uid);
+                params.put("cid", cid);
+                return params;
+            }
+        };
+
+        queue.add(request);
+
+    }
+
+     private void showResultListView(){
+        musicListView.setVisibility(View.VISIBLE);
+     }
+
+     private void hideResultListView(){
+        musicListView.setVisibility(View.GONE);
+     }
+
+
     class MusicListAdapter extends BaseAdapter {
-        ArrayList<Music> musics = new ArrayList<>();
+        List<Music> musics = new ArrayList<>();
 
         @Override
         public int getCount() {
@@ -128,6 +228,8 @@ public class MusicListFragment extends Fragment {
         public void addItem(Music music) {
             musics.add(music);
         }
+
+        public Long getMusicId(int position) { return musics.get(position).music_id; }
 
         @Override
         public Object getItem(int position) {
@@ -144,19 +246,36 @@ public class MusicListFragment extends Fragment {
             Music music = musics.get(position);
 
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(music.name, music.artist, music.level, music.matchRate);
+            view.setNameAndArtist(music.music_id, music.music_name, music.artist, music.level, music.range_avg, music.is_prefer);
 
-            if (music.thumbnail != null) {
+            if (music.img_link != null) {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);
                 Glide
                         .with(getActivity())
-                        .load(music.thumbnail)
+                        .load(Domain.url("/api/music/img/" + music.img_link))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                         .into(thumbnailView);
             }
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity main = (MainActivity)getActivity();
+                    main.loadMusicDetail(music.music_id);
+                }
+            });
+
             return view;
         }
+
+        public void clear() {
+            musics.clear();
+        }
+
+        public void setItems( List<Music> musics ){
+            this.musics = musics;
+        }
+
     }
 }

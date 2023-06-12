@@ -1,35 +1,66 @@
 package kr.ac.chungbuk.harmonize.model;
 
+import com.google.gson.annotations.Expose;
+
 public class Music {
 
-    public Long id;
-    public String name;
+    @Expose
+    public Long music_id;
+    @Expose
+    public String music_name;
+    @Expose
     public String artist;
-    public String thumbnail;
-    public Integer numberTJ;
-    public String youtubeLink;
-    public String category;
-    public Double max;
-    public Double min;
+    @Expose
+    public String img_link;
+    @Expose
     public Integer level;
-    public Integer matchRate;
-    public Boolean isFavorite;
+    @Expose
+    public Integer range_avg;
+    @Expose
+    public Boolean is_prefer;
+    @Expose
+    public Long category_id;
 
-    public Music(String name, String artist) {
-        this.name = name;
+    public Music(Long music_id, String music_name, String artist, String img_link, Integer level, Integer range_avg, Boolean is_prefer, Long category_id) {
+        this.music_id = music_id;
+        this.music_name = music_name;
         this.artist = artist;
-    }
-
-    public Music(String name, String artist, int level, int matchRate, boolean isFavorite) {
-        this(name, artist);
+        this.img_link = img_link;
         this.level = level;
-        this.matchRate = matchRate;
-        this.isFavorite = isFavorite;
+        this.range_avg = range_avg;
+        this.is_prefer = is_prefer;
+        this.category_id = category_id;
     }
 
-    public Music(String name, String artist, int level,
-                 int matchRate, boolean isFavorite, String thumbnail) {
-        this(name, artist, level, matchRate, isFavorite);
-        this.thumbnail = thumbnail;
+    public Long getMusic_id() {
+        return music_id;
+    }
+
+    public String getMusic_name() {
+        return music_name;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getImg_link() {
+        return img_link;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public Integer getRange_avg() {
+        return range_avg;
+    }
+
+    public Boolean getIs_prefer() {
+        return is_prefer;
+    }
+
+    public Long getCategory() {
+        return category_id;
     }
 }

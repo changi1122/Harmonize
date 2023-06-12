@@ -76,16 +76,6 @@ public class SearchFragment extends Fragment {
         queue = Volley.newRequestQueue(getContext());
 
         SearchHistoryAdapter historyAdapter = new SearchHistoryAdapter();
-        historyAdapter.addItem("사건의지평선");
-        historyAdapter.addItem("응급실(쾌걸춘향OST)");
-        historyAdapter.addItem("Monologue");
-        historyAdapter.addItem("그대라는사치");
-        historyAdapter.addItem("어디에도");
-        historyAdapter.addItem("내가아니라도");
-        historyAdapter.addItem("Marry Me");
-        historyAdapter.addItem("Monologue");
-        historyAdapter.addItem("그대라는사치");
-
 
         historyListView = (ListView) view.findViewById(R.id.historyListView);
         historyListView.setAdapter(historyAdapter);
@@ -113,7 +103,6 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-
 
         adapter = new MusicListAdapter();
         musicListView.setAdapter(adapter);
@@ -171,6 +160,7 @@ public class SearchFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String,String>();
                 params.put("search", query);
+                params.put("uid", String.valueOf(TokenService.uid_load()));
                 return params;
             }
         };
@@ -253,19 +243,27 @@ public class SearchFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             MusicSearchResult searchResult = musics.get(position);
 
-            System.out.println(searchResult.id);
             MusicListItemView view = new MusicListItemView(getActivity().getApplicationContext());
-            view.setNameAndArtist(searchResult.name, searchResult.artist, 1/*searchResult.level*/, 0/*searchResult.matchRate*/);
+            view.setNameAndArtist(searchResult.id, searchResult.name, searchResult.artist, searchResult.level,
+                    searchResult.matchRate, searchResult.isFavorite);
 
             if (searchResult.thumbnail != null) {
                 ImageView thumbnailView = view.findViewById(R.id.thumbnailView);
                 Glide
                         .with(getActivity())
-                        .load(searchResult.thumbnail)
+                        .load(Domain.url("/api/music/img/" + searchResult.thumbnail))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(new ColorDrawable(Color.parseColor("#eeeeee")))
                         .into(thumbnailView);
             }
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity main = (MainActivity)getActivity();
+                    main.loadMusicDetail(searchResult.id);
+                }
+            });
 
             return view;
         }

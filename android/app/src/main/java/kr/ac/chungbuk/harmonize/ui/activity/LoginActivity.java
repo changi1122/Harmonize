@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //btnSignup.setText(response);
-                        //System.out.println(response);
+                        System.out.println(response);
 
                         int uid = 0;
                         //response에서 uid 값 가져오기
@@ -106,7 +106,26 @@ public class LoginActivity extends AppCompatActivity {
                             System.out.println(token.getToken());
                         }
 
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        int gender = 0;
+                        //response에서 gender 값 가져오기
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            gender = jsonObject.getInt("gender");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            System.out.println("gender를 가져오지 못했습니다.");
+                        }
+
+                        /* 첫 로그인 시 flow 설정
+                        gender == 0 : 첫 로그인 -> HelloworldActivity
+                        gender != 0 : 초기 조사 완료 user -> MainActivity
+                         */
+                        if(gender==0){
+                            startActivity(new Intent(LoginActivity.this, HelloworldActivity.class));
+                        } else{
+                            finish();
+                        }
                     }
                 },
                 new Response.ErrorListener() {

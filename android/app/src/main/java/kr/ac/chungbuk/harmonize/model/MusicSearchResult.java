@@ -18,6 +18,10 @@ public class MusicSearchResult {
     public String thumbnail;
     @Expose
     public Integer level;
+    @Expose
+    @SerializedName("range_avg")
     public Integer matchRate;
+    @Expose
+    @SerializedName("is_prefer")
     public Boolean isFavorite;
 }

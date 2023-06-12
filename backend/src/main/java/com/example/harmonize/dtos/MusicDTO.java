@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MusicDTO  implements Serializable  {
+public class MusicDTO implements Serializable  {
     private Long music_id;
     private String music_name;
     private String artist;
@@ -19,5 +19,5 @@ public class MusicDTO  implements Serializable  {
     private Integer level;
     private Integer range_avg;
     private Boolean is_prefer;
-    private String category;
+    private Long category_id;
 }

@@ -62,8 +62,16 @@ public class PreferController {
     @PostMapping("/prefer/save")
     public void SetPreferList(@RequestBody HashMap<String, Object> model) {
 
+        String category = (String) model.get("category");
+        category = category.substring(1, category.length() - 1);
+        String[] splited = category.split(",");
+
+        ArrayList<String> list  = new ArrayList<>();
+        for (String c : splited) {
+            list.add(c.trim());
+        }
+
         Integer uid = (Integer) model.get("uid");
-        ArrayList<String> list  = (ArrayList<String>) model.get("category");
 
         preferService.SaveCategoryByID(Long.valueOf(uid), list);
     }

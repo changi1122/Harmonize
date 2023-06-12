@@ -24,4 +24,6 @@ public class Music {
     private Double max;
     private Double min;
     private Integer level;
+    private Double high;
+    private Double low;
 }

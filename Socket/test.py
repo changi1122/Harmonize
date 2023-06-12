@@ -25,6 +25,7 @@ import os
 from pathlib import Path
 
 def MakeVoiceXlsxFile(filename, fileID, SP):
+    print("hello")
     logger = logging.getLogger()
     logger.setLevel(logging.ERROR)
 
@@ -41,13 +42,17 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
         audio = audio.set_frame_rate(EXPECTED_SAMPLE_RATE).set_channels(1)
         audio.export(output_file, format="wav")
         return output_file
-
-    Url = real+"/backend/src/main/resources/music/"
-
-    if(SP==1):
-        Url = Url+filename+"/vocals.wav"
+    
+    print(fileID)
+    if( 'U' in fileID):
+        Url = real+ "/backend/src/main/resources/recode/" + filename
+    elif('R' in fileID):
+        Url = real+"/backend/src/main/resources/recode/" + filename
+    elif(SP==1):
+        filename = filename[:-4]
+        Url = real+ "/backend/src/main/resources/split/" +filename+"/vocals.wav"
     elif(SP==0):
-        Url = Url+filename
+        Url = real+ "/backend/src/main/resources/music/" +filename
         
     converted_audio_file = convert_audio_for_model(Url)
     #분석할 보컬이 저장된 경로 지정 필요
@@ -101,8 +106,9 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     df=pd.DataFrame(confident_pitch_outputs, columns=['time', 'pitch_point'])
 
     print(df) 
+    print(real+'/backend/src/main/resources/excel/'+str(fileID)+'.xlsx')
 
-    df.to_excel(real+'/backend/src/main/resources/execl/'+str(fileID)+'.xlsx', sheet_name=filename)
+    df.to_excel(real+'/backend/src/main/resources/excel/'+str(fileID)+'.xlsx', sheet_name=filename)
 
     #결과가 잘 나오는지 시각화 하려면 주석 해재
     #fig, ax = plt.subplots()

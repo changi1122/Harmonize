@@ -38,7 +38,7 @@ def binder(client_socket, addr):
             print(real)
 
             if(spleet[0]=="1"):
-                spleeter.SpletVoice(dir_path= real+ "/backend/src/main/resources/music/"+list[0])
+                spleeter.SpletVoice(dir_path= real+ "/backend/src/main/resources/music/"+list[0], save_path=real+ "/backend/src/main/resources/split/")
                 SwitchPaht = 1
                 filename = list[0].split('.')
                 test.MakeVoiceXlsxFile(filename=filename[0], fileID=fileID, SP=SwitchPaht)

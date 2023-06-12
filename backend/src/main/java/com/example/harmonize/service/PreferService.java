@@ -1,5 +1,6 @@
 package com.example.harmonize.service;
 
+import com.example.harmonize.entity.Category;
 import com.example.harmonize.entity.Prefer;
 import com.example.harmonize.repository.CategoryRepository;
 import com.example.harmonize.repository.PreferRepository;
@@ -26,12 +27,13 @@ public class PreferService {
 
     public void SaveCategoryByID(Long uid, ArrayList<String> list){
 
-        for (int i=0; i<list.size(); i++){
+        preferRepository.deleteAllByUser_id(uid);
+
+        for (String c : list) {
             Prefer prefer = new Prefer();
-            Long cid = categoryRepository.findByCategory_name(list.get(i));
+            Long cid = categoryRepository.findByCategory_name(c);
             prefer.setCategory_id(cid);
             prefer.setUser_id(uid);
-
             preferRepository.save(prefer);
         }
     }
@@ -44,4 +46,6 @@ public class PreferService {
             preferRepository.deleteById(pid);
         }
     }
+
+
 }
