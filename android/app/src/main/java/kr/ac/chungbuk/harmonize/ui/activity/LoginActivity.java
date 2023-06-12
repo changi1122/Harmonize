@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(gender==0){
                             startActivity(new Intent(LoginActivity.this, HelloworldActivity.class));
                         } else{
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         }
                     }
                 },

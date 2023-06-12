@@ -420,4 +420,14 @@ public class TuneCheckPageActivity extends AppCompatActivity {
             // 예외 처리 또는 타임아웃 처리
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isRecording) {
+            stopRecording();
+            isRecording = false;
+            handler.removeCallbacksAndMessages(null); // 예약된 녹음 작업 및 딜레이된 실행을 모두 취소
+        }
+    }
 }

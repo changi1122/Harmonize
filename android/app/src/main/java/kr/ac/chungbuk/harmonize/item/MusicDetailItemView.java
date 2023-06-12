@@ -23,6 +23,7 @@ import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
 import kr.ac.chungbuk.harmonize.model.MusicDetail;
 import kr.ac.chungbuk.harmonize.utility.PitchConverter;
+import kr.ac.chungbuk.harmonize.service.TokenService;
 
 public class MusicDetailItemView extends LinearLayout {
 
@@ -154,8 +155,8 @@ public class MusicDetailItemView extends LinearLayout {
                 .into(thumbnailView);
 
         musicRecording.setMusicId(String.valueOf(music.music_id));
-        pitchGraphView.makeStringRequest("104", "104");
-        multiPitchGraphView.makeStringRequest("105", "104");
+        pitchGraphView.makeStringRequest(String.valueOf(musicId), String.valueOf(musicId));
+        multiPitchGraphView.makeStringRequest("R" + TokenService.uid_load() + "_" + musicId, String.valueOf(musicId));
     }
 
 }

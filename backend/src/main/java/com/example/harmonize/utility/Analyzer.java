@@ -29,7 +29,7 @@ public class Analyzer {
         return (max_pos - min_pos) / (list.getMax() - list.getMin()) * 100;
     }
 
-    public Map<String, double []> GetGraphData(String Excel, String mid) throws IOException {
+    public Map<String, double []> GetGraphData(String Excel, String mid) throws Exception {
         MaxRow =0;
         double [] music = ListDoubleToInt(ExcelToList(mid));
         double [] user = ListDoubleToInt(ExcelToList(Excel));
@@ -90,8 +90,13 @@ public class Analyzer {
 
 
     //user 녹음파일 저장 UC{userid}
-    public double[][] ExcelToList(String fileName) throws IOException {
+    public double[][] ExcelToList(String fileName) throws Exception {
         String excelFilePath = System.getProperty("user.dir") + "/src/main/resources/excel/"+fileName+".xlsx";
+
+        if(new File(excelFilePath).exists() == false){
+            throw new Exception("No file");
+        }
+
         FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
@@ -197,7 +202,7 @@ public class Analyzer {
 
         System.out.println(rate);
 
-        if(rate <= 0.1){
+        if(rate <= 5.0){
             return true;
         }else{
             return false;

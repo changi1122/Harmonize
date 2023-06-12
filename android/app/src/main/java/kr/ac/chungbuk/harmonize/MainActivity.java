@@ -1,5 +1,6 @@
 package kr.ac.chungbuk.harmonize;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -39,6 +40,8 @@ import kr.ac.chungbuk.harmonize.item.MusicPlayingItemView;
 import kr.ac.chungbuk.harmonize.model.Music;
 import kr.ac.chungbuk.harmonize.model.MusicDetail;
 import kr.ac.chungbuk.harmonize.model.Token;
+import kr.ac.chungbuk.harmonize.service.TokenService;
+import kr.ac.chungbuk.harmonize.ui.activity.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -113,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        if (TokenService.load() == null) {
+            startActivity(new Intent(this , LoginActivity.class));
+        }
+        System.out.println(TokenService.load().getToken());
     }
 
     public void hideMusicPlayingView()

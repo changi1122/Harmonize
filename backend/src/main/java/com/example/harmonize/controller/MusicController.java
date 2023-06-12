@@ -188,13 +188,44 @@ public class MusicController {
         }
     }
 
+    @PostMapping(value = "/api/compare/{uid}/{mid}")
+    public void TestAn(@RequestBody byte[] file, @PathVariable("uid")Long uid, @PathVariable("mid")Long mid){
+        String DirPath = System.getProperty("user.dir")+"/src/main/resources/recode";
+        if (!new File(DirPath).exists())
+            new File(DirPath).mkdir();
+
+        String xlsxN = "R"+uid+"_"+mid;
+
+        String filePath = DirPath+ "/" + xlsxN+".m4a";
+
+        File files = new File(filePath);
+
+        try{
+            if(files.exists()){
+                files.delete();
+                File FE = new File(System.getProperty("user.dir")+"/src/main/resources/excel/U"+xlsxN+".xlsx");
+                if(FE.exists()){
+                    FE.delete();
+                }
+            }
+            FileUtils.writeByteArrayToFile(new File(filePath), file);
+
+            String result = connector.SocketCall(xlsxN+".m4a", xlsxN, 0L);
+
+            System.out.println("result " + result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping(value = "/test/comparison/scale")
     public void ComparsionTest(@RequestParam("fileName")String fileName, @RequestParam("uid")String uid) throws IOException {
         analyzer.JudgmentRate(fileName, uid);
     }
 
     @PostMapping(value = "/test/compare")
-    public Map<String, double []> CompareGraph(@RequestParam("excel") String excel, @RequestParam("mid") String mid) throws IOException {
+    public Map<String, double []> CompareGraph(@RequestParam("excel") String excel, @RequestParam("mid") String mid) throws Exception {
+        System.out.println(analyzer.GetGraphData(excel, mid));
         return analyzer.GetGraphData(excel, mid);
     }
 

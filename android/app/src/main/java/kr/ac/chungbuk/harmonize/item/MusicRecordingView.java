@@ -1,6 +1,8 @@
 package kr.ac.chungbuk.harmonize.item;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.media.MediaRecorder;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,20 +15,29 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
+import kr.ac.chungbuk.harmonize.MainActivity;
 import kr.ac.chungbuk.harmonize.R;
 import kr.ac.chungbuk.harmonize.config.Domain;
+import kr.ac.chungbuk.harmonize.service.TokenService;
 
 public class MusicRecordingView extends LinearLayout {
 
@@ -58,6 +69,8 @@ public class MusicRecordingView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.music_recording, this, true);
 
+        queue = Volley.newRequestQueue(getContext());
+
         btnRecord = findViewById(R.id.btnRecord);
         btnRecordStop = findViewById(R.id.btnRecordStop);
         btnUpload = findViewById(R.id.btnUpload);
@@ -73,7 +86,12 @@ public class MusicRecordingView extends LinearLayout {
             @Override
             public void onClick(View view) {
                 stopRecording();
+            }
+        });
 
+        btnUpload.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 File file = new File(filename);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -147,12 +165,13 @@ public class MusicRecordingView extends LinearLayout {
 
 
     private void send(){
-        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/test/compare"),
+        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/compare/"+ TokenService.uid_load() +"/"+musicId),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Handle the response from the server
                         Toast.makeText(getContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+                        get(musicId);
                     }
                 },
                 new Response.ErrorListener() {
@@ -160,16 +179,81 @@ public class MusicRecordingView extends LinearLayout {
                     public void onErrorResponse(VolleyError error) {
                         // Handle the error
                         Toast.makeText(getContext(), "업로드 실패", Toast.LENGTH_SHORT).show();
+                        get(musicId);
                     }
                 }) {
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                return fileBytes;
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return fileBytes;
             }
 
             @Override
             public String getBodyContentType() {
                 return "audio/m4a";
+            }
+        };
+
+        queue.add(request);
+    }
+
+    // 현재 액티비티 가져오기
+    private Activity getActivity() {
+        Context context = getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
+    }
+
+    private void get(String mid){
+        StringRequest request = new StringRequest(Request.Method.POST, Domain.url("/api/test/compare"),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Handle the response from the server
+                        MainActivity main = (MainActivity) getActivity();
+                        main.loadMusicDetail(Long.parseLong(musicId));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle the error
+                        MainActivity main = (MainActivity) getActivity();
+                        main.loadMusicDetail(Long.parseLong(musicId));
+                    }
+                }) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                //params.put("Content-Type", "application/json; charset=UTF-8");
+                //params.put("token", "welkfjlwejflwe");
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("excel", "R"+TokenService.uid_load()+"_"+mid);
+                params.put("mid", mid);
+                return params;
             }
         };
 

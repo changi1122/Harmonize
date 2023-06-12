@@ -227,6 +227,7 @@ public class MultiPitchGraphView extends LinearLayout implements SeekBar.OnSeekB
             data.setDrawValues(false);
 
             // set data
+            chart.invalidate();
             chart.setData(data);
         }
     }
