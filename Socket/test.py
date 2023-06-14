@@ -49,8 +49,7 @@ def MakeVoiceXlsxFile(filename, fileID, SP):
     elif('R' in fileID):
         Url = real+"/backend/src/main/resources/recode/" + filename
     elif(SP==1):
-        filename = filename[:-4]
-        Url = real+ "/backend/src/main/resources/split/" +filename+"/vocals.wav"
+        Url = real+ "/backend/src/main/resources/split/" +fileID+"/vocals.wav"
     elif(SP==0):
         Url = real+ "/backend/src/main/resources/music/" +filename
         
