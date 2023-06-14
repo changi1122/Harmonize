@@ -32,7 +32,12 @@ public class Analyzer {
     public Map<String, double []> GetGraphData(String Excel, String mid) throws Exception {
         MaxRow =0;
         double [] music = ListDoubleToInt(ExcelToList(mid));
-        double [] user = ListDoubleToInt(ExcelToList(Excel));
+        double [] user;
+        try {
+            user = ListDoubleToInt(ExcelToList(Excel));
+        } catch (Exception e) {
+            user = new double[] { 0 };
+        }
 
         double [] diffRate = new double[MaxRow];
         double rate=0.0, sub, m, u;
