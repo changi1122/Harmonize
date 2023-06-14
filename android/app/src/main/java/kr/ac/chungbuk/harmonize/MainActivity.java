@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
         if (TokenService.load() == null) {
             startActivity(new Intent(this , LoginActivity.class));
         }
-        System.out.println(TokenService.load().getToken());
     }
 
     public void hideMusicPlayingView()
